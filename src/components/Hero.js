@@ -5,7 +5,9 @@ import { scrollToSection } from '../utils/scroll';
 const Hero = () => {
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
   const videoRef = useRef(null);
+  const nextVideoRef = useRef(null);
   
   // Array of video sources
   const videoSources = [
@@ -17,24 +19,44 @@ const Hero = () => {
     setIsVideoLoaded(true);
   };
   
-  // Handle video end event to switch to the next video
+  // Handle video end event to start the transition to the next video
   const handleVideoEnd = () => {
-    setCurrentVideoIndex((prevIndex) => (prevIndex + 1) % videoSources.length);
+    setIsTransitioning(true);
+    
+    // Preload the next video
+    const nextIndex = (currentVideoIndex + 1) % videoSources.length;
+    if (nextVideoRef.current) {
+      nextVideoRef.current.src = videoSources[nextIndex];
+      nextVideoRef.current.load();
+      
+      // Start playing the next video while the current one is still visible
+      nextVideoRef.current.play().catch(error => {
+        console.error("Next video playback failed:", error);
+      });
+      
+      // After a short delay to allow the next video to start playing, complete the transition
+      setTimeout(() => {
+        setCurrentVideoIndex(nextIndex);
+        setIsTransitioning(false);
+      }, 1000); // 1 second transition time
+    }
   };
   
-  // Update video source when currentVideoIndex changes
+  // Update video source when currentVideoIndex changes (after transition is complete)
   useEffect(() => {
-    if (videoRef.current) {
+    if (videoRef.current && !isTransitioning) {
+      videoRef.current.src = videoSources[currentVideoIndex];
       videoRef.current.load();
       videoRef.current.play().catch(error => {
         console.error("Video playback failed:", error);
       });
     }
-  }, [currentVideoIndex]);
+  }, [currentVideoIndex, isTransitioning]);
 
   return (
     <section id="home" className="hero">
       <div className={`video-background ${isVideoLoaded ? 'loaded' : ''}`}>
+        {/* Current video */}
         <video 
           ref={videoRef}
           autoPlay 
@@ -42,10 +64,24 @@ const Hero = () => {
           playsInline
           onLoadedData={handleVideoLoad}
           onEnded={handleVideoEnd}
+          className={isTransitioning ? 'fading-out' : ''}
         >
           <source src={videoSources[currentVideoIndex]} type="video/mp4" />
           Your browser does not support the video tag.
         </video>
+        
+        {/* Next video (for crossfade) */}
+        {isTransitioning && (
+          <video 
+            ref={nextVideoRef}
+            muted 
+            playsInline
+            className="fading-in"
+          >
+            <source src={videoSources[(currentVideoIndex + 1) % videoSources.length]} type="video/mp4" />
+          </video>
+        )}
+        
         <div className="video-overlay"></div>
       </div>
       <div className="hero-content">
