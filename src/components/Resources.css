@@ -13,6 +13,13 @@
   gap: 2rem;
 }
 
+/* Full-width container for learning path view */
+.resources-container.learning-path-view {
+  max-width: 100%;
+  padding: 0;
+  display: block;
+}
+
 /* Filters Section */
 .resources-filters {
   background: white;
@@ -41,6 +48,423 @@
   color: #374151;
   font-size: 1rem;
   margin-bottom: 0.75rem;
+  font-weight: 500;
+}
+
+/* Learning Paths Section */
+.learning-paths-section {
+  margin-bottom: 3rem;
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  text-align: center;
+}
+
+.learning-paths-section h2 {
+  color: #1B4620;
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.learning-paths-section p {
+  color: #6b7280;
+  font-size: 0.95rem;
+  margin-bottom: 1.5rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.learning-paths-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.learning-path-card {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e5e7eb;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.learning-path-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+.learning-path-image {
+  height: 140px;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+.learning-path-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(27, 70, 32, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.learning-path-overlay span {
+  color: white;
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 0.5rem 1rem;
+  border: 2px solid white;
+  border-radius: 20px;
+}
+
+.learning-path-card:hover .learning-path-overlay {
+  opacity: 1;
+}
+
+.learning-path-card-content {
+  padding: 1.5rem;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: visible;
+}
+
+.learning-path-card-content h4 {
+  color: #1B4620;
+  font-size: 1.1rem;
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+  line-height: 1.4;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.learning-path-card-content p {
+  color: #4b5563;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+  line-height: 1.5;
+  flex-grow: 1;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.learning-path-steps {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: auto;
+}
+
+.learning-path-steps span {
+  background-color: rgba(27, 70, 32, 0.1);
+  color: #1B4620;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+/* Learning Path View */
+.learning-path-container {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 2rem;
+  width: 100%;
+  align-items: start;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.learning-path-sidebar {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  height: fit-content;
+  position: sticky;
+  top: 2rem;
+  align-self: start;
+  overflow: visible;
+}
+
+.back-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: none;
+  border: none;
+  color: #4b5563;
+  font-size: 0.9rem;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 2rem;
+  transition: color 0.2s ease;
+}
+
+.back-button:hover {
+  color: #1B4620;
+}
+
+.learning-path-info {
+  margin-bottom: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.learning-path-info h2 {
+  color: #1B4620;
+  font-size: 1.5rem;
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.learning-path-info p {
+  color: #6b7280;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.learning-path-steps-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.learning-path-steps-list h3 {
+  color: #374151;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.learning-path-step {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.learning-path-step:hover {
+  background-color: rgba(27, 70, 32, 0.05);
+}
+
+.learning-path-step.active {
+  background-color: rgba(27, 70, 32, 0.1);
+  border-color: rgba(27, 70, 32, 0.2);
+}
+
+.step-number {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 28px;
+  height: 28px;
+  background-color: #1B4620;
+  color: white;
+  border-radius: 50%;
+  font-size: 0.85rem;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.step-content {
+  flex-grow: 1;
+}
+
+.step-content h4 {
+  color: #1B4620;
+  font-size: 0.95rem;
+  margin-bottom: 0.25rem;
+  font-weight: 500;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.step-content p {
+  color: #6b7280;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* Learning Path Content */
+.learning-path-content {
+  width: 100%;
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  overflow: visible;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.learning-path-step-header {
+  margin-bottom: 2rem;
+  border-bottom: 1px solid #e5e7eb;
+  padding-bottom: 1.5rem;
+}
+
+.learning-path-step-header h2 {
+  color: #1B4620;
+  font-size: 1.75rem;
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.learning-path-step-header p {
+  color: #4b5563;
+  font-size: 1.1rem;
+  line-height: 1.5;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 800px;
+}
+
+/* Learning Path Resources */
+.learning-path-resources {
+  margin-top: 1.5rem;
+}
+
+.learning-path-resources h3 {
+  color: #1B4620;
+  font-size: 1.25rem;
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.learning-path-resources p {
+  color: #6b7280;
+  font-size: 0.95rem;
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 800px;
+}
+
+.learning-path-resources .resources-grid {
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  gap: 1.5rem;
+}
+
+.learning-path-resources .resource-card {
+  margin-bottom: 0;
+  transition: all 0.3s ease;
+  border-left: 3px solid #1B4620;
+}
+
+.learning-path-resources .resource-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+.learning-path-resources .no-results {
+  background: #f8f9fa;
+  padding: 2rem;
+  text-align: center;
+  border-radius: 8px;
+  margin-top: 1rem;
+}
+
+.learning-path-resources .no-results h3 {
+  color: #4b5563;
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+.learning-path-resources .no-results p {
+  color: #6b7280;
+  font-size: 0.9rem;
+  margin-bottom: 0;
+}
+
+.learning-path-navigation {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.prev-step-button,
+.next-step-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: white;
+  border: 1px solid #e5e7eb;
+  padding: 0.75rem 1.25rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.prev-step-button {
+  color: #4b5563;
+}
+
+.next-step-button {
+  color: white;
+  background-color: #1B4620;
+  border-color: #1B4620;
+}
+
+.prev-step-button:hover {
+  background-color: #f3f4f6;
+}
+
+.next-step-button:hover {
+  background-color: #153618;
+}
+
+/* Resource Details */
+.resource-details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  font-size: 0.8rem;
+  color: #6b7280;
+}
+
+.resource-file-type {
+  display: inline-flex;
+  align-items: center;
+  background-color: rgba(27, 70, 32, 0.1);
+  color: #1B4620;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
   font-weight: 500;
 }
 
@@ -109,6 +533,12 @@
 
 .results-header {
   margin-bottom: 2rem;
+  text-align: center;
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  margin-top: 3rem;
 }
 
 .results-header h2 {
@@ -121,6 +551,9 @@
 .results-header p {
   color: #6b7280;
   font-size: 0.95rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .resources-grid {
@@ -167,6 +600,9 @@
   flex-grow: 1;
   display: flex;
   flex-direction: column;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
 }
 
 .resource-category {
@@ -184,6 +620,8 @@
   margin-bottom: 0.75rem;
   font-weight: 600;
   line-height: 1.4;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .resource-card p {
@@ -192,6 +630,8 @@
   margin-bottom: 1rem;
   line-height: 1.5;
   flex-grow: 1;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .resource-meta {
@@ -250,12 +690,38 @@
   background-color: #153618;
 }
 
+.resource-link-button.coming-soon {
+  background-color: #6b7280;
+  cursor: not-allowed;
+}
+
+.resource-link-button.coming-soon:hover {
+  background-color: #4b5563;
+}
+
 .resource-link-button svg {
-  transition: transform 0.2s ease;
+  transition: all 0.2s ease;
 }
 
 .resource-link-button:hover svg {
-  transform: translateX(2px);
+  transform: translateY(2px);
+}
+
+.resource-link-button.coming-soon:hover svg {
+  transform: none;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 .no-results {
@@ -266,44 +732,70 @@
 }
 
 .no-results h3 {
-  color: #1B4620;
+  color: #111827;
   font-size: 1.2rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
+  font-weight: 600;
 }
 
 .no-results p {
-  color: #6b7280;
+  color: #4b5563;
+  font-size: 0.95rem;
 }
 
 .no-results button {
   background: none;
   border: none;
-  color: #F7941D;
+  color: #1B4620;
   font-weight: 500;
   cursor: pointer;
-}
-
-.no-results button:hover {
   text-decoration: underline;
 }
 
 .resources-disclaimer {
   margin-top: 3rem;
-  padding: 1.5rem;
-  background-color: rgba(27, 70, 32, 0.05);
-  border-radius: 8px;
+  padding-top: 2rem;
+  border-top: 1px solid #e5e7eb;
 }
 
 .resources-disclaimer p {
   color: #6b7280;
-  font-size: 0.9rem;
-  text-align: center;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+/* Fix for text overflow in all components */
+h1, h2, h3, h4, h5, h6, p, span, div {
+  max-width: 100%;
+}
+
+/* Ensure resource cards display properly */
+.resource-content {
+  padding: 1.5rem;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
 }
 
 /* Responsive Styles */
 @media (max-width: 1024px) {
   .resources-container {
     grid-template-columns: 250px 1fr;
+  }
+  
+  .learning-path-container {
+    grid-template-columns: 250px 1fr;
+  }
+  
+  .learning-paths-grid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  }
+  
+  .learning-path-resources .resources-grid {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -321,7 +813,94 @@
     margin-bottom: 2rem;
   }
   
-  .resources-grid {
+  .learning-path-container {
     grid-template-columns: 1fr;
+  }
+  
+  .learning-path-sidebar {
+    position: static;
+    margin-bottom: 2rem;
+  }
+  
+  .learning-path-content {
+    padding: 1.5rem;
+    overflow: visible;
+  }
+  
+  .learning-path-card-content {
+    padding: 1.25rem;
+  }
+  
+  .resource-content {
+    padding: 1.25rem;
+  }
+  
+  .resources-grid {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  }
+  
+  .learning-paths-grid {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  }
+  
+  .learning-paths-section,
+  .results-header {
+    padding: 1.5rem;
+  }
+  
+  .learning-path-navigation {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .prev-step-button,
+  .next-step-button {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .resources {
+    padding: 2rem 1rem;
+  }
+  
+  .resources-grid, 
+  .learning-paths-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .resource-card h3,
+  .learning-path-content h4 {
+    font-size: 1.1rem;
+  }
+  
+  .resource-card p,
+  .learning-path-content p {
+    font-size: 0.9rem;
+  }
+  
+  .learning-path-image {
+    height: 120px;
+  }
+  
+  .learning-paths-section h2,
+  .results-header h2,
+  .learning-path-step-header h2 {
+    font-size: 1.3rem;
+  }
+  
+  .learning-paths-section p,
+  .results-header p,
+  .learning-path-step-header p {
+    font-size: 0.9rem;
+  }
+  
+  .learning-path-resources h3 {
+    font-size: 1.1rem;
+  }
+  
+  .learning-path-resources p {
+    font-size: 0.85rem;
   }
 } 
