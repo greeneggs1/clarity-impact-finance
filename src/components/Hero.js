@@ -54,15 +54,9 @@ const Hero = () => {
         <div className="hero-buttons">
           <button 
             className="primary-btn"
-            onClick={() => scrollToSection('contact')}
-          >
-            Start Your Journey
-          </button>
-          <button 
-            className="secondary-btn"
             onClick={() => scrollToSection('services')}
           >
-            View Our Solutions
+            View Our Services
           </button>
         </div>
       </div>
