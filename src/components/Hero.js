@@ -30,6 +30,19 @@ const Hero = () => {
     });
   }, [videoSources]);
 
+  // Preload the next video when the current one starts playing
+  useEffect(() => {
+    if (isVideoLoaded && !isTransitioning) {
+      const nextIndex = (currentVideoIndex + 1) % videoSources.length;
+      console.log(`Preloading next video (index ${nextIndex}): ${videoSources[nextIndex]}`);
+      
+      if (nextVideoRef.current) {
+        nextVideoRef.current.src = videoSources[nextIndex];
+        nextVideoRef.current.load();
+      }
+    }
+  }, [isVideoLoaded, currentVideoIndex, isTransitioning, videoSources]);
+
   const handleVideoLoad = () => {
     console.log("Current video loaded");
     setIsVideoLoaded(true);
@@ -42,33 +55,50 @@ const Hero = () => {
   
   const handleVideoEnd = () => {
     console.log("Video ended, starting transition");
-    
-    // Start transition
-    setIsTransitioning(true);
-    
-    // Prepare next video index
     const nextIndex = (currentVideoIndex + 1) % videoSources.length;
     
-    // Start playing next video
-    if (nextVideoRef.current) {
-      nextVideoRef.current.src = videoSources[nextIndex];
-      nextVideoRef.current.load();
+    // Make sure next video is ready before starting transition
+    if (nextVideoRef.current && nextVideoRef.current.readyState >= 3) {
+      // Start transition
+      setIsTransitioning(true);
+      setNextVideoReady(true);
       
-      // When next video is ready, play it
-      nextVideoRef.current.onloadeddata = () => {
-        handleNextVideoLoad();
-        nextVideoRef.current.play().catch(error => {
-          console.error("Next video playback failed:", error);
-        });
-      };
+      // Play the next video immediately
+      nextVideoRef.current.play().catch(error => {
+        console.error("Next video playback failed:", error);
+      });
+      
+      // After transition duration, switch to next video
+      setTimeout(() => {
+        setCurrentVideoIndex(nextIndex);
+        setIsTransitioning(false);
+        setNextVideoReady(false);
+      }, 2000); // 2 second transition
+    } else {
+      console.log("Next video not ready yet, loading...");
+      // If next video isn't ready, load it and wait
+      if (nextVideoRef.current) {
+        nextVideoRef.current.src = videoSources[nextIndex];
+        nextVideoRef.current.load();
+        
+        nextVideoRef.current.onloadeddata = () => {
+          handleNextVideoLoad();
+          nextVideoRef.current.play().catch(error => {
+            console.error("Next video playback failed:", error);
+          });
+          
+          // Now start the transition
+          setIsTransitioning(true);
+          
+          // After transition duration, switch to next video
+          setTimeout(() => {
+            setCurrentVideoIndex(nextIndex);
+            setIsTransitioning(false);
+            setNextVideoReady(false);
+          }, 2000); // 2 second transition
+        };
+      }
     }
-    
-    // After transition duration, switch to next video
-    setTimeout(() => {
-      setCurrentVideoIndex(nextIndex);
-      setIsTransitioning(false);
-      setNextVideoReady(false);
-    }, 2000); // 2 second transition
   };
 
   return (
@@ -90,20 +120,25 @@ const Hero = () => {
           Your browser does not support the video tag.
         </video>
         
-        {/* Next video (for crossfade) */}
-        {isTransitioning && (
-          <video 
-            ref={nextVideoRef}
-            key={`next-${videoSources[(currentVideoIndex + 1) % videoSources.length]}`}
-            muted 
-            playsInline
-            className={nextVideoReady ? 'fading-in' : 'inactive'}
-            onError={(e) => console.error("Next video error:", e)}
-          >
-            <source src={videoSources[(currentVideoIndex + 1) % videoSources.length]} type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
-        )}
+        {/* Next video - always render but only show during transition */}
+        <video 
+          ref={nextVideoRef}
+          key={`next-${videoSources[(currentVideoIndex + 1) % videoSources.length]}`}
+          muted 
+          playsInline
+          className={isTransitioning && nextVideoReady ? 'fading-in' : 'inactive'}
+          onLoadedData={() => {
+            if (!isTransitioning) {
+              console.log("Next video preloaded successfully");
+            } else {
+              handleNextVideoLoad();
+            }
+          }}
+          onError={(e) => console.error("Next video error:", e)}
+        >
+          <source src={videoSources[(currentVideoIndex + 1) % videoSources.length]} type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
         
         <div className="video-overlay"></div>
       </div>
