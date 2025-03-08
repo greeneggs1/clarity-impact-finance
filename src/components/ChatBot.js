@@ -625,14 +625,14 @@ const ChatBot = () => {
   
   // More robust check for API key
   const apiKey = process.env.REACT_APP_OPENAI_API_KEY || '';
-  const apiKeyAvailable = apiKey.length > 0;
+  const apiKeyAvailable = apiKey && apiKey.length > 10 && apiKey !== 'your_openai_api_key_here';
   
   // Allow manual override for local testing
   const [useLLM, setUseLLM] = useState(false);
   
   // Debug info
-  console.log('API Key length:', apiKey.length);
   console.log('API Key available:', apiKeyAvailable);
+  console.log('API Key length:', apiKey.length);
   console.log('LLM enabled:', useLLM);
   
   const messagesEndRef = useRef(null);
@@ -656,7 +656,7 @@ const ChatBot = () => {
     try {
       // For local testing - use a hardcoded response if no API key
       if (!apiKeyAvailable) {
-        console.log('Using simulated LLM response (no API key)');
+        console.log('Using simulated LLM response (no valid API key)');
         // Simulate API delay
         await new Promise(resolve => setTimeout(resolve, 1500));
         
@@ -668,8 +668,9 @@ const ChatBot = () => {
         
         To use the real OpenAI API:
         1. Make sure your .env file contains a valid REACT_APP_OPENAI_API_KEY
-        2. Restart your development server after updating the .env file
-        3. Check the console logs for debugging information`;
+        2. The API key should start with "sk-" and be about 51 characters long
+        3. Restart your development server after updating the .env file
+        4. Check the console logs for debugging information`;
       }
       
       // Log for debugging (don't log the full key in production)
@@ -1045,10 +1046,10 @@ const ChatBot = () => {
         setMessages([
           {
             type: 'bot',
-            text: 'AI mode enabled with simulated responses. No API key was found, so I\'ll provide simulated AI responses. To use the real OpenAI API, please add your API key to the .env file and restart the server.'
+            text: 'AI mode enabled with simulated responses. No valid API key was found, so I\'ll provide simulated AI responses. To use the real OpenAI API, please add your API key to the .env file and restart the server. The API key should start with "sk-" and be about 51 characters long.'
           }
         ]);
-        console.log('Enabled simulated AI mode (no API key found)');
+        console.log('Enabled simulated AI mode (no valid API key found)');
       } else {
         setMessages([
           {
