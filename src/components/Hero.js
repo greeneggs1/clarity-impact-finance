@@ -10,7 +10,7 @@ const Hero = () => {
   const videoSources = useMemo(() => [
     // Use absolute URLs that will work on Vercel
     `${window.location.origin}/videos/ribbon-cutting.mp4`,
-    `${window.location.origin}/videos/second-video.mp4`
+    `${window.location.origin}/videos/your-second-video.mp4`
   ], []);
   
   // Log video sources for debugging
