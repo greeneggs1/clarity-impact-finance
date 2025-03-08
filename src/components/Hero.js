@@ -6,8 +6,8 @@ const Hero = () => {
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const [nextVideoReady, setNextVideoReady] = useState(false);
   const [videosPreloaded, setVideosPreloaded] = useState([]);
+  const [videoElements, setVideoElements] = useState([]);
   const currentVideoRef = useRef(null);
   const nextVideoRef = useRef(null);
   
@@ -18,81 +18,98 @@ const Hero = () => {
     `${window.location.origin}/videos/your-second-video.mp4`
   ], []);
   
-  // Preload all videos immediately on component mount
+  // Create and preload video elements on mount
   useEffect(() => {
-    console.log("Preloading all videos on mount");
+    console.log("Creating and preloading video elements");
     
-    const preloadAllVideos = async () => {
-      const preloadPromises = videoSources.map((src, index) => {
-        return new Promise((resolve) => {
-          const video = document.createElement('video');
-          video.muted = true;
-          video.playsInline = true;
-          video.preload = 'auto';
-          
-          // Track when video is loaded enough to play
-          video.oncanplaythrough = () => {
-            console.log(`Video ${index} preloaded: ${src}`);
-            resolve(index);
-          };
-          
-          // Set source and force load
-          video.src = src;
-          video.load();
-          
-          // Try to play and immediately pause to force buffer
-          video.play().then(() => {
+    // Create an array to hold the video elements
+    const videos = [];
+    
+    // Create a video element for each source
+    videoSources.forEach((src, index) => {
+      // Create a new video element
+      const video = document.createElement('video');
+      video.muted = true;
+      video.playsInline = true;
+      video.preload = 'auto';
+      video.loop = false; // Don't loop individual videos
+      
+      // Set source
+      video.src = src;
+      
+      // Force load
+      video.load();
+      
+      // Add to array
+      videos.push(video);
+      
+      console.log(`Created video element ${index} for ${src}`);
+      
+      // Try to preload by playing and immediately pausing
+      setTimeout(() => {
+        video.play()
+          .then(() => {
             video.pause();
             video.currentTime = 0;
-          }).catch(e => {
-            console.log(`Preload play attempt for video ${index} failed (expected):`, e.message);
+            console.log(`Successfully preloaded video ${index}`);
+            setVideosPreloaded(prev => [...prev, index]);
+          })
+          .catch(e => {
+            console.log(`Preload attempt for video ${index} failed (expected):`, e.message);
+            // Still consider it preloaded for our purposes
+            setVideosPreloaded(prev => [...prev, index]);
           });
-          
-          // Set a timeout to resolve anyway after 5 seconds
-          setTimeout(() => resolve(index), 5000);
-        });
-      });
-      
-      // Wait for all videos to preload
-      const preloadedIndices = await Promise.all(preloadPromises);
-      setVideosPreloaded(preloadedIndices);
-      console.log("All videos preloaded:", preloadedIndices);
-    };
+      }, index * 1000); // Stagger preloading to avoid overwhelming the browser
+    });
     
-    preloadAllVideos();
+    // Save the video elements
+    setVideoElements(videos);
+    
+    // Clean up function
+    return () => {
+      videos.forEach(video => {
+        video.src = '';
+        video.load();
+      });
+    };
   }, [videoSources]);
-
+  
+  // Set up the current video when it changes
+  useEffect(() => {
+    if (currentVideoRef.current && videoElements[currentVideoIndex]) {
+      console.log(`Setting up current video (index ${currentVideoIndex})`);
+      
+      // Reset the video element
+      currentVideoRef.current.currentTime = 0;
+      currentVideoRef.current.className = 'active';
+      
+      // Play the video
+      const playPromise = currentVideoRef.current.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(error => {
+          console.error("Current video playback failed:", error);
+        });
+      }
+      
+      setIsVideoLoaded(true);
+    }
+  }, [currentVideoIndex, videoElements]);
+  
   // Prepare the next video when the current one is playing
   useEffect(() => {
-    if (isVideoLoaded && !isTransitioning) {
+    if (isVideoLoaded && !isTransitioning && nextVideoRef.current) {
       const nextIndex = (currentVideoIndex + 1) % videoSources.length;
       console.log(`Preparing next video (index ${nextIndex}) for seamless transition`);
       
-      if (nextVideoRef.current) {
-        // Make sure the next video is visible but transparent
-        nextVideoRef.current.className = 'inactive';
-        nextVideoRef.current.style.visibility = 'visible';
-        nextVideoRef.current.style.opacity = '0';
-        
-        // Set source and load
-        nextVideoRef.current.src = videoSources[nextIndex];
-        nextVideoRef.current.load();
-        
-        // When loaded, prepare it for instant playback
-        nextVideoRef.current.onloadeddata = () => {
-          console.log("Next video loaded and ready for transition");
-          
-          // Try to start buffering by playing and pausing
-          nextVideoRef.current.play().then(() => {
-            nextVideoRef.current.pause();
-            nextVideoRef.current.currentTime = 0;
-            setNextVideoReady(true);
-          }).catch(e => {
-            console.log("Next video buffer attempt failed:", e.message);
-            setNextVideoReady(true); // Still mark as ready
-          });
-        };
-      }
+      // Make sure the next video is loaded but not visible
+      nextVideoRef.current.src = videoSources[nextIndex];
+      nextVideoRef.current.load();
+      nextVideoRef.current.currentTime = 0;
+      
+      // Make it visible but transparent
+      nextVideoRef.current.style.visibility = 'visible';
+      nextVideoRef.current.style.opacity = '0';
+      nextVideoRef.current.className = 'inactive';
     }
   }, [isVideoLoaded, currentVideoIndex, isTransitioning, videoSources]);
 
@@ -105,41 +122,45 @@ const Hero = () => {
     console.log("Video ended, starting transition");
     const nextIndex = (currentVideoIndex + 1) % videoSources.length;
     
+    // Prevent multiple transitions
+    if (isTransitioning) return;
+    
     // Start transition
     setIsTransitioning(true);
     
-    // Make sure next video is ready and start playing it
-    if (nextVideoRef.current) {
-      // Reset to beginning
+    // Prepare both videos for transition
+    if (currentVideoRef.current && nextVideoRef.current) {
+      // Ensure next video is ready
       nextVideoRef.current.currentTime = 0;
-      
-      // Make sure it's visible before transition starts
       nextVideoRef.current.style.visibility = 'visible';
       
-      // Apply transition class after a tiny delay to ensure CSS transitions work
+      // Apply transition classes with a slight delay to ensure proper rendering
       setTimeout(() => {
+        // Start fading out current video
+        currentVideoRef.current.className = 'fading-out';
+        
+        // Start fading in next video
         nextVideoRef.current.className = 'fading-in';
         
-        // Start playing the next video
+        // Start playing next video
         const playPromise = nextVideoRef.current.play();
         if (playPromise !== undefined) {
           playPromise.catch(error => {
             console.error("Next video playback failed:", error);
           });
         }
-        
-        // Apply fading-out class to current video
-        if (currentVideoRef.current) {
-          currentVideoRef.current.className = 'fading-out';
-        }
       }, 50);
       
-      // After transition duration, switch to next video
+      // After transition completes, update state
       setTimeout(() => {
         setCurrentVideoIndex(nextIndex);
         setIsTransitioning(false);
-        setNextVideoReady(false);
-      }, 3000); // Match the CSS transition duration
+        
+        // Swap video references for next transition
+        const temp = currentVideoRef;
+        currentVideoRef.current = nextVideoRef.current;
+        nextVideoRef.current = temp.current;
+      }, 3000);
     }
   };
 
@@ -149,7 +170,7 @@ const Hero = () => {
         {/* Current video */}
         <video 
           ref={currentVideoRef}
-          key={`current-${videoSources[currentVideoIndex]}`}
+          key={`current-${currentVideoIndex}`}
           autoPlay 
           muted 
           playsInline
@@ -165,7 +186,7 @@ const Hero = () => {
         {/* Next video - always render but only show during transition */}
         <video 
           ref={nextVideoRef}
-          key={`next-${videoSources[(currentVideoIndex + 1) % videoSources.length]}`}
+          key={`next-${(currentVideoIndex + 1) % videoSources.length}`}
           muted 
           playsInline
           className={isTransitioning ? 'fading-in' : 'inactive'}

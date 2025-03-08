@@ -19,12 +19,14 @@
   opacity: 0;
   transition: opacity 0.8s ease-in-out;
   overflow: hidden; /* Prevent any potential overflow */
+  background-color: #1B4620; /* Match the video background color to prevent flash */
 }
 
 .video-background.loaded {
   opacity: 1;
 }
 
+/* Common video styles */
 .video-background video {
   width: 100%;
   height: 100%;
@@ -35,13 +37,23 @@
   position: absolute;
   top: 0;
   left: 0;
-  transition: opacity 3s cubic-bezier(0.1, 0.7, 0.1, 1);
   opacity: 0;
-  backface-visibility: hidden; /* Prevent flash on some browsers */
+  
+  /* Flash prevention techniques */
+  backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
-  -webkit-transform: translateZ(0); /* Force hardware acceleration */
+  -webkit-transform: translateZ(0);
   transform: translateZ(0);
   perspective: 1000;
+  
+  /* Prevent FOUC (Flash of Unstyled Content) */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  
+  /* Ensure smooth transitions */
+  transition-property: opacity;
+  transition-duration: 3s;
+  transition-timing-function: cubic-bezier(0.1, 0.7, 0.1, 1);
 }
 
 /* Video state classes */
@@ -60,27 +72,33 @@
 .video-background video.fading-out {
   opacity: 0;
   z-index: 1;
-  transition: opacity 3s cubic-bezier(0.1, 0.7, 0.1, 1);
 }
 
 .video-background video.fading-in {
   opacity: 1;
   z-index: 0;
-  transition: opacity 3s cubic-bezier(0.1, 0.7, 0.1, 1);
   /* Start with a slight opacity to prevent flash */
   animation: smoothFadeIn 3s cubic-bezier(0.1, 0.7, 0.1, 1);
 }
 
+/* Create a smoother fade-in animation */
 @keyframes smoothFadeIn {
-  0% {
-    opacity: 0.2;
-  }
-  20% {
-    opacity: 0.3;
-  }
-  100% {
-    opacity: 1;
-  }
+  0% { opacity: 0.3; }
+  10% { opacity: 0.4; }
+  30% { opacity: 0.6; }
+  100% { opacity: 1; }
+}
+
+/* Add a persistent background color that matches video tone */
+.video-background::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #1B4620; /* Dark green matching video tone */
+  z-index: 0;
 }
 
 .video-overlay {
