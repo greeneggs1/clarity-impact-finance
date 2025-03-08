@@ -21,12 +21,15 @@ const Hero = () => {
   useEffect(() => {
     console.log("Video sources:", videoSources);
     
-    // Preload videos
-    videoSources.forEach(src => {
+    // Preload all videos immediately
+    videoSources.forEach((src, index) => {
       const video = document.createElement('video');
       video.src = src;
       video.preload = 'auto';
-      console.log(`Preloading video: ${src}`);
+      console.log(`Preloading video ${index}: ${src}`);
+      
+      // Force browser to actually download the video
+      video.load();
     });
   }, [videoSources]);
 
@@ -34,11 +37,24 @@ const Hero = () => {
   useEffect(() => {
     if (isVideoLoaded && !isTransitioning) {
       const nextIndex = (currentVideoIndex + 1) % videoSources.length;
-      console.log(`Preloading next video (index ${nextIndex}): ${videoSources[nextIndex]}`);
+      console.log(`Actively preloading next video (index ${nextIndex}): ${videoSources[nextIndex]}`);
       
       if (nextVideoRef.current) {
         nextVideoRef.current.src = videoSources[nextIndex];
         nextVideoRef.current.load();
+        
+        // Start buffering the next video
+        const preloadPromise = nextVideoRef.current.play()
+          .then(() => {
+            // Immediately pause after starting to buffer
+            nextVideoRef.current.pause();
+            nextVideoRef.current.currentTime = 0;
+            console.log("Next video buffered and ready");
+          })
+          .catch(error => {
+            // This is often expected due to autoplay restrictions
+            console.log("Preload play attempt failed (expected):", error.message);
+          });
       }
     }
   }, [isVideoLoaded, currentVideoIndex, isTransitioning, videoSources]);
@@ -57,47 +73,32 @@ const Hero = () => {
     console.log("Video ended, starting transition");
     const nextIndex = (currentVideoIndex + 1) % videoSources.length;
     
-    // Make sure next video is ready before starting transition
-    if (nextVideoRef.current && nextVideoRef.current.readyState >= 3) {
-      // Start transition
-      setIsTransitioning(true);
-      setNextVideoReady(true);
+    // Always set next video as ready before transition starts
+    setNextVideoReady(true);
+    
+    // Start transition immediately
+    setIsTransitioning(true);
+    
+    // Make sure next video is ready and start playing it
+    if (nextVideoRef.current) {
+      // Ensure the video is at the beginning
+      nextVideoRef.current.currentTime = 0;
       
       // Play the next video immediately
-      nextVideoRef.current.play().catch(error => {
-        console.error("Next video playback failed:", error);
-      });
+      const playPromise = nextVideoRef.current.play();
+      
+      if (playPromise !== undefined) {
+        playPromise.catch(error => {
+          console.error("Next video playback failed:", error);
+        });
+      }
       
       // After transition duration, switch to next video
       setTimeout(() => {
         setCurrentVideoIndex(nextIndex);
         setIsTransitioning(false);
         setNextVideoReady(false);
-      }, 2000); // 2 second transition
-    } else {
-      console.log("Next video not ready yet, loading...");
-      // If next video isn't ready, load it and wait
-      if (nextVideoRef.current) {
-        nextVideoRef.current.src = videoSources[nextIndex];
-        nextVideoRef.current.load();
-        
-        nextVideoRef.current.onloadeddata = () => {
-          handleNextVideoLoad();
-          nextVideoRef.current.play().catch(error => {
-            console.error("Next video playback failed:", error);
-          });
-          
-          // Now start the transition
-          setIsTransitioning(true);
-          
-          // After transition duration, switch to next video
-          setTimeout(() => {
-            setCurrentVideoIndex(nextIndex);
-            setIsTransitioning(false);
-            setNextVideoReady(false);
-          }, 2000); // 2 second transition
-        };
-      }
+      }, 2500); // Match the CSS transition duration
     }
   };
 
@@ -126,7 +127,7 @@ const Hero = () => {
           key={`next-${videoSources[(currentVideoIndex + 1) % videoSources.length]}`}
           muted 
           playsInline
-          className={isTransitioning && nextVideoReady ? 'fading-in' : 'inactive'}
+          className={isTransitioning ? 'fading-in' : 'inactive'}
           onLoadedData={() => {
             if (!isTransitioning) {
               console.log("Next video preloaded successfully");
