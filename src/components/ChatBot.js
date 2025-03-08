@@ -556,6 +556,61 @@ const categoryResources = {
   charterSchools: "Learn more at https://charterschoolcenter.ed.gov/"
 };
 
+// Document resources by category
+const documentResources = {
+  cdfi: [
+    {
+      title: "CDFI Certification Guide",
+      description: "A comprehensive guide to CDFI certification requirements and process",
+      path: "/chatbot-resources/cdfi/cdfi-certification-guide.pdf"
+    },
+    {
+      title: "CDFI Fund Programs Overview",
+      description: "Overview of financial assistance and technical assistance programs",
+      path: "/chatbot-resources/cdfi/cdfi-fund-programs.pdf"
+    },
+    {
+      title: "CDFI Impact Measurement Framework",
+      description: "Framework for measuring and reporting CDFI impact",
+      path: "/chatbot-resources/cdfi/cdfi-impact-framework.pdf"
+    }
+  ],
+  nmtc: [
+    {
+      title: "NMTC Program Fact Sheet",
+      description: "Key facts and statistics about the NMTC Program",
+      path: "/chatbot-resources/nmtc/nmtc-fact-sheet.pdf"
+    },
+    {
+      title: "NMTC Compliance Guide",
+      description: "Guide to maintaining compliance with NMTC Program requirements",
+      path: "/chatbot-resources/nmtc/nmtc-compliance-guide.pdf"
+    },
+    {
+      title: "NMTC Application Tips",
+      description: "Tips for preparing a successful NMTC allocation application",
+      path: "/chatbot-resources/nmtc/nmtc-application-tips.pdf"
+    }
+  ],
+  charterSchools: [
+    {
+      title: "Charter School Facilities Financing Guide",
+      description: "Guide to financing options for charter school facilities",
+      path: "/chatbot-resources/charter-schools/facilities-financing-guide.pdf"
+    },
+    {
+      title: "Charter School Credit Analysis Framework",
+      description: "Framework for analyzing charter school credit quality",
+      path: "/chatbot-resources/charter-schools/credit-analysis-framework.pdf"
+    },
+    {
+      title: "Charter School Growth Planning Toolkit",
+      description: "Toolkit for planning charter school expansion and replication",
+      path: "/chatbot-resources/charter-schools/growth-planning-toolkit.pdf"
+    }
+  ]
+};
+
 const ChatBot = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -641,69 +696,106 @@ const ChatBot = () => {
 
   const getBotResponse = (question, category) => {
     const lowerQuestion = question.toLowerCase();
+    let response = '';
     
     if (category === 'cdfi') {
       // CDFI-specific responses
       if (lowerQuestion.includes('what') && lowerQuestion.includes('cdfi')) {
-        return knowledgeBase.cdfiBasics.split('\n\n')[0].trim() + '\n\n' + categoryResources.cdfi;
+        response = knowledgeBase.cdfiBasics.split('\n\n')[0].trim() + '\n\n' + categoryResources.cdfi;
       }
       
-      if (lowerQuestion.includes('type') || lowerQuestion.includes('kinds')) {
-        return knowledgeBase.cdfiTypes.split('\n\n').slice(0, 2).join('\n\n').trim() + '\n\n' + categoryResources.cdfi;
+      else if (lowerQuestion.includes('type') || lowerQuestion.includes('kinds')) {
+        response = knowledgeBase.cdfiTypes.split('\n\n').slice(0, 2).join('\n\n').trim() + '\n\n' + categoryResources.cdfi;
       }
       
-      if (lowerQuestion.includes('service') || lowerQuestion.includes('provide') || lowerQuestion.includes('offer')) {
-        return knowledgeBase.services.split('\n\n').slice(0, 4).join('\n\n').trim() + '\n\n' + categoryResources.cdfi;
+      else if (lowerQuestion.includes('service') || lowerQuestion.includes('provide') || lowerQuestion.includes('offer')) {
+        response = knowledgeBase.services.split('\n\n').slice(0, 4).join('\n\n').trim() + '\n\n' + categoryResources.cdfi;
       }
       
-      if (lowerQuestion.includes('fund') || lowerQuestion.includes('money') || lowerQuestion.includes('capital')) {
-        return knowledgeBase.funding.split('\n\n').slice(0, 3).join('\n\n').trim() + '\n\n' + categoryResources.cdfi;
+      else if (lowerQuestion.includes('fund') || lowerQuestion.includes('money') || lowerQuestion.includes('capital')) {
+        response = knowledgeBase.funding.split('\n\n').slice(0, 3).join('\n\n').trim() + '\n\n' + categoryResources.cdfi;
       }
       
-      return 'I can help you learn about CDFIs, their certification, funding, and impact. Try asking more specific questions about CDFIs.\n\n' + categoryResources.cdfi;
+      else {
+        response = 'I can help you learn about CDFIs, their certification, funding, and impact. Try asking more specific questions about CDFIs.\n\n' + categoryResources.cdfi;
+      }
+      
+      // Check if the question is about documents or resources
+      if (lowerQuestion.includes('document') || lowerQuestion.includes('resource') || lowerQuestion.includes('guide') || 
+          lowerQuestion.includes('download') || lowerQuestion.includes('pdf') || lowerQuestion.includes('file')) {
+        response += '\n\nHere are some helpful CDFI resources you can download:\n';
+        documentResources.cdfi.forEach(doc => {
+          response += `\n• ${doc.title}: ${doc.description} [Download](${doc.path})`;
+        });
+      }
     } 
     else if (category === 'nmtc') {
       // NMTC-specific responses
       if (lowerQuestion.includes('what') && (lowerQuestion.includes('nmtc') || lowerQuestion.includes('new market'))) {
-        return knowledgeBase.nmtcBasics.split('\n\n').slice(0, 3).join('\n\n').trim() + '\n\n' + categoryResources.nmtc;
+        response = knowledgeBase.nmtcBasics.split('\n\n').slice(0, 3).join('\n\n').trim() + '\n\n' + categoryResources.nmtc;
       }
       
-      if (lowerQuestion.includes('eligib') || lowerQuestion.includes('qualify')) {
-        return knowledgeBase.nmtcEligibility.split('\n\n').slice(0, 3).join('\n\n').trim() + '\n\n' + categoryResources.nmtc;
+      else if (lowerQuestion.includes('eligib') || lowerQuestion.includes('qualify')) {
+        response = knowledgeBase.nmtcEligibility.split('\n\n').slice(0, 3).join('\n\n').trim() + '\n\n' + categoryResources.nmtc;
       }
       
-      if (lowerQuestion.includes('apply') || lowerQuestion.includes('application') || lowerQuestion.includes('process')) {
-        return knowledgeBase.nmtcApplication.split('\n\n').slice(0, 3).join('\n\n').trim() + '\n\n' + categoryResources.nmtc;
+      else if (lowerQuestion.includes('apply') || lowerQuestion.includes('application') || lowerQuestion.includes('process')) {
+        response = knowledgeBase.nmtcApplication.split('\n\n').slice(0, 3).join('\n\n').trim() + '\n\n' + categoryResources.nmtc;
       }
       
-      if (lowerQuestion.includes('impact') || lowerQuestion.includes('benefit') || lowerQuestion.includes('effect')) {
-        return knowledgeBase.nmtcImpact.split('\n\n').slice(0, 3).join('\n\n').trim() + '\n\n' + categoryResources.nmtc;
+      else if (lowerQuestion.includes('impact') || lowerQuestion.includes('benefit') || lowerQuestion.includes('effect')) {
+        response = knowledgeBase.nmtcImpact.split('\n\n').slice(0, 3).join('\n\n').trim() + '\n\n' + categoryResources.nmtc;
       }
       
-      return 'I can help you learn about the New Markets Tax Credit Program, including eligibility, application process, and impact. Try asking more specific questions about NMTC.\n\n' + categoryResources.nmtc;
+      else {
+        response = 'I can help you learn about the New Markets Tax Credit Program, including eligibility, application process, and impact. Try asking more specific questions about NMTC.\n\n' + categoryResources.nmtc;
+      }
+      
+      // Check if the question is about documents or resources
+      if (lowerQuestion.includes('document') || lowerQuestion.includes('resource') || lowerQuestion.includes('guide') || 
+          lowerQuestion.includes('download') || lowerQuestion.includes('pdf') || lowerQuestion.includes('file')) {
+        response += '\n\nHere are some helpful NMTC resources you can download:\n';
+        documentResources.nmtc.forEach(doc => {
+          response += `\n• ${doc.title}: ${doc.description} [Download](${doc.path})`;
+        });
+      }
     } 
     else if (category === 'charterSchools') {
       // Charter Schools-specific responses
       if (lowerQuestion.includes('what') && lowerQuestion.includes('charter')) {
-        return knowledgeBase.charterSchoolsBasics.split('\n\n').slice(0, 3).join('\n\n').trim() + '\n\n' + categoryResources.charterSchools;
+        response = knowledgeBase.charterSchoolsBasics.split('\n\n').slice(0, 3).join('\n\n').trim() + '\n\n' + categoryResources.charterSchools;
       }
       
-      if (lowerQuestion.includes('fund') || lowerQuestion.includes('money')) {
-        return knowledgeBase.charterSchoolsFunding.split('\n\n').slice(0, 3).join('\n\n').trim() + '\n\n' + categoryResources.charterSchools;
+      else if (lowerQuestion.includes('fund') || lowerQuestion.includes('money')) {
+        response = knowledgeBase.charterSchoolsFunding.split('\n\n').slice(0, 3).join('\n\n').trim() + '\n\n' + categoryResources.charterSchools;
       }
       
-      if (lowerQuestion.includes('financ') || lowerQuestion.includes('loan') || lowerQuestion.includes('capital')) {
-        return knowledgeBase.charterSchoolsFinancing.split('\n\n').slice(0, 3).join('\n\n').trim() + '\n\n' + categoryResources.charterSchools;
+      else if (lowerQuestion.includes('financ') || lowerQuestion.includes('loan') || lowerQuestion.includes('capital')) {
+        response = knowledgeBase.charterSchoolsFinancing.split('\n\n').slice(0, 3).join('\n\n').trim() + '\n\n' + categoryResources.charterSchools;
       }
       
-      if (lowerQuestion.includes('impact') || lowerQuestion.includes('outcome') || lowerQuestion.includes('result')) {
-        return knowledgeBase.charterSchoolsImpact.split('\n\n').slice(0, 3).join('\n\n').trim() + '\n\n' + categoryResources.charterSchools;
+      else if (lowerQuestion.includes('impact') || lowerQuestion.includes('outcome') || lowerQuestion.includes('result')) {
+        response = knowledgeBase.charterSchoolsImpact.split('\n\n').slice(0, 3).join('\n\n').trim() + '\n\n' + categoryResources.charterSchools;
       }
       
-      return 'I can help you learn about charter schools, including funding, financing options, and community impact. Try asking more specific questions about charter schools.\n\n' + categoryResources.charterSchools;
+      else {
+        response = 'I can help you learn about charter schools, including funding, financing options, and community impact. Try asking more specific questions about charter schools.\n\n' + categoryResources.charterSchools;
+      }
+      
+      // Check if the question is about documents or resources
+      if (lowerQuestion.includes('document') || lowerQuestion.includes('resource') || lowerQuestion.includes('guide') || 
+          lowerQuestion.includes('download') || lowerQuestion.includes('pdf') || lowerQuestion.includes('file')) {
+        response += '\n\nHere are some helpful Charter School resources you can download:\n';
+        documentResources.charterSchools.forEach(doc => {
+          response += `\n• ${doc.title}: ${doc.description} [Download](${doc.path})`;
+        });
+      }
+    }
+    else {
+      response = 'Please select a topic (CDFI, NMTC, or Charter Schools) to get started.';
     }
     
-    return 'Please select a topic (CDFI, NMTC, or Charter Schools) to get started.';
+    return response;
   };
 
   const handleCategorySelect = (category) => {
@@ -777,6 +869,55 @@ const ChatBot = () => {
     ]);
   };
 
+  // Add a function to handle document links
+  const renderMessageWithLinks = (text) => {
+    // Regular expression to match markdown-style links: [text](url)
+    const linkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
+    
+    // Split the text by links
+    const parts = text.split(linkRegex);
+    
+    if (parts.length === 1) {
+      // No links found, return the text as is
+      return text;
+    }
+    
+    const elements = [];
+    let i = 0;
+    
+    // Process the text and links
+    while (i < parts.length) {
+      // Add the text before the link
+      if (parts[i]) {
+        elements.push(<span key={`text-${i}`}>{parts[i]}</span>);
+      }
+      
+      // If there's a link, add it
+      if (i + 2 < parts.length) {
+        const linkText = parts[i + 1];
+        const linkUrl = parts[i + 2];
+        
+        elements.push(
+          <a 
+            key={`link-${i}`} 
+            href={linkUrl} 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="chatbot-link"
+          >
+            {linkText}
+          </a>
+        );
+        
+        i += 2;
+      }
+      
+      i++;
+    }
+    
+    return <>{elements}</>;
+  };
+
   return (
     <div className="chatbot-container">
       {!isOpen ? (
@@ -804,7 +945,7 @@ const ChatBot = () => {
                 key={index} 
                 className={`message ${message.type}`}
               >
-                {message.text}
+                {message.type === 'bot' ? renderMessageWithLinks(message.text) : message.text}
               </div>
             ))}
             <div ref={messagesEndRef} />
@@ -864,6 +1005,12 @@ const ChatBot = () => {
                     {question}
                   </button>
                 ))}
+                <button
+                  className="example-question-button document-question"
+                  onClick={() => handleExampleClick(`What documents do you have about ${selectedCategory === 'cdfi' ? 'CDFIs' : selectedCategory === 'nmtc' ? 'NMTC' : 'Charter Schools'}?`)}
+                >
+                  Show available documents
+                </button>
               </div>
             </>
           )}
