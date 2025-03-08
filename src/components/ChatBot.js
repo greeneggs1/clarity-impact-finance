@@ -621,6 +621,8 @@ const ChatBot = () => {
     }
   ]);
   const [inputText, setInputText] = useState('');
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [useLLM, setUseLLM] = useState(false);
   const messagesEndRef = useRef(null);
 
   const scrollToBottom = () => {
@@ -634,6 +636,98 @@ const ChatBot = () => {
       scrollToBottom();
     }
   }, [isOpen, messages]);
+
+  // Function to query an LLM API (OpenAI's GPT-4 or Anthropic's Claude)
+  const queryLLM = async (prompt, category) => {
+    setIsProcessing(true);
+    
+    try {
+      // This is where you would make an API call to OpenAI or Anthropic
+      // For now, we'll simulate a response with a timeout
+      
+      // Example OpenAI API call (commented out)
+      /*
+      const response = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${process.env.REACT_APP_OPENAI_API_KEY}`
+        },
+        body: JSON.stringify({
+          model: 'gpt-4',
+          messages: [
+            {
+              role: 'system',
+              content: `You are a helpful assistant specializing in ${category === 'cdfi' ? 'Community Development Financial Institutions' : 
+                        category === 'nmtc' ? 'New Markets Tax Credit Program' : 
+                        'Charter School financing and development'}. 
+                        Provide accurate, concise information based on your knowledge.`
+            },
+            {
+              role: 'user',
+              content: prompt
+            }
+          ],
+          max_tokens: 500
+        })
+      });
+      
+      const data = await response.json();
+      return data.choices[0].message.content;
+      */
+      
+      // Example Anthropic API call (commented out)
+      /*
+      const response = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': process.env.REACT_APP_ANTHROPIC_API_KEY,
+          'anthropic-version': '2023-06-01'
+        },
+        body: JSON.stringify({
+          model: 'claude-3-opus-20240229',
+          messages: [
+            {
+              role: 'user',
+              content: `You are a helpful assistant specializing in ${category === 'cdfi' ? 'Community Development Financial Institutions' : 
+                        category === 'nmtc' ? 'New Markets Tax Credit Program' : 
+                        'Charter School financing and development'}. 
+                        
+                        Please answer the following question:
+                        ${prompt}`
+            }
+          ],
+          max_tokens: 500
+        })
+      });
+      
+      const data = await response.json();
+      return data.content[0].text;
+      */
+      
+      // Simulate API response time
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // Return a simulated response
+      return `This is a simulated LLM response about ${category === 'cdfi' ? 'Community Development Financial Institutions' : 
+              category === 'nmtc' ? 'New Markets Tax Credit Program' : 
+              'Charter School financing and development'} in response to your question: "${prompt}".
+              
+              To use a real LLM like GPT-4 or Claude, you would need to:
+              1. Sign up for an API key from OpenAI or Anthropic
+              2. Store the API key securely in your environment variables
+              3. Uncomment and configure the API call in the queryLLM function
+              4. Deploy with proper backend support for API key security
+              
+              The LLM could then analyze your documents and provide more dynamic responses based on their content.`;
+    } catch (error) {
+      console.error('Error querying LLM:', error);
+      return `I'm sorry, there was an error processing your request. Please try again later or contact support.`;
+    } finally {
+      setIsProcessing(false);
+    }
+  };
 
   const searchKnowledgeBase = (query, category) => {
     const results = [];
@@ -694,7 +788,31 @@ const ChatBot = () => {
     return results.sort((a, b) => b.relevance - a.relevance);
   };
 
-  const getBotResponse = (question, category) => {
+  const getBotResponse = async (question, category) => {
+    // If LLM mode is enabled, use the LLM to generate a response
+    if (useLLM) {
+      const llmResponse = await queryLLM(question, category);
+      
+      // Check if the question is about documents and append document links if needed
+      const lowerQuestion = question.toLowerCase();
+      if (lowerQuestion.includes('document') || lowerQuestion.includes('resource') || lowerQuestion.includes('guide') || 
+          lowerQuestion.includes('download') || lowerQuestion.includes('pdf') || lowerQuestion.includes('file')) {
+        
+        let documentSection = `\n\nHere are some helpful ${category === 'cdfi' ? 'CDFI' : 
+                              category === 'nmtc' ? 'NMTC' : 
+                              'Charter School'} resources you can download:\n`;
+        
+        documentResources[category].forEach(doc => {
+          documentSection += `\n• ${doc.title}: ${doc.description} [Download](${doc.path})`;
+        });
+        
+        return llmResponse + documentSection;
+      }
+      
+      return llmResponse;
+    }
+    
+    // Otherwise, use the existing rule-based response system
     const lowerQuestion = question.toLowerCase();
     let response = '';
     
@@ -825,8 +943,8 @@ const ChatBot = () => {
     
     setMessages([...messages, { type: 'user', text: question }]);
     
-    setTimeout(() => {
-      const botResponse = getBotResponse(question, selectedCategory);
+    setTimeout(async () => {
+      const botResponse = await getBotResponse(question, selectedCategory);
       setMessages(prevMessages => [...prevMessages, { type: 'bot', text: botResponse }]);
       
       // Scroll to bottom after bot response
@@ -834,7 +952,7 @@ const ChatBot = () => {
     }, 100);
   };
 
-  const handleSendMessage = (e) => {
+  const handleSendMessage = async (e) => {
     e.preventDefault();
     if (!inputText.trim()) return;
     
@@ -850,8 +968,8 @@ const ChatBot = () => {
     setMessages([...messages, { type: 'user', text: inputText }]);
     setInputText('');
     
-    setTimeout(() => {
-      const botResponse = getBotResponse(inputText, selectedCategory);
+    setTimeout(async () => {
+      const botResponse = await getBotResponse(inputText, selectedCategory);
       setMessages(prevMessages => [...prevMessages, { type: 'bot', text: botResponse }]);
       
       // Scroll to bottom after bot response
@@ -918,6 +1036,19 @@ const ChatBot = () => {
     return <>{elements}</>;
   };
 
+  const toggleLLMMode = () => {
+    setUseLLM(!useLLM);
+    setMessages([
+      {
+        type: 'bot',
+        text: !useLLM 
+          ? 'LLM mode enabled. I will now use an AI language model to generate responses. Please note this is currently simulated - to use a real LLM, you need to configure the API keys.'
+          : 'LLM mode disabled. I will now use predefined responses from the knowledge base.'
+      }
+    ]);
+    setSelectedCategory(null);
+  };
+
   return (
     <div className="chatbot-container">
       {!isOpen ? (
@@ -932,12 +1063,21 @@ const ChatBot = () => {
         <div className="chat-window">
           <div className="chat-header">
             <h3>Finance Knowledge Assistant</h3>
-            <button 
-              className="close-button"
-              onClick={() => setIsOpen(false)}
-            >
-              ×
-            </button>
+            <div className="chat-header-controls">
+              <button 
+                className="llm-toggle-button"
+                onClick={toggleLLMMode}
+                title={useLLM ? "Switch to predefined responses" : "Switch to LLM-powered responses"}
+              >
+                {useLLM ? "AI: ON" : "AI: OFF"}
+              </button>
+              <button 
+                className="close-button"
+                onClick={() => setIsOpen(false)}
+              >
+                ×
+              </button>
+            </div>
           </div>
           <div className="messages-container">
             {messages.map((message, index) => (
@@ -948,6 +1088,13 @@ const ChatBot = () => {
                 {message.type === 'bot' ? renderMessageWithLinks(message.text) : message.text}
               </div>
             ))}
+            {isProcessing && (
+              <div className="message bot typing-indicator">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            )}
             <div ref={messagesEndRef} />
           </div>
           
@@ -981,8 +1128,9 @@ const ChatBot = () => {
                   onChange={(e) => setInputText(e.target.value)}
                   placeholder="Type your question here..."
                   className="message-input"
+                  disabled={isProcessing}
                 />
-                <button type="submit" className="send-button">
+                <button type="submit" className="send-button" disabled={isProcessing}>
                   Send
                 </button>
               </form>
@@ -1001,6 +1149,7 @@ const ChatBot = () => {
                     key={index}
                     className="example-question-button"
                     onClick={() => handleExampleClick(question)}
+                    disabled={isProcessing}
                   >
                     {question}
                   </button>
@@ -1008,6 +1157,7 @@ const ChatBot = () => {
                 <button
                   className="example-question-button document-question"
                   onClick={() => handleExampleClick(`What documents do you have about ${selectedCategory === 'cdfi' ? 'CDFIs' : selectedCategory === 'nmtc' ? 'NMTC' : 'Charter Schools'}?`)}
+                  disabled={isProcessing}
                 >
                   Show available documents
                 </button>
