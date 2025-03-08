@@ -565,17 +565,22 @@ const documentResources = {
       path: "/chatbot-resources/cdfi/cdfi-certification-guide.pdf"
     },
     {
-      title: "CDFI Fund Programs Overview",
-      description: "Overview of financial assistance and technical assistance programs",
-      path: "/chatbot-resources/cdfi/cdfi-fund-programs.pdf"
+      title: "CDFI Fund Annual Report (2023)",
+      description: "Official annual report detailing CDFI Fund programs and impact",
+      path: "/chatbot-resources/cdfi/CDFI_Fund_FY_2023_Annual_Report_FINAL_508c.pdf"
     },
     {
-      title: "CDFI Impact Measurement Framework",
-      description: "Framework for measuring and reporting CDFI impact",
-      path: "/chatbot-resources/cdfi/cdfi-impact-framework.pdf"
+      title: "Sizing the CDFI Market",
+      description: "Research report on understanding CDFI industry growth and market size",
+      path: "/chatbot-resources/cdfi/sizing-the-cdfi-market-understanding-industry-growth.pdf"
     }
   ],
   nmtc: [
+    {
+      title: "New Markets Tax Credit Overview",
+      description: "Comprehensive overview of the NMTC program structure and benefits",
+      path: "/chatbot-resources/nmtc/New Markets Tax Credit.docx"
+    },
     {
       title: "NMTC Program Fact Sheet",
       description: "Key facts and statistics about the NMTC Program",
@@ -585,14 +590,14 @@ const documentResources = {
       title: "NMTC Compliance Guide",
       description: "Guide to maintaining compliance with NMTC Program requirements",
       path: "/chatbot-resources/nmtc/nmtc-compliance-guide.pdf"
-    },
-    {
-      title: "NMTC Application Tips",
-      description: "Tips for preparing a successful NMTC allocation application",
-      path: "/chatbot-resources/nmtc/nmtc-application-tips.pdf"
     }
   ],
   charterSchools: [
+    {
+      title: "Charter School Loan Affordability and Readiness",
+      description: "Guide to assessing charter school readiness for facility financing",
+      path: "/chatbot-resources/charter-schools/Charter School Loan Affordability and Readiness.docx"
+    },
     {
       title: "Charter School Facilities Financing Guide",
       description: "Guide to financing options for charter school facilities",
@@ -602,11 +607,6 @@ const documentResources = {
       title: "Charter School Credit Analysis Framework",
       description: "Framework for analyzing charter school credit quality",
       path: "/chatbot-resources/charter-schools/credit-analysis-framework.pdf"
-    },
-    {
-      title: "Charter School Growth Planning Toolkit",
-      description: "Toolkit for planning charter school expansion and replication",
-      path: "/chatbot-resources/charter-schools/growth-planning-toolkit.pdf"
     }
   ]
 };
