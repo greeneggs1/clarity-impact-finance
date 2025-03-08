@@ -35,17 +35,18 @@
   top: 0;
   left: 0;
   transition: opacity 1.5s ease-in-out;
-  opacity: 1;
-}
-
-/* Video transition classes */
-.video-background video.fading-out {
   opacity: 0;
 }
 
-.video-background video.fading-in {
+/* Video state classes */
+.video-background video.active {
   opacity: 1;
-  z-index: -1; /* Ensure it's below the current video during transition */
+  z-index: 0;
+}
+
+.video-background video.inactive {
+  opacity: 0;
+  z-index: -1;
 }
 
 .video-overlay {

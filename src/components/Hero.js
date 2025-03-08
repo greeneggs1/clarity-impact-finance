@@ -3,11 +3,10 @@ import './Hero.css';
 import { scrollToSection } from '../utils/scroll';
 
 const Hero = () => {
-  const [isVideoLoaded, setIsVideoLoaded] = useState(false);
-  const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
-  const [isTransitioning, setIsTransitioning] = useState(false);
-  const videoRef = useRef(null);
-  const nextVideoRef = useRef(null);
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
+  const [activeVideoIndex, setActiveVideoIndex] = useState(0);
+  const video1Ref = useRef(null);
+  const video2Ref = useRef(null);
   
   // Array of video sources
   const videoSources = [
@@ -15,101 +14,84 @@ const Hero = () => {
     "/videos/your-second-video.mp4" // Second video has been added to the public/videos directory
   ];
 
-  const handleVideoLoad = () => {
-    setIsVideoLoaded(true);
-  };
-  
-  // Start preloading the next video when the current one is almost finished
-  const handleTimeUpdate = () => {
-    if (videoRef.current && !isTransitioning) {
-      const timeLeft = videoRef.current.duration - videoRef.current.currentTime;
-      
-      // When 2 seconds are left in the current video, start the transition
-      if (timeLeft <= 2 && timeLeft > 0) {
-        startTransition();
-      }
-    }
-  };
-  
-  // Start the transition to the next video
-  const startTransition = () => {
-    if (isTransitioning) return; // Prevent multiple transitions
-    
-    setIsTransitioning(true);
-    
-    // Preload and start playing the next video
-    const nextIndex = (currentVideoIndex + 1) % videoSources.length;
-    if (nextVideoRef.current) {
-      nextVideoRef.current.src = videoSources[nextIndex];
-      nextVideoRef.current.load();
-      
-      // Start playing the next video immediately
-      nextVideoRef.current.play().catch(error => {
-        console.error("Next video playback failed:", error);
-      });
-      
-      // After a short delay, start fading out the current video
-      setTimeout(() => {
-        if (videoRef.current) {
-          videoRef.current.classList.add('fading-out');
-        }
-      }, 500);
-      
-      // After the transition completes, update the current video
-      setTimeout(() => {
-        setCurrentVideoIndex(nextIndex);
-        setIsTransitioning(false);
-      }, 1500);
-    }
-  };
-  
-  // Handle video end as a fallback (in case timeupdate doesn't trigger properly)
-  const handleVideoEnd = () => {
-    if (!isTransitioning) {
-      startTransition();
-    }
-  };
-  
-  // Update video source when currentVideoIndex changes (after transition is complete)
+  // Initialize videos on component mount
   useEffect(() => {
-    if (videoRef.current && !isTransitioning) {
-      videoRef.current.src = videoSources[currentVideoIndex];
-      videoRef.current.load();
-      videoRef.current.play().catch(error => {
-        console.error("Video playback failed:", error);
+    if (video1Ref.current && video2Ref.current) {
+      // Set up first video
+      video1Ref.current.src = videoSources[0];
+      video1Ref.current.load();
+      
+      // Set up second video
+      video2Ref.current.src = videoSources[1];
+      video2Ref.current.load();
+      
+      // Start playing the first video
+      video1Ref.current.play().catch(error => {
+        console.error("Video 1 playback failed:", error);
+      });
+      
+      // Mark initial load as complete after a short delay
+      setTimeout(() => {
+        setIsInitialLoad(false);
+      }, 1000);
+    }
+  }, []);
+  
+  // Handle video end events
+  const handleVideo1End = () => {
+    console.log("Video 1 ended");
+    // Make video 2 visible
+    setActiveVideoIndex(1);
+    
+    // Start playing video 2
+    if (video2Ref.current) {
+      video2Ref.current.currentTime = 0; // Reset to beginning
+      video2Ref.current.play().catch(error => {
+        console.error("Video 2 playback failed:", error);
       });
     }
-  }, [currentVideoIndex, isTransitioning]);
+  };
+  
+  const handleVideo2End = () => {
+    console.log("Video 2 ended");
+    // Make video 1 visible
+    setActiveVideoIndex(0);
+    
+    // Start playing video 1
+    if (video1Ref.current) {
+      video1Ref.current.currentTime = 0; // Reset to beginning
+      video1Ref.current.play().catch(error => {
+        console.error("Video 1 playback failed:", error);
+      });
+    }
+  };
 
   return (
     <section id="home" className="hero">
-      <div className={`video-background ${isVideoLoaded ? 'loaded' : ''}`}>
-        {/* Current video */}
+      <div className={`video-background ${!isInitialLoad ? 'loaded' : ''}`}>
+        {/* First video */}
         <video 
-          ref={videoRef}
-          autoPlay 
+          ref={video1Ref}
           muted 
           playsInline
-          onLoadedData={handleVideoLoad}
-          onTimeUpdate={handleTimeUpdate}
-          onEnded={handleVideoEnd}
-          className={isTransitioning ? 'fading-out' : ''}
+          onEnded={handleVideo1End}
+          className={activeVideoIndex === 0 ? 'active' : 'inactive'}
         >
-          <source src={videoSources[currentVideoIndex]} type="video/mp4" />
+          <source type="video/mp4" />
           Your browser does not support the video tag.
         </video>
         
-        {/* Next video (for crossfade) */}
-        {isTransitioning && (
-          <video 
-            ref={nextVideoRef}
-            muted 
-            playsInline
-            className="fading-in"
-          >
-            <source src={videoSources[(currentVideoIndex + 1) % videoSources.length]} type="video/mp4" />
-          </video>
-        )}
+        {/* Second video */}
+        <video 
+          ref={video2Ref}
+          muted 
+          playsInline
+          onEnded={handleVideo2End}
+          className={activeVideoIndex === 1 ? 'active' : 'inactive'}
+        >
+          <source type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
         
         <div className="video-overlay"></div>
       </div>
