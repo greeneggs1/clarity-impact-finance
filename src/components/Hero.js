@@ -1,132 +1,59 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import './Hero.css';
 import { scrollToSection } from '../utils/scroll';
 
 const Hero = () => {
-  const [isInitialLoad, setIsInitialLoad] = useState(true);
-  const [activeVideoIndex, setActiveVideoIndex] = useState(0);
-  const [videoLoadError, setVideoLoadError] = useState(null);
-  const video1Ref = useRef(null);
-  const video2Ref = useRef(null);
+  const [isVideoLoaded, setIsVideoLoaded] = useState(false);
+  const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   
-  // Array of video sources
-  const videoSources = [
-    "/videos/ribbon-cutting.mp4",
-    "/videos/second-video.mp4" // Updated to a more standardized name
-  ];
-
+  // Use useMemo to prevent recreation of the array on each render
+  const videoSources = useMemo(() => [
+    // Use absolute URLs that will work on Vercel
+    `${window.location.origin}/videos/ribbon-cutting.mp4`,
+    `${window.location.origin}/videos/second-video.mp4`
+  ], []);
+  
   // Log video sources for debugging
   useEffect(() => {
     console.log("Video sources:", videoSources);
-  }, []);
-
-  // Initialize videos on component mount
-  useEffect(() => {
-    if (video1Ref.current && video2Ref.current) {
-      console.log("Video refs initialized");
-      
-      try {
-        // Set up first video
-        video1Ref.current.src = videoSources[0];
-        video1Ref.current.load();
-        console.log("Video 1 loaded:", videoSources[0]);
-        
-        // Set up second video
-        video2Ref.current.src = videoSources[1];
-        video2Ref.current.load();
-        console.log("Video 2 loaded:", videoSources[1]);
-        
-        // Start playing the first video
-        video1Ref.current.play().catch(error => {
-          console.error("Video 1 playback failed:", error);
-          setVideoLoadError(`Video 1 error: ${error.message}`);
-        });
-        
-        // Mark initial load as complete after a short delay
-        setTimeout(() => {
-          setIsInitialLoad(false);
-        }, 1000);
-      } catch (error) {
-        console.error("Video initialization error:", error);
-        setVideoLoadError(`Initialization error: ${error.message}`);
-      }
-    }
-  }, [videoSources]);
-  
-  // Handle video end events
-  const handleVideo1End = () => {
-    console.log("Video 1 ended");
-    // Make video 2 visible
-    setActiveVideoIndex(1);
     
-    // Start playing video 2
-    if (video2Ref.current) {
-      video2Ref.current.currentTime = 0; // Reset to beginning
-      video2Ref.current.play().catch(error => {
-        console.error("Video 2 playback failed:", error);
-        setVideoLoadError(`Video 2 error: ${error.message}`);
-      });
-    }
+    // Preload videos
+    videoSources.forEach(src => {
+      const video = document.createElement('video');
+      video.src = src;
+      video.preload = 'auto';
+      console.log(`Preloading video: ${src}`);
+    });
+  }, [videoSources]);
+
+  const handleVideoLoad = () => {
+    console.log("Video loaded");
+    setIsVideoLoaded(true);
   };
   
-  const handleVideo2End = () => {
-    console.log("Video 2 ended");
-    // Make video 1 visible
-    setActiveVideoIndex(0);
-    
-    // Start playing video 1
-    if (video1Ref.current) {
-      video1Ref.current.currentTime = 0; // Reset to beginning
-      video1Ref.current.play().catch(error => {
-        console.error("Video 1 playback failed:", error);
-        setVideoLoadError(`Video 1 error: ${error.message}`);
-      });
-    }
+  const handleVideoEnd = () => {
+    console.log("Video ended, switching to next video");
+    setCurrentVideoIndex((prevIndex) => (prevIndex + 1) % videoSources.length);
   };
 
   return (
     <section id="home" className="hero">
-      <div className={`video-background ${!isInitialLoad ? 'loaded' : ''}`}>
-        {/* First video */}
+      <div className={`video-background ${isVideoLoaded ? 'loaded' : ''}`}>
         <video 
-          ref={video1Ref}
+          key={videoSources[currentVideoIndex]} // Key changes force React to recreate the element
+          autoPlay 
           muted 
           playsInline
-          onEnded={handleVideo1End}
-          className={activeVideoIndex === 0 ? 'active' : 'inactive'}
-          onError={(e) => {
-            console.error("Video 1 error event:", e);
-            setVideoLoadError(`Video 1 error event: ${e.target.error?.message || 'Unknown error'}`);
-          }}
+          loop={false}
+          onLoadedData={handleVideoLoad}
+          onEnded={handleVideoEnd}
+          onError={(e) => console.error("Video error:", e)}
         >
-          <source type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
-        
-        {/* Second video */}
-        <video 
-          ref={video2Ref}
-          muted 
-          playsInline
-          onEnded={handleVideo2End}
-          className={activeVideoIndex === 1 ? 'active' : 'inactive'}
-          onError={(e) => {
-            console.error("Video 2 error event:", e);
-            setVideoLoadError(`Video 2 error event: ${e.target.error?.message || 'Unknown error'}`);
-          }}
-        >
-          <source type="video/mp4" />
+          <source src={videoSources[currentVideoIndex]} type="video/mp4" />
           Your browser does not support the video tag.
         </video>
         
         <div className="video-overlay"></div>
-        
-        {/* Display error message if video loading fails */}
-        {videoLoadError && (
-          <div className="video-error-message">
-            {videoLoadError}
-          </div>
-        )}
       </div>
       
       <div className="hero-content">
