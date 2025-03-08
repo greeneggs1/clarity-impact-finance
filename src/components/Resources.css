@@ -701,21 +701,33 @@
 }
 
 .resource-link-button {
-  background-color: #1B4620;
-  color: white;
-  padding: 1rem;
-  text-align: center;
-  text-decoration: none;
-  font-weight: 500;
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   gap: 0.5rem;
+  background-color: #E67E45;
+  color: white;
+  text-decoration: none;
+  padding: 0.75rem 1rem;
+  border-radius: 0 0 8px 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
   transition: all 0.2s ease;
 }
 
+.resource-link-button.coming-soon {
+  background-color: #6b7280;
+  cursor: default;
+}
+
 .resource-link-button:hover {
-  background-color: #153618;
+  background-color: #d16a33;
+  color: white;
+}
+
+.resource-link-button.coming-soon:hover {
+  background-color: #4b5563;
+  transform: none;
 }
 
 .resource-link-button svg {
@@ -723,7 +735,11 @@
 }
 
 .resource-link-button:hover svg {
-  transform: translateX(2px);
+  transform: translateX(3px);
+}
+
+.resource-link-button.coming-soon:hover svg {
+  transform: none;
 }
 
 .no-results {
