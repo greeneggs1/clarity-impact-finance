@@ -57,10 +57,11 @@
   animation: fadeIn 1s ease-out;
   padding: 0 1rem;
   position: relative;
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: rgba(0, 0, 0, 0.05);
   padding: 2rem;
-  border-radius: 12px;
-  backdrop-filter: blur(2px);
+  border-radius: 0;
+  backdrop-filter: blur(0px);
+  box-shadow: none;
 }
 
 .hero h1 {
@@ -70,7 +71,7 @@
   line-height: 1.2;
   font-weight: 700;
   letter-spacing: -0.02em;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6), 0 0 30px rgba(0, 0, 0, 0.3);
 }
 
 .hero h2 {
@@ -79,7 +80,7 @@
   margin-bottom: 3rem;
   font-weight: 500;
   opacity: 0.9;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6), 0 0 30px rgba(0, 0, 0, 0.3);
 }
 
 .hero-buttons {
@@ -188,7 +189,7 @@
   }
 
   .hero-content {
-    padding: 1.5rem;
+    padding: 1rem;
   }
 
   .hero h1 {
@@ -202,7 +203,7 @@
   .hero-buttons {
     flex-direction: column;
     gap: 1rem;
-    padding: 0 1rem;
+    padding: 0;
   }
 
   .scroll-indicator {
