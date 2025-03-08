@@ -19,26 +19,54 @@ const Hero = () => {
     setIsVideoLoaded(true);
   };
   
-  // Handle video end event to start the transition to the next video
-  const handleVideoEnd = () => {
+  // Start preloading the next video when the current one is almost finished
+  const handleTimeUpdate = () => {
+    if (videoRef.current && !isTransitioning) {
+      const timeLeft = videoRef.current.duration - videoRef.current.currentTime;
+      
+      // When 2 seconds are left in the current video, start the transition
+      if (timeLeft <= 2 && timeLeft > 0) {
+        startTransition();
+      }
+    }
+  };
+  
+  // Start the transition to the next video
+  const startTransition = () => {
+    if (isTransitioning) return; // Prevent multiple transitions
+    
     setIsTransitioning(true);
     
-    // Preload the next video
+    // Preload and start playing the next video
     const nextIndex = (currentVideoIndex + 1) % videoSources.length;
     if (nextVideoRef.current) {
       nextVideoRef.current.src = videoSources[nextIndex];
       nextVideoRef.current.load();
       
-      // Start playing the next video while the current one is still visible
+      // Start playing the next video immediately
       nextVideoRef.current.play().catch(error => {
         console.error("Next video playback failed:", error);
       });
       
-      // After a short delay to allow the next video to start playing, complete the transition
+      // After a short delay, start fading out the current video
+      setTimeout(() => {
+        if (videoRef.current) {
+          videoRef.current.classList.add('fading-out');
+        }
+      }, 500);
+      
+      // After the transition completes, update the current video
       setTimeout(() => {
         setCurrentVideoIndex(nextIndex);
         setIsTransitioning(false);
-      }, 1000); // 1 second transition time
+      }, 1500);
+    }
+  };
+  
+  // Handle video end as a fallback (in case timeupdate doesn't trigger properly)
+  const handleVideoEnd = () => {
+    if (!isTransitioning) {
+      startTransition();
     }
   };
   
@@ -63,6 +91,7 @@ const Hero = () => {
           muted 
           playsInline
           onLoadedData={handleVideoLoad}
+          onTimeUpdate={handleTimeUpdate}
           onEnded={handleVideoEnd}
           className={isTransitioning ? 'fading-out' : ''}
         >
