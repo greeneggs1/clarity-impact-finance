@@ -33,7 +33,7 @@
   position: fixed;
   bottom: 20px;
   right: 20px;
-  width: 420px;
+  width: 630px;
   height: 500px;
   background: white;
   border-radius: 12px;
@@ -96,6 +96,7 @@
   flex-direction: column;
   gap: 12px;
   scroll-behavior: smooth;
+  width: 100%;
 }
 
 .message {
@@ -104,6 +105,8 @@
   border-radius: 12px;
   font-size: 15px;
   line-height: 1.5;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .message.bot {
@@ -358,10 +361,18 @@
   cursor: not-allowed;
 }
 
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .chat-window {
+    width: calc(100% - 40px);
+    max-width: 630px;
+  }
+}
+
 @media (max-width: 480px) {
   .chat-window {
     width: calc(100% - 40px);
     height: 60vh;
-    max-width: 420px;
+    max-width: 630px;
   }
 } 
