@@ -1,25 +1,49 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import './Hero.css';
 import { scrollToSection } from '../utils/scroll';
 
 const Hero = () => {
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
+  const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
+  const videoRef = useRef(null);
+  
+  // Array of video sources
+  const videoSources = [
+    "/videos/ribbon-cutting.mp4",
+    "/videos/your-second-video.mp4" // IMPORTANT: Add your second video file to public/videos directory
+  ];
 
   const handleVideoLoad = () => {
     setIsVideoLoaded(true);
   };
+  
+  // Handle video end event to switch to the next video
+  const handleVideoEnd = () => {
+    setCurrentVideoIndex((prevIndex) => (prevIndex + 1) % videoSources.length);
+  };
+  
+  // Update video source when currentVideoIndex changes
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.load();
+      videoRef.current.play().catch(error => {
+        console.error("Video playback failed:", error);
+      });
+    }
+  }, [currentVideoIndex]);
 
   return (
     <section id="home" className="hero">
       <div className={`video-background ${isVideoLoaded ? 'loaded' : ''}`}>
         <video 
+          ref={videoRef}
           autoPlay 
-          loop 
           muted 
           playsInline
           onLoadedData={handleVideoLoad}
+          onEnded={handleVideoEnd}
         >
-          <source src="/videos/ribbon-cutting.mp4" type="video/mp4" />
+          <source src={videoSources[currentVideoIndex]} type="video/mp4" />
           Your browser does not support the video tag.
         </video>
         <div className="video-overlay"></div>
