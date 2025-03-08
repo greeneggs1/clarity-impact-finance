@@ -10,7 +10,7 @@ const Hero = () => {
   // Array of video sources
   const videoSources = [
     "/videos/ribbon-cutting.mp4",
-    "/videos/your-second-video.mp4" // IMPORTANT: Add your second video file to public/videos directory
+    "/videos/your-second-video.mp4" // Second video has been added to the public/videos directory
   ];
 
   const handleVideoLoad = () => {
