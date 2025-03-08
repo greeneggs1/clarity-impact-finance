@@ -1122,22 +1122,26 @@ const ChatBot = () => {
           
           {!selectedCategory ? (
             <div className="category-selection">
+              <h4 className="category-selection-title">Select a topic to get started:</h4>
               <button 
                 className="category-button cdfi"
                 onClick={() => handleCategorySelect('cdfi')}
               >
-                CDFI
+                <span className="category-icon">🏦</span>
+                Community Development Financial Institutions
               </button>
               <button 
                 className="category-button nmtc"
                 onClick={() => handleCategorySelect('nmtc')}
               >
-                NMTC
+                <span className="category-icon">💰</span>
+                New Markets Tax Credit Program
               </button>
               <button 
                 className="category-button charter-schools"
                 onClick={() => handleCategorySelect('charterSchools')}
               >
+                <span className="category-icon">🏫</span>
                 Charter Schools
               </button>
             </div>
