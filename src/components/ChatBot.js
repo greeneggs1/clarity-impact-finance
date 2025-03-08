@@ -622,7 +622,12 @@ const ChatBot = () => {
   ]);
   const [inputText, setInputText] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
-  const [useLLM, setUseLLM] = useState(process.env.REACT_APP_ENABLE_LLM === 'true');
+  
+  // Check if API key is available and enable LLM mode accordingly
+  const apiKeyAvailable = process.env.REACT_APP_OPENAI_API_KEY && 
+                         process.env.REACT_APP_OPENAI_API_KEY !== 'your_openai_api_key_here';
+  const [useLLM, setUseLLM] = useState(apiKeyAvailable && process.env.REACT_APP_ENABLE_LLM === 'true');
+  
   const messagesEndRef = useRef(null);
 
   const scrollToBottom = () => {
@@ -647,7 +652,8 @@ const ChatBot = () => {
       // Check if API key is available
       if (!apiKey || apiKey === 'your_openai_api_key_here') {
         console.error('OpenAI API key not configured');
-        return `Error: OpenAI API key not configured properly. Please add your API key to the .env file.`;
+        setUseLLM(false); // Automatically switch to rule-based mode
+        return `I'm currently operating in rule-based mode because the AI integration is not configured. To enable AI-powered responses, please add your OpenAI API key to the environment variables.`;
       }
       
       // Prepare system message based on category
@@ -1014,12 +1020,23 @@ const ChatBot = () => {
   };
 
   const toggleLLMMode = () => {
+    // Only allow enabling LLM mode if API key is available
+    if (!useLLM && !apiKeyAvailable) {
+      setMessages([
+        {
+          type: 'bot',
+          text: 'Unable to enable AI mode. Please add your OpenAI API key to the environment variables first.'
+        }
+      ]);
+      return;
+    }
+    
     setUseLLM(!useLLM);
     setMessages([
       {
         type: 'bot',
         text: !useLLM 
-          ? 'LLM mode enabled. I will now use an AI language model to generate responses. Please note this is currently simulated - to use a real LLM, you need to configure the API keys.'
+          ? 'LLM mode enabled. I will now use an AI language model to generate responses.'
           : 'LLM mode disabled. I will now use predefined responses from the knowledge base.'
       }
     ]);
