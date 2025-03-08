@@ -131,11 +131,70 @@
   background: #d16a33;
 }
 
-@media (max-width: 480px) {
-  .chat-window {
-    width: calc(100% - 40px);
-    height: 60vh;
-  }
+/* Category Selection */
+.category-selection {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  border-top: 1px solid #eee;
+}
+
+.category-button {
+  padding: 14px;
+  border-radius: 8px;
+  border: none;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+  color: white;
+}
+
+.category-button.cdfi {
+  background: #1B4620;
+}
+
+.category-button.nmtc {
+  background: #E67E45;
+}
+
+.category-button.charter-schools {
+  background: #2C5282;
+}
+
+.category-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.category-button.cdfi:hover {
+  background: #153618;
+}
+
+.category-button.nmtc:hover {
+  background: #d16a33;
+}
+
+.category-button.charter-schools:hover {
+  background: #234876;
+}
+
+/* Reset Category Button */
+.reset-category-button {
+  background: none;
+  border: none;
+  color: #E67E45;
+  font-size: 12px;
+  cursor: pointer;
+  padding: 0;
+  text-decoration: underline;
+  margin-left: auto;
+}
+
+.reset-category-button:hover {
+  color: #d16a33;
 }
 
 .example-questions {
@@ -154,6 +213,9 @@
   margin-right: 8px;
   display: flex;
   align-items: center;
+  width: 100%;
+  justify-content: space-between;
+  margin-bottom: 8px;
 }
 
 .example-question-button {
@@ -175,4 +237,11 @@
   background: #E67E45;
   color: white;
   transform: translateX(2px);
+}
+
+@media (max-width: 480px) {
+  .chat-window {
+    width: calc(100% - 40px);
+    height: 60vh;
+  }
 } 

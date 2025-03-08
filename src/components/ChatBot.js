@@ -317,15 +317,252 @@ Reporting and Documentation:
 - Audit documentation
 - Board reporting
 - Stakeholder communications
+  `,
+  
+  // New Markets Tax Credit (NMTC) knowledge base
+  nmtcBasics: `
+The New Markets Tax Credit Program (NMTC Program) helps economically distressed communities attract private investment capital by providing investors with a federal tax credit.
+
+Established by Congress in 2000, the NMTC Program permits individual and corporate taxpayers to receive a credit against federal income taxes for making Qualified Equity Investments (QEIs) in qualified community development entities (CDEs).
+
+The credit provided to the investor totals 39% of the cost of the investment and is claimed over a seven-year period.
+
+Key Program Features:
+- Administered by the CDFI Fund
+- Attracts investment capital to low-income communities
+- Permits taxpayers to claim credit against federal income taxes
+- Provides 39% tax credit over seven years (5% for each of first three years, 6% for remaining four years)
+- Investments must remain in qualified low-income communities for seven years
+  `,
+  
+  nmtcEligibility: `
+NMTC Program Eligibility Requirements:
+
+For Community Development Entities (CDEs):
+- Must be certified by the CDFI Fund
+- Primary mission of serving low-income communities
+- Accountability to residents of low-income communities
+- Must have a track record of providing capital or technical assistance
+
+For Qualified Low-Income Community Investments (QLICIs):
+- Must be located in eligible census tracts
+- Typically areas with poverty rates of at least 20% or
+- Median family income at or below 80% of area median
+
+For Businesses:
+- Must be located in qualifying low-income census tracts
+- Cannot be in certain prohibited business types (e.g., gambling facilities, liquor stores, etc.)
+- Must generate revenues and create jobs within the low-income community
+
+For Investors:
+- Can be banks, insurance companies, corporations, or individuals
+- Must make equity investments in CDEs
+- Must maintain investment for the full seven-year period to claim full tax credit
+  `,
+  
+  nmtcApplication: `
+NMTC Application Process:
+
+1. CDE Certification:
+- Organizations must first be certified as CDEs by the CDFI Fund
+- Application requires demonstration of primary mission and accountability
+
+2. NMTC Allocation Application:
+- Annual competitive application process
+- CDEs apply to the CDFI Fund for the authority to issue tax credits to investors
+- Applications evaluated based on business strategy, community impact, management capacity, and capitalization strategy
+
+3. Allocation Awards:
+- CDFI Fund announces allocation awards annually
+- Successful CDEs receive authority to issue a specific dollar amount of tax credits
+
+4. Deployment of Allocation:
+- CDEs raise capital from investors in exchange for tax credits
+- CDEs deploy capital as QLICIs in qualified businesses and projects
+- Investments must be maintained for seven years
+
+5. Compliance and Reporting:
+- CDEs must report to the CDFI Fund annually
+- Must demonstrate compliance with program requirements
+- Must show community impact of investments
+  `,
+  
+  nmtcImpact: `
+NMTC Program Impact:
+
+Economic Development Outcomes:
+- Since inception, the NMTC has generated over $60 billion in investments in low-income communities
+- Created or retained approximately 830,000 jobs
+- Financed over 6,500 businesses and revitalization projects
+- Every $1 of federal tax revenue foregone generates $8 of private investment
+
+Types of Projects Financed:
+- Community facilities (healthcare centers, schools, childcare)
+- Manufacturing and industrial facilities
+- Mixed-use real estate
+- Grocery stores and fresh food retailers in food deserts
+- Small business incubators
+- Arts and cultural facilities
+- Charter schools and educational facilities
+
+Community Benefits:
+- Job creation and retention
+- Increased access to healthcare, education, and healthy food
+- Improved community facilities
+- Environmental remediation
+- Affordable housing development
+- Catalytic effect on additional investment
+  `,
+  
+  // Charter Schools knowledge base
+  charterSchoolsBasics: `
+Charter schools are public schools operating under a contract (or "charter") with an authorizing entity, typically a state or local school board. They receive public funding but operate with more autonomy than traditional public schools.
+
+Key Characteristics:
+- Publicly funded, tuition-free schools
+- Open to all students, often through lottery if oversubscribed
+- Operate with increased autonomy in exchange for increased accountability
+- Governed by independent boards
+- Exempt from some regulations that apply to traditional public schools
+- Must meet academic performance standards outlined in their charter
+
+Charter School Models:
+- Startup charter schools (new schools)
+- Conversion charter schools (converted from existing public schools)
+- Virtual charter schools (online learning)
+- Specialized focus schools (STEM, arts, language immersion, etc.)
+- Networks or Charter Management Organizations (CMOs)
+  `,
+  
+  charterSchoolsFunding: `
+Charter School Funding Sources:
+
+Public Funding:
+- Per-pupil allocation from state and local sources
+- Typically receive 70-80% of the per-pupil funding of traditional public schools
+- Often do not receive facilities funding
+- Eligible for certain federal grants and programs
+
+Private Funding:
+- Philanthropy and foundation grants
+- Corporate partnerships
+- Individual donors
+- Community support
+
+Specialized Funding Programs:
+- Charter School Program (CSP) federal grants
+- Credit enhancement programs
+- State charter school facilities funds
+- Tax-exempt bond financing
+- CDFI financing programs
+- New Markets Tax Credits
+
+Funding Challenges:
+- Facilities acquisition and financing
+- Cash flow management during startup
+- Unequal funding compared to district schools
+- Limited access to local tax revenue
+- Sustainability beyond startup funding
+  `,
+  
+  charterSchoolsFinancing: `
+Charter School Financing Options:
+
+Facilities Financing:
+- Commercial bank loans
+- Tax-exempt bond financing
+- CDFI loans and program-related investments
+- New Markets Tax Credits
+- USDA Community Facilities program
+- State charter school facilities funds
+- Lease financing
+- Public-private partnerships
+
+Working Capital Solutions:
+- Lines of credit
+- Bridge loans for delayed public payments
+- Receivables financing
+- Cash flow loans
+
+Growth Capital:
+- Philanthropy and grants
+- Program-related investments
+- Charter School Growth Fund
+- Social impact investments
+- Charter network expansion funds
+
+Technical Assistance:
+- Financial planning and budgeting
+- Facilities acquisition support
+- Credit enhancement programs
+- Financial modeling
+- Board training on financial oversight
+  `,
+  
+  charterSchoolsImpact: `
+Charter School Impact and Outcomes:
+
+Academic Performance:
+- Results vary by school, network, and region
+- Urban charter schools often show stronger results
+- Charter networks like KIPP, Success Academy, and Uncommon Schools demonstrate significant academic gains
+- Innovation in teaching methods and school models
+
+Student Demographics:
+- Serve approximately 3.7 million students nationwide
+- Higher percentages of Black and Hispanic students than traditional public schools
+- Similar percentages of economically disadvantaged students
+- Growing English Language Learner and special education populations
+
+Community Impact:
+- School choice options for underserved communities
+- Neighborhood revitalization around school sites
+- Parent and community engagement
+- Innovative educational approaches
+- Professional development opportunities for educators
+
+Challenges and Considerations:
+- Quality varies significantly across the sector
+- Concerns about equity and access
+- Sustainability challenges for independent schools
+- Facilities acquisition and financing hurdles
+- Balancing autonomy with accountability
   `
+};
+
+// Example questions by category
+const categoryQuestions = {
+  cdfi: [
+    "What are CDFIs?",
+    "How are CDFIs funded?",
+    "What services do CDFIs provide?"
+  ],
+  nmtc: [
+    "What is the New Markets Tax Credit Program?",
+    "How do businesses qualify for NMTC financing?",
+    "What impact has the NMTC Program had?"
+  ],
+  charterSchools: [
+    "How are charter schools funded?",
+    "What financing options are available for charter schools?",
+    "What impact do charter schools have on communities?"
+  ]
+};
+
+// External resources by category
+const categoryResources = {
+  cdfi: "Learn more at https://www.cdfifund.gov/",
+  nmtc: "Learn more at https://www.cdfifund.gov/programs-training/programs/new-markets-tax-credit",
+  charterSchools: "Learn more at https://charterschoolcenter.ed.gov/"
 };
 
 const ChatBot = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState(null);
   const [messages, setMessages] = useState([
     {
       type: 'bot',
-      text: 'Hi! I can help answer your questions about Community Development Financial Institutions (CDFIs) and the community development sector. Try clicking one of the example questions below or ask your own question.'
+      text: 'Hi! I can help answer your questions about community development finance. Please select a topic you\'re interested in:'
     }
   ]);
   const [inputText, setInputText] = useState('');
@@ -343,20 +580,45 @@ const ChatBot = () => {
     }
   }, [isOpen, messages]);
 
-  const exampleQuestions = [
-    "What are CDFIs?",
-    "How are CDFIs funded?",
-    "What services do CDFIs provide?"
-  ];
-
-  const searchKnowledgeBase = (query) => {
+  const searchKnowledgeBase = (query, category) => {
     const results = [];
     const queryWords = query.toLowerCase().split(' ').filter(word => 
       !['what', 'how', 'when', 'where', 'why', 'is', 'are', 'the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for'].includes(word)
     );
     
-    // Search through each section of the knowledge base
-    for (const [section, content] of Object.entries(knowledgeBase)) {
+    // Filter knowledge base sections based on category
+    let relevantSections = {};
+    
+    if (category === 'cdfi') {
+      relevantSections = {
+        cdfiBasics: knowledgeBase.cdfiBasics,
+        cdfiTypes: knowledgeBase.cdfiTypes,
+        services: knowledgeBase.services,
+        impact: knowledgeBase.impact,
+        funding: knowledgeBase.funding,
+        history: knowledgeBase.history,
+        certificationProcess: knowledgeBase.certificationProcess,
+        fundingGuide: knowledgeBase.fundingGuide,
+        complianceAndAsset: knowledgeBase.complianceAndAsset
+      };
+    } else if (category === 'nmtc') {
+      relevantSections = {
+        nmtcBasics: knowledgeBase.nmtcBasics,
+        nmtcEligibility: knowledgeBase.nmtcEligibility,
+        nmtcApplication: knowledgeBase.nmtcApplication,
+        nmtcImpact: knowledgeBase.nmtcImpact
+      };
+    } else if (category === 'charterSchools') {
+      relevantSections = {
+        charterSchoolsBasics: knowledgeBase.charterSchoolsBasics,
+        charterSchoolsFunding: knowledgeBase.charterSchoolsFunding,
+        charterSchoolsFinancing: knowledgeBase.charterSchoolsFinancing,
+        charterSchoolsImpact: knowledgeBase.charterSchoolsImpact
+      };
+    }
+    
+    // Search through each section of the relevant knowledge base
+    for (const [section, content] of Object.entries(relevantSections)) {
       const paragraphs = content.split('\n\n').filter(p => p.trim());
       
       for (const paragraph of paragraphs) {
@@ -377,77 +639,142 @@ const ChatBot = () => {
     return results.sort((a, b) => b.relevance - a.relevance);
   };
 
-  const getBotResponse = (question) => {
+  const getBotResponse = (question, category) => {
     const lowerQuestion = question.toLowerCase();
     
-    // Common question patterns
-    if (lowerQuestion.includes('what') && lowerQuestion.includes('cdfi')) {
-      return knowledgeBase.cdfiBasics.split('\n\n')[0].trim();
+    if (category === 'cdfi') {
+      // CDFI-specific responses
+      if (lowerQuestion.includes('what') && lowerQuestion.includes('cdfi')) {
+        return knowledgeBase.cdfiBasics.split('\n\n')[0].trim() + '\n\n' + categoryResources.cdfi;
+      }
+      
+      if (lowerQuestion.includes('type') || lowerQuestion.includes('kinds')) {
+        return knowledgeBase.cdfiTypes.split('\n\n').slice(0, 2).join('\n\n').trim() + '\n\n' + categoryResources.cdfi;
+      }
+      
+      if (lowerQuestion.includes('service') || lowerQuestion.includes('provide') || lowerQuestion.includes('offer')) {
+        return knowledgeBase.services.split('\n\n').slice(0, 4).join('\n\n').trim() + '\n\n' + categoryResources.cdfi;
+      }
+      
+      if (lowerQuestion.includes('fund') || lowerQuestion.includes('money') || lowerQuestion.includes('capital')) {
+        return knowledgeBase.funding.split('\n\n').slice(0, 3).join('\n\n').trim() + '\n\n' + categoryResources.cdfi;
+      }
+      
+      return 'I can help you learn about CDFIs, their certification, funding, and impact. Try asking more specific questions about CDFIs.\n\n' + categoryResources.cdfi;
+    } 
+    else if (category === 'nmtc') {
+      // NMTC-specific responses
+      if (lowerQuestion.includes('what') && (lowerQuestion.includes('nmtc') || lowerQuestion.includes('new market'))) {
+        return knowledgeBase.nmtcBasics.split('\n\n').slice(0, 3).join('\n\n').trim() + '\n\n' + categoryResources.nmtc;
+      }
+      
+      if (lowerQuestion.includes('eligib') || lowerQuestion.includes('qualify')) {
+        return knowledgeBase.nmtcEligibility.split('\n\n').slice(0, 3).join('\n\n').trim() + '\n\n' + categoryResources.nmtc;
+      }
+      
+      if (lowerQuestion.includes('apply') || lowerQuestion.includes('application') || lowerQuestion.includes('process')) {
+        return knowledgeBase.nmtcApplication.split('\n\n').slice(0, 3).join('\n\n').trim() + '\n\n' + categoryResources.nmtc;
+      }
+      
+      if (lowerQuestion.includes('impact') || lowerQuestion.includes('benefit') || lowerQuestion.includes('effect')) {
+        return knowledgeBase.nmtcImpact.split('\n\n').slice(0, 3).join('\n\n').trim() + '\n\n' + categoryResources.nmtc;
+      }
+      
+      return 'I can help you learn about the New Markets Tax Credit Program, including eligibility, application process, and impact. Try asking more specific questions about NMTC.\n\n' + categoryResources.nmtc;
+    } 
+    else if (category === 'charterSchools') {
+      // Charter Schools-specific responses
+      if (lowerQuestion.includes('what') && lowerQuestion.includes('charter')) {
+        return knowledgeBase.charterSchoolsBasics.split('\n\n').slice(0, 3).join('\n\n').trim() + '\n\n' + categoryResources.charterSchools;
+      }
+      
+      if (lowerQuestion.includes('fund') || lowerQuestion.includes('money')) {
+        return knowledgeBase.charterSchoolsFunding.split('\n\n').slice(0, 3).join('\n\n').trim() + '\n\n' + categoryResources.charterSchools;
+      }
+      
+      if (lowerQuestion.includes('financ') || lowerQuestion.includes('loan') || lowerQuestion.includes('capital')) {
+        return knowledgeBase.charterSchoolsFinancing.split('\n\n').slice(0, 3).join('\n\n').trim() + '\n\n' + categoryResources.charterSchools;
+      }
+      
+      if (lowerQuestion.includes('impact') || lowerQuestion.includes('outcome') || lowerQuestion.includes('result')) {
+        return knowledgeBase.charterSchoolsImpact.split('\n\n').slice(0, 3).join('\n\n').trim() + '\n\n' + categoryResources.charterSchools;
+      }
+      
+      return 'I can help you learn about charter schools, including funding, financing options, and community impact. Try asking more specific questions about charter schools.\n\n' + categoryResources.charterSchools;
     }
     
-    if (lowerQuestion.includes('type') || lowerQuestion.includes('kinds')) {
-      return knowledgeBase.cdfiTypes.split('\n\n').slice(0, 2).join('\n\n').trim();
-    }
-    
-    if (lowerQuestion.includes('service') || lowerQuestion.includes('provide') || lowerQuestion.includes('offer')) {
-      return knowledgeBase.services.split('\n\n').slice(0, 4).join('\n\n').trim();
-    }
-    
-    if (lowerQuestion.includes('compliance') || lowerQuestion.includes('bgp') || lowerQuestion.includes('asset')) {
-      return knowledgeBase.complianceAndAsset.split('\n\n').slice(0, 3).join('\n\n').trim();
-    }
-    
-    if (lowerQuestion.includes('impact') || lowerQuestion.includes('benefit')) {
-      return knowledgeBase.impact.split('\n\n').slice(0, 3).join('\n\n').trim();
-    }
-    
-    if (lowerQuestion.includes('fund') || lowerQuestion.includes('money') || lowerQuestion.includes('capital')) {
-      return knowledgeBase.funding.split('\n\n').slice(0, 3).join('\n\n').trim();
-    }
-    
-    if (lowerQuestion.includes('history') || lowerQuestion.includes('start') || lowerQuestion.includes('begin')) {
-      return knowledgeBase.history.split('\n\n').slice(0, 3).join('\n\n').trim();
-    }
-    
-    if (lowerQuestion.includes('certif') || lowerQuestion.includes('require')) {
-      return knowledgeBase.certificationProcess.split('\n\n').slice(0, 3).join('\n\n').trim();
-    }
+    return 'Please select a topic (CDFI, NMTC, or Charter Schools) to get started.';
+  };
 
-    return 'I can help you learn about CDFIs, their certification, funding, and impact. Try asking about:\n- What is a CDFI?\n- Types of CDFIs\n- CDFI services and impact\n- Funding sources\n- Certification requirements\n- CDFI history';
+  const handleCategorySelect = (category) => {
+    setSelectedCategory(category);
+    
+    let welcomeMessage = '';
+    if (category === 'cdfi') {
+      welcomeMessage = 'You\'ve selected Community Development Financial Institutions (CDFIs). What would you like to know about CDFIs?';
+    } else if (category === 'nmtc') {
+      welcomeMessage = 'You\'ve selected New Markets Tax Credit Program (NMTC). What would you like to know about the NMTC Program?';
+    } else if (category === 'charterSchools') {
+      welcomeMessage = 'You\'ve selected Charter Schools. What would you like to know about charter school financing and development?';
+    }
+    
+    setMessages([
+      ...messages,
+      { type: 'user', text: `I want to learn about ${category === 'cdfi' ? 'CDFIs' : category === 'nmtc' ? 'NMTC' : 'Charter Schools'}` },
+      { type: 'bot', text: welcomeMessage }
+    ]);
   };
 
   const handleExampleClick = (question) => {
+    if (!selectedCategory) {
+      setMessages([...messages, { type: 'bot', text: 'Please select a topic first (CDFI, NMTC, or Charter Schools).' }]);
+      return;
+    }
+    
     setMessages([...messages, { type: 'user', text: question }]);
     
     setTimeout(() => {
-      const botResponse = getBotResponse(question);
+      const botResponse = getBotResponse(question, selectedCategory);
       setMessages(prevMessages => [...prevMessages, { type: 'bot', text: botResponse }]);
       
       // Scroll to bottom after bot response
-      const messagesContainer = document.querySelector('.messages-container');
-      if (messagesContainer) {
-        messagesContainer.scrollTop = messagesContainer.scrollHeight;
-      }
+      scrollToBottom();
     }, 100);
   };
 
   const handleSendMessage = (e) => {
     e.preventDefault();
     if (!inputText.trim()) return;
+    
+    if (!selectedCategory) {
+      setMessages([...messages, 
+        { type: 'user', text: inputText },
+        { type: 'bot', text: 'Please select a topic first (CDFI, NMTC, or Charter Schools).' }
+      ]);
+      setInputText('');
+      return;
+    }
 
     setMessages([...messages, { type: 'user', text: inputText }]);
     setInputText('');
     
     setTimeout(() => {
-      const botResponse = getBotResponse(inputText);
+      const botResponse = getBotResponse(inputText, selectedCategory);
       setMessages(prevMessages => [...prevMessages, { type: 'bot', text: botResponse }]);
       
       // Scroll to bottom after bot response
-      const messagesContainer = document.querySelector('.messages-container');
-      if (messagesContainer) {
-        messagesContainer.scrollTop = messagesContainer.scrollHeight;
-      }
+      scrollToBottom();
     }, 100);
+  };
+
+  const handleResetCategory = () => {
+    setSelectedCategory(null);
+    setMessages([
+      {
+        type: 'bot',
+        text: 'Hi! I can help answer your questions about community development finance. Please select a topic you\'re interested in:'
+      }
+    ]);
   };
 
   return (
@@ -457,13 +784,13 @@ const ChatBot = () => {
           className="chat-button"
           onClick={() => setIsOpen(true)}
         >
-          <span className="chat-button-text">CDFI-Helper</span>
+          <span className="chat-button-text">Finance-Helper</span>
           <span className="chat-button-icon">💬</span>
         </button>
       ) : (
         <div className="chat-window">
           <div className="chat-header">
-            <h3>CDFI Knowledge Assistant</h3>
+            <h3>Finance Knowledge Assistant</h3>
             <button 
               className="close-button"
               onClick={() => setIsOpen(false)}
@@ -482,30 +809,64 @@ const ChatBot = () => {
             ))}
             <div ref={messagesEndRef} />
           </div>
-          <form onSubmit={handleSendMessage} className="input-container">
-            <input
-              type="text"
-              value={inputText}
-              onChange={(e) => setInputText(e.target.value)}
-              placeholder="Type your question here..."
-              className="message-input"
-            />
-            <button type="submit" className="send-button">
-              Send
-            </button>
-          </form>
-          <div className="example-questions">
-            <div className="example-questions-title">Try asking:</div>
-            {exampleQuestions.map((question, index) => (
-              <button
-                key={index}
-                className="example-question-button"
-                onClick={() => handleExampleClick(question)}
+          
+          {!selectedCategory ? (
+            <div className="category-selection">
+              <button 
+                className="category-button cdfi"
+                onClick={() => handleCategorySelect('cdfi')}
               >
-                {question}
+                CDFI
               </button>
-            ))}
-          </div>
+              <button 
+                className="category-button nmtc"
+                onClick={() => handleCategorySelect('nmtc')}
+              >
+                NMTC
+              </button>
+              <button 
+                className="category-button charter-schools"
+                onClick={() => handleCategorySelect('charterSchools')}
+              >
+                Charter Schools
+              </button>
+            </div>
+          ) : (
+            <>
+              <form onSubmit={handleSendMessage} className="input-container">
+                <input
+                  type="text"
+                  value={inputText}
+                  onChange={(e) => setInputText(e.target.value)}
+                  placeholder="Type your question here..."
+                  className="message-input"
+                />
+                <button type="submit" className="send-button">
+                  Send
+                </button>
+              </form>
+              <div className="example-questions">
+                <div className="example-questions-title">
+                  <span>Try asking:</span>
+                  <button 
+                    className="reset-category-button"
+                    onClick={handleResetCategory}
+                  >
+                    Change Topic
+                  </button>
+                </div>
+                {categoryQuestions[selectedCategory].map((question, index) => (
+                  <button
+                    key={index}
+                    className="example-question-button"
+                    onClick={() => handleExampleClick(question)}
+                  >
+                    {question}
+                  </button>
+                ))}
+              </div>
+            </>
+          )}
         </div>
       )}
     </div>
