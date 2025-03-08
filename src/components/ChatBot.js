@@ -623,13 +623,17 @@ const ChatBot = () => {
   const [inputText, setInputText] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
   
-  // Check if API key is available - more permissive check
-  const apiKeyAvailable = Boolean(process.env.REACT_APP_OPENAI_API_KEY);
-  const [useLLM, setUseLLM] = useState(apiKeyAvailable && process.env.REACT_APP_ENABLE_LLM === 'true');
+  // More robust check for API key
+  const apiKey = process.env.REACT_APP_OPENAI_API_KEY || '';
+  const apiKeyAvailable = apiKey.length > 0;
   
-  // For debugging
+  // Allow manual override for local testing
+  const [useLLM, setUseLLM] = useState(false);
+  
+  // Debug info
+  console.log('API Key length:', apiKey.length);
   console.log('API Key available:', apiKeyAvailable);
-  console.log('LLM enabled:', process.env.REACT_APP_ENABLE_LLM === 'true');
+  console.log('LLM enabled:', useLLM);
   
   const messagesEndRef = useRef(null);
 
@@ -650,31 +654,26 @@ const ChatBot = () => {
     setIsProcessing(true);
     
     try {
-      const apiKey = process.env.REACT_APP_OPENAI_API_KEY;
-      
-      // More permissive check - just make sure there's some value
-      if (!apiKey) {
-        console.error('OpenAI API key not configured');
-        return `I'm currently operating in rule-based mode because the AI integration is not configured. To enable AI-powered responses, please add your OpenAI API key to the environment variables.`;
+      // For local testing - use a hardcoded response if no API key
+      if (!apiKeyAvailable) {
+        console.log('Using simulated LLM response (no API key)');
+        // Simulate API delay
+        await new Promise(resolve => setTimeout(resolve, 1500));
+        
+        return `This is a simulated AI response about ${
+          category === 'cdfi' ? 'Community Development Financial Institutions (CDFIs)' : 
+          category === 'nmtc' ? 'New Markets Tax Credit Program (NMTC)' : 
+          'Charter School financing and development'
+        } in response to your question: "${prompt}".
+        
+        To use the real OpenAI API:
+        1. Make sure your .env file contains a valid REACT_APP_OPENAI_API_KEY
+        2. Restart your development server after updating the .env file
+        3. Check the console logs for debugging information`;
       }
       
       // Log for debugging (don't log the full key in production)
       console.log('Using API key starting with:', apiKey.substring(0, 5) + '...');
-      
-      // Prepare system message based on category
-      const systemMessage = `You are a helpful assistant specializing in ${
-        category === 'cdfi' ? 'Community Development Financial Institutions (CDFIs)' : 
-        category === 'nmtc' ? 'New Markets Tax Credit Program (NMTC)' : 
-        'Charter School financing and development'
-      }. 
-      
-      Provide accurate, concise information based on your knowledge. Focus on practical, actionable information that would be helpful to professionals in the community development finance field.
-      
-      When discussing ${
-        category === 'cdfi' ? 'CDFIs' : 
-        category === 'nmtc' ? 'NMTC' : 
-        'Charter Schools'
-      }, emphasize impact, financing structures, compliance requirements, and best practices.`;
       
       // Make the API call to OpenAI
       const response = await fetch('https://api.openai.com/v1/chat/completions', {
@@ -688,7 +687,19 @@ const ChatBot = () => {
           messages: [
             {
               role: 'system',
-              content: systemMessage
+              content: `You are a helpful assistant specializing in ${
+                category === 'cdfi' ? 'Community Development Financial Institutions (CDFIs)' : 
+                category === 'nmtc' ? 'New Markets Tax Credit Program (NMTC)' : 
+                'Charter School financing and development'
+              }. 
+              
+              Provide accurate, concise information based on your knowledge. Focus on practical, actionable information that would be helpful to professionals in the community development finance field.
+              
+              When discussing ${
+                category === 'cdfi' ? 'CDFIs' : 
+                category === 'nmtc' ? 'NMTC' : 
+                'Charter Schools'
+              }, emphasize impact, financing structures, compliance requirements, and best practices.`
             },
             {
               role: 'user',
@@ -1025,27 +1036,38 @@ const ChatBot = () => {
   };
 
   const toggleLLMMode = () => {
-    // Always allow toggling, but show a message if API key is missing
-    if (!useLLM && !apiKeyAvailable) {
+    // Always allow toggling for better debugging
+    setUseLLM(!useLLM);
+    
+    // Show appropriate message
+    if (!useLLM) {
+      if (!apiKeyAvailable) {
+        setMessages([
+          {
+            type: 'bot',
+            text: 'AI mode enabled with simulated responses. No API key was found, so I\'ll provide simulated AI responses. To use the real OpenAI API, please add your API key to the .env file and restart the server.'
+          }
+        ]);
+        console.log('Enabled simulated AI mode (no API key found)');
+      } else {
+        setMessages([
+          {
+            type: 'bot',
+            text: 'AI mode enabled. I will now use the OpenAI API to generate responses.'
+          }
+        ]);
+        console.log('Enabled real AI mode with API key');
+      }
+    } else {
       setMessages([
         {
           type: 'bot',
-          text: 'Unable to enable AI mode. Please add your OpenAI API key to the environment variables first. Check the console for more details.'
+          text: 'AI mode disabled. I will now use predefined responses from the knowledge base.'
         }
       ]);
-      console.error('API key missing or invalid. Current value type:', typeof process.env.REACT_APP_OPENAI_API_KEY);
-      return;
+      console.log('Disabled AI mode');
     }
     
-    setUseLLM(!useLLM);
-    setMessages([
-      {
-        type: 'bot',
-        text: !useLLM 
-          ? 'LLM mode enabled. I will now use an AI language model to generate responses.'
-          : 'LLM mode disabled. I will now use predefined responses from the knowledge base.'
-      }
-    ]);
     setSelectedCategory(null);
   };
 
@@ -1154,13 +1176,6 @@ const ChatBot = () => {
                     {question}
                   </button>
                 ))}
-                <button
-                  className="example-question-button document-question"
-                  onClick={() => handleExampleClick(`What documents do you have about ${selectedCategory === 'cdfi' ? 'CDFIs' : selectedCategory === 'nmtc' ? 'NMTC' : 'Charter Schools'}?`)}
-                  disabled={isProcessing}
-                >
-                  Show available documents
-                </button>
               </div>
             </>
           )}
