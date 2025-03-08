@@ -18,6 +18,7 @@
   z-index: 0;
   opacity: 0;
   transition: opacity 0.8s ease-in-out;
+  overflow: hidden; /* Prevent any potential overflow */
 }
 
 .video-background.loaded {
@@ -34,8 +35,13 @@
   position: absolute;
   top: 0;
   left: 0;
-  transition: opacity 2.5s ease-in-out;
+  transition: opacity 3s cubic-bezier(0.1, 0.7, 0.1, 1);
   opacity: 0;
+  backface-visibility: hidden; /* Prevent flash on some browsers */
+  -webkit-backface-visibility: hidden;
+  -webkit-transform: translateZ(0); /* Force hardware acceleration */
+  transform: translateZ(0);
+  perspective: 1000;
 }
 
 /* Video state classes */
@@ -48,25 +54,29 @@
   opacity: 0;
   z-index: 0;
   visibility: hidden;
+  display: block; /* Ensure it's still in the DOM */
 }
 
 .video-background video.fading-out {
   opacity: 0;
   z-index: 1;
-  transition: opacity 2.5s ease-in-out;
+  transition: opacity 3s cubic-bezier(0.1, 0.7, 0.1, 1);
 }
 
 .video-background video.fading-in {
   opacity: 1;
   z-index: 0;
-  transition: opacity 2.5s ease-in-out;
+  transition: opacity 3s cubic-bezier(0.1, 0.7, 0.1, 1);
   /* Start with a slight opacity to prevent flash */
-  animation: smoothFadeIn 2.5s ease-in-out;
+  animation: smoothFadeIn 3s cubic-bezier(0.1, 0.7, 0.1, 1);
 }
 
 @keyframes smoothFadeIn {
   0% {
-    opacity: 0.1;
+    opacity: 0.2;
+  }
+  20% {
+    opacity: 0.3;
   }
   100% {
     opacity: 1;

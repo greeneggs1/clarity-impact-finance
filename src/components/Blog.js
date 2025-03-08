@@ -13,7 +13,7 @@ function Blog() {
       category: "NMTC",
       description: "The Blackburn Center provides 124 affordable housing units and integrated healthcare services through innovative financing.",
       logoUrl: "/images/central-city-concern.jpg",
-      externalUrl: "https://www.centralcityconcern.org"
+      detailUrl: "/case-studies/central-city-concern"
     },
     {
       id: 2,
@@ -23,7 +23,7 @@ function Blog() {
       category: "Community Facilities",
       description: "Helping families leave poverty in a single generation through inclusive and equitable environments for education and economic mobility.",
       logoUrl: "/images/martha-obryan-center.jpg",
-      externalUrl: "https://www.marthaobryan.org"
+      detailUrl: "/case-studies/martha-obryan-center"
     },
     {
       id: 3,
@@ -33,14 +33,9 @@ function Blog() {
       category: "Charter Schools",
       description: "Supporting the expansion of a STEM-focused charter school with innovative educational programs and facilities.",
       logoUrl: "/images/amana-academy.jpg",
-      externalUrl: "https://www.amanaacademy.org"
+      detailUrl: "/case-studies/amana-academy"
     }
   ];
-
-  const handleCaseStudyClick = (url) => {
-    // Open in a new tab
-    window.open(url, '_blank', 'noopener,noreferrer');
-  };
 
   return (
     <section id="blog" className="blog">
@@ -53,7 +48,7 @@ function Blog() {
 
         <div className="case-studies-grid">
           {caseStudies.map((study) => (
-            <div key={study.id} className="case-study-box" onClick={() => handleCaseStudyClick(study.externalUrl)}>
+            <div key={study.id} className="case-study-box" onClick={() => window.location.href = study.detailUrl}>
               <div className="case-study-content">
                 <div className="case-study-logo">
                   <img src={study.logoUrl} alt={`${study.title}`} />
@@ -69,7 +64,7 @@ function Blog() {
                     <p className="case-study-subtitle">{study.subtitle}</p>
                     <p className="case-study-location">{study.location}</p>
                     <p className="case-study-description">{study.description}</p>
-                    <span className="view-details">Visit Website</span>
+                    <span className="view-details">View Details</span>
                   </div>
                 </div>
               </div>
