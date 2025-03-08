@@ -1050,13 +1050,13 @@ const ChatBot = () => {
           className="chat-button"
           onClick={() => setIsOpen(true)}
         >
-          <span className="chat-button-text">Finance-Helper</span>
+          <span className="chat-button-text">Clarity Chat</span>
           <span className="chat-button-icon">💬</span>
         </button>
       ) : (
         <div className="chat-window">
           <div className="chat-header">
-            <h3>Finance Knowledge Assistant</h3>
+            <h3>Clarity Chatbot</h3>
             <div className="chat-header-controls">
               <button 
                 className="llm-toggle-button"
