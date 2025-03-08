@@ -6,8 +6,8 @@ const Hero = () => {
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const [videosPreloaded, setVideosPreloaded] = useState([]);
-  const [videoElements, setVideoElements] = useState([]);
+  const [isFirefox, setIsFirefox] = useState(false);
+  const videoBackgroundRef = useRef(null);
   const currentVideoRef = useRef(null);
   const nextVideoRef = useRef(null);
   
@@ -18,21 +18,24 @@ const Hero = () => {
     `${window.location.origin}/videos/your-second-video.mp4`
   ], []);
   
+  // Detect Firefox on component mount
+  useEffect(() => {
+    const isFF = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
+    setIsFirefox(isFF);
+    console.log("Browser detection - Firefox:", isFF);
+  }, []);
+  
   // Create and preload video elements on mount
   useEffect(() => {
     console.log("Creating and preloading video elements");
     
-    // Create an array to hold the video elements
-    const videos = [];
-    
-    // Create a video element for each source
+    // Preload all videos
     videoSources.forEach((src, index) => {
-      // Create a new video element
+      // Create a new video element for preloading
       const video = document.createElement('video');
       video.muted = true;
       video.playsInline = true;
       video.preload = 'auto';
-      video.loop = false; // Don't loop individual videos
       
       // Set source
       video.src = src;
@@ -40,10 +43,7 @@ const Hero = () => {
       // Force load
       video.load();
       
-      // Add to array
-      videos.push(video);
-      
-      console.log(`Created video element ${index} for ${src}`);
+      console.log(`Preloading video ${index}: ${src}`);
       
       // Try to preload by playing and immediately pausing
       setTimeout(() => {
@@ -52,48 +52,25 @@ const Hero = () => {
             video.pause();
             video.currentTime = 0;
             console.log(`Successfully preloaded video ${index}`);
-            setVideosPreloaded(prev => [...prev, index]);
           })
           .catch(e => {
             console.log(`Preload attempt for video ${index} failed (expected):`, e.message);
-            // Still consider it preloaded for our purposes
-            setVideosPreloaded(prev => [...prev, index]);
           });
       }, index * 1000); // Stagger preloading to avoid overwhelming the browser
     });
     
-    // Save the video elements
-    setVideoElements(videos);
-    
-    // Clean up function
-    return () => {
-      videos.forEach(video => {
-        video.src = '';
-        video.load();
-      });
-    };
-  }, [videoSources]);
-  
-  // Set up the current video when it changes
-  useEffect(() => {
-    if (currentVideoRef.current && videoElements[currentVideoIndex]) {
-      console.log(`Setting up current video (index ${currentVideoIndex})`);
-      
-      // Reset the video element
-      currentVideoRef.current.currentTime = 0;
-      currentVideoRef.current.className = 'active';
-      
-      // Play the video
-      const playPromise = currentVideoRef.current.play();
-      if (playPromise !== undefined) {
-        playPromise.catch(error => {
-          console.error("Current video playback failed:", error);
-        });
-      }
-      
-      setIsVideoLoaded(true);
+    // Set up the initial video
+    if (currentVideoRef.current) {
+      currentVideoRef.current.src = videoSources[0];
+      currentVideoRef.current.load();
     }
-  }, [currentVideoIndex, videoElements]);
+    
+    // Set up the next video
+    if (nextVideoRef.current) {
+      nextVideoRef.current.src = videoSources[1];
+      nextVideoRef.current.load();
+    }
+  }, [videoSources]);
   
   // Prepare the next video when the current one is playing
   useEffect(() => {
@@ -110,8 +87,23 @@ const Hero = () => {
       nextVideoRef.current.style.visibility = 'visible';
       nextVideoRef.current.style.opacity = '0';
       nextVideoRef.current.className = 'inactive';
+      
+      // Firefox-specific: try to play and pause to ensure buffering
+      if (isFirefox) {
+        setTimeout(() => {
+          nextVideoRef.current.play()
+            .then(() => {
+              nextVideoRef.current.pause();
+              nextVideoRef.current.currentTime = 0;
+              console.log("Firefox: Next video buffered");
+            })
+            .catch(e => {
+              console.log("Firefox: Buffer attempt failed:", e.message);
+            });
+        }, 1000);
+      }
     }
-  }, [isVideoLoaded, currentVideoIndex, isTransitioning, videoSources]);
+  }, [isVideoLoaded, currentVideoIndex, isTransitioning, videoSources, isFirefox]);
 
   const handleVideoLoad = () => {
     console.log("Current video loaded");
@@ -128,45 +120,79 @@ const Hero = () => {
     // Start transition
     setIsTransitioning(true);
     
+    // Add transitioning class to video background for the overlay
+    if (videoBackgroundRef.current) {
+      videoBackgroundRef.current.classList.add('transitioning');
+    }
+    
     // Prepare both videos for transition
     if (currentVideoRef.current && nextVideoRef.current) {
       // Ensure next video is ready
       nextVideoRef.current.currentTime = 0;
       nextVideoRef.current.style.visibility = 'visible';
       
-      // Apply transition classes with a slight delay to ensure proper rendering
-      setTimeout(() => {
-        // Start fading out current video
-        currentVideoRef.current.className = 'fading-out';
+      // Firefox-specific handling
+      if (isFirefox) {
+        // For Firefox, use a more aggressive approach
+        // Start playing next video immediately
+        nextVideoRef.current.play().catch(e => console.error("Firefox play error:", e));
         
-        // Start fading in next video
+        // Apply classes immediately
+        currentVideoRef.current.className = 'fading-out';
         nextVideoRef.current.className = 'fading-in';
         
-        // Start playing next video
-        const playPromise = nextVideoRef.current.play();
-        if (playPromise !== undefined) {
-          playPromise.catch(error => {
+        // Higher starting opacity for Firefox
+        nextVideoRef.current.style.opacity = '0.4';
+      } else {
+        // For other browsers, use the standard approach with a slight delay
+        setTimeout(() => {
+          // Start fading out current video
+          currentVideoRef.current.className = 'fading-out';
+          
+          // Start fading in next video
+          nextVideoRef.current.className = 'fading-in';
+          
+          // Start playing next video
+          nextVideoRef.current.play().catch(error => {
             console.error("Next video playback failed:", error);
           });
-        }
-      }, 50);
+        }, 50);
+      }
       
       // After transition completes, update state
       setTimeout(() => {
         setCurrentVideoIndex(nextIndex);
         setIsTransitioning(false);
         
-        // Swap video references for next transition
-        const temp = currentVideoRef;
-        currentVideoRef.current = nextVideoRef.current;
-        nextVideoRef.current = temp.current;
-      }, 3000);
+        // Remove transitioning class
+        if (videoBackgroundRef.current) {
+          videoBackgroundRef.current.classList.remove('transitioning');
+        }
+        
+        // Reset video elements
+        if (currentVideoRef.current) {
+          currentVideoRef.current.className = 'active';
+          currentVideoRef.current.src = videoSources[nextIndex];
+          currentVideoRef.current.load();
+          currentVideoRef.current.play().catch(e => console.error("Reset play error:", e));
+        }
+        
+        if (nextVideoRef.current) {
+          const upcomingIndex = (nextIndex + 1) % videoSources.length;
+          nextVideoRef.current.className = 'inactive';
+          nextVideoRef.current.src = videoSources[upcomingIndex];
+          nextVideoRef.current.load();
+        }
+      }, isFirefox ? 3500 : 3000); // Slightly longer for Firefox
     }
   };
 
   return (
     <section id="home" className="hero">
-      <div className={`video-background ${isVideoLoaded ? 'loaded' : ''}`}>
+      <div 
+        ref={videoBackgroundRef}
+        className={`video-background ${isVideoLoaded ? 'loaded' : ''}`}
+      >
         {/* Current video */}
         <video 
           ref={currentVideoRef}

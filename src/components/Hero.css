@@ -54,6 +54,13 @@
   transition-property: opacity;
   transition-duration: 3s;
   transition-timing-function: cubic-bezier(0.1, 0.7, 0.1, 1);
+  
+  /* Firefox-specific fixes */
+  -moz-transform: translateZ(0);
+  -moz-backface-visibility: hidden;
+  -moz-transform-style: preserve-3d;
+  -moz-osx-font-smoothing: grayscale;
+  -moz-transition: opacity 3s cubic-bezier(0.1, 0.7, 0.1, 1);
 }
 
 /* Video state classes */
@@ -89,6 +96,14 @@
   100% { opacity: 1; }
 }
 
+/* Firefox-specific animation */
+@-moz-keyframes smoothFadeIn {
+  0% { opacity: 0.4; }
+  10% { opacity: 0.5; }
+  30% { opacity: 0.7; }
+  100% { opacity: 1; }
+}
+
 /* Add a persistent background color that matches video tone */
 .video-background::before {
   content: '';
@@ -99,6 +114,27 @@
   height: 100%;
   background-color: #1B4620; /* Dark green matching video tone */
   z-index: 0;
+}
+
+/* Add a solid color overlay during transitions to prevent flash */
+.video-background::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #1B4620; /* Dark green matching video tone */
+  z-index: 0;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  pointer-events: none;
+}
+
+/* Show the solid color overlay during transitions */
+.video-background.transitioning::after {
+  opacity: 0.4; /* Partially visible to mask any flash */
+  z-index: 1; /* Above videos but below content */
 }
 
 .video-overlay {
