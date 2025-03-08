@@ -13,55 +13,66 @@ const Resources = () => {
   const learningPaths = [
     {
       id: 'loan-officer',
-      title: 'CDFI Loan Officer Learning Path',
+      title: 'CDFI Loan Officer',
       description: 'A comprehensive learning journey for new and experienced CDFI loan officers covering the entire lending process from application to monitoring.',
       image: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80',
       steps: [
         {
-          id: 'credit-underwriting',
-          title: 'Credit Underwriting Fundamentals',
-          description: 'Learn the essentials of credit analysis and underwriting for mission-focused lending.',
-          resources: [1, 8, 12, 15] // IDs of related resources
-        },
-        {
-          id: 'collateral-appraisals',
-          title: 'Collateral & Appraisals',
+          id: 'collateral',
+          title: 'Collateral',
           description: 'Understanding collateral types, valuation methods, and appraisal review for different asset classes.',
           resources: [2, 9, 13] // IDs of related resources
         },
         {
           id: 'guarantees',
-          title: 'Guarantees & Credit Enhancements',
+          title: 'Guarantees',
           description: 'Evaluating personal and corporate guarantees and other credit enhancement structures.',
           resources: [3, 10] // IDs of related resources
         },
         {
           id: 'covenants',
-          title: 'Loan Covenants & Documentation',
+          title: 'Covenants',
           description: 'Designing effective covenant packages and understanding loan documentation.',
           resources: [4, 11, 14] // IDs of related resources
         },
         {
-          id: 'monitoring',
-          title: 'Portfolio Monitoring & Reporting',
-          description: 'Best practices for ongoing loan monitoring, reporting, and early warning systems.',
-          resources: [5, 6, 7] // IDs of related resources
+          id: 'underwriting-checklists',
+          title: 'Underwriting Checklists',
+          description: 'Comprehensive checklists and frameworks for thorough loan underwriting.',
+          resources: [1, 8, 12, 15] // IDs of related resources
         }
       ]
     },
     {
-      id: 'affordable-housing',
-      title: 'Affordable Housing Developer Financing',
-      description: 'Essential knowledge for financing affordable housing projects, from pre-development to permanent financing.',
-      image: 'https://images.unsplash.com/photo-1460317442991-0ec209397118?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80',
+      id: 'asset-management',
+      title: 'Asset Management and Compliance',
+      description: 'Essential knowledge for managing loan portfolios, monitoring performance, and maintaining regulatory compliance.',
+      image: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80',
       steps: [
         {
-          id: 'predevelopment',
-          title: 'Pre-Development Financing',
-          description: 'Understanding pre-development costs and financing options.',
-          resources: [16, 17] // IDs of related resources
+          id: 'portfolio-monitoring',
+          title: 'Portfolio Monitoring',
+          description: 'Best practices for ongoing loan monitoring and early warning systems.',
+          resources: [5, 6] // IDs of related resources
         },
-        // Additional steps would be defined here
+        {
+          id: 'compliance-reporting',
+          title: 'Compliance Reporting',
+          description: 'Understanding regulatory requirements and reporting obligations.',
+          resources: [7] // IDs of related resources
+        },
+        {
+          id: 'risk-management',
+          title: 'Risk Management',
+          description: 'Strategies for identifying, assessing, and mitigating portfolio risks.',
+          resources: [6, 15] // IDs of related resources
+        },
+        {
+          id: 'loan-servicing',
+          title: 'Loan Servicing',
+          description: 'Effective loan servicing practices and systems.',
+          resources: [5, 14] // IDs of related resources
+        }
       ]
     }
   ];
@@ -402,157 +413,176 @@ const Resources = () => {
 
   return (
     <section id="resources" className="resources">
-      <div className={`resources-container ${activeView === 'learning-path' ? 'learning-path-view' : ''}`}>
+      <div className="resources-container">
         {activeView === 'resources' ? (
           <>
-            <div className="resources-filters">
-              <h2>Resource Hub</h2>
+            <div className="resources-header">
+              <h1>Resource Hub</h1>
               <p>Connect to specialized resources from leading organizations in community development finance.</p>
-              
-              <h3>Search Resources</h3>
-              <input
-                type="text"
-                className="search-input"
-                placeholder="Search by keyword..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-              
-              <h3>Filter by Category</h3>
-              <select 
-                className="filter-select"
-                value={selectedCategory}
-                onChange={(e) => setSelectedCategory(e.target.value)}
-              >
-                {categories.map((category, index) => (
-                  <option key={index} value={category}>{category}</option>
-                ))}
-              </select>
-              
-              <h3>Filter by Type</h3>
-              <select 
-                className="filter-select"
-                value={selectedType}
-                onChange={(e) => setSelectedType(e.target.value)}
-              >
-                {types.map((type, index) => (
-                  <option key={index} value={type}>{type}</option>
-                ))}
-              </select>
-              
-              <h3>Popular Topics</h3>
-              <div className="popular-tags">
-                {popularTags.map((tag, index) => (
-                  <button 
-                    key={index} 
-                    className="tag-button"
-                    onClick={() => handleTagClick(tag)}
-                  >
-                    {tag}
-                  </button>
-                ))}
-              </div>
-              
-              <button className="reset-button" onClick={resetFilters}>
-                Reset Filters
-              </button>
             </div>
             
-            <div className="resources-results">
-              <div className="learning-paths-section">
-                <h2>Learning Paths</h2>
-                <p>Follow guided learning journeys curated by industry experts</p>
-                <div className="learning-paths-grid">
-                  {learningPaths.map((path) => (
-                    <div 
-                      key={path.id} 
-                      className="learning-path-card"
-                      onClick={() => handleLearningPathSelect(path.id)}
-                    >
-                      <div className="learning-path-image" style={{ backgroundImage: `url(${path.image})` }}>
-                        <div className="learning-path-overlay">
-                          <span>Start Learning</span>
-                        </div>
-                      </div>
-                      <div className="learning-path-card-content">
-                        <h4>{path.title}</h4>
-                        <p>{path.description}</p>
-                        <div className="learning-path-steps">
-                          <span>{path.steps.length} steps</span>
-                        </div>
-                      </div>
+            {/* Prominent Learning Pathways */}
+            <div className="featured-learning-paths">
+              <h2>Learning Pathways</h2>
+              <p>Follow guided learning journeys curated by industry experts</p>
+              
+              <div className="featured-learning-paths-grid">
+                {learningPaths.map((path) => (
+                  <div 
+                    key={path.id} 
+                    className="featured-learning-path-card"
+                    onClick={() => handleLearningPathSelect(path.id)}
+                  >
+                    <div className="featured-path-image" style={{ backgroundImage: `url(${path.image})` }}>
+                      <div className="featured-path-overlay"></div>
                     </div>
-                  ))}
-                </div>
-              </div>
-              
-              <div className="results-header">
-                <h2>
-                  {filteredResources.length} {filteredResources.length === 1 ? 'Resource' : 'Resources'} Available
-                </h2>
-                <p>Curated resources from trusted partners in community development</p>
-              </div>
-              
-              {filteredResources.length > 0 ? (
-                <div className="resources-grid">
-                  {filteredResources.map((resource) => (
-                    <div key={resource.id} className={`resource-card ${resource.featured ? 'featured' : ''}`}>
-                      {resource.featured && <span className="featured-badge">Featured</span>}
-                      <div className="resource-content">
-                        <div className="resource-category">{resource.category}</div>
-                        <h3>{resource.title}</h3>
-                        <p>{resource.description}</p>
-                        <div className="resource-meta">
-                          <span className="resource-type">{resource.type}</span>
-                          <span className="resource-org">By {resource.organization}</span>
-                        </div>
-                        <div className="resource-details">
-                          <span className="resource-file-type">{resource.fileType}</span>
-                          <span className="resource-file-size">{resource.fileSize}</span>
-                          <span className="resource-date">Updated: {resource.lastUpdated}</span>
-                        </div>
-                        <div className="resource-tags">
-                          {resource.tags.slice(0, 3).map((tag, tagIndex) => (
-                            <span 
-                              key={tagIndex} 
-                              className="resource-tag"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                handleTagClick(tag);
-                              }}
-                            >
-                              {tag}
-                            </span>
-                          ))}
-                        </div>
+                    <div className="featured-path-content">
+                      <h3>{path.title}</h3>
+                      <p>{path.description}</p>
+                      <div className="featured-path-steps">
+                        {path.steps.map((step, index) => (
+                          <div key={step.id} className="featured-path-step">
+                            <div className="step-number">{index + 1}</div>
+                            <div className="step-name">{step.title}</div>
+                          </div>
+                        ))}
                       </div>
-                      <a 
-                        href="#" 
-                        className="resource-link-button coming-soon" 
-                        onClick={(e) => e.preventDefault()}
-                      >
-                        Coming Soon
+                      <button className="start-path-button">
+                        Start Learning Path
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                          <circle cx="12" cy="12" r="10"></circle>
-                          <line x1="12" y1="8" x2="12" y2="12"></line>
-                          <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                          <line x1="5" y1="12" x2="19" y2="12"></line>
+                          <polyline points="12 5 19 12 12 19"></polyline>
                         </svg>
-                      </a>
+                      </button>
                     </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            
+            <div className="resources-main-content">
+              <div className="resources-filters">
+                <h2>Search & Filter</h2>
+                
+                <h3>Search Resources</h3>
+                <input
+                  type="text"
+                  className="search-input"
+                  placeholder="Search by keyword..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+                
+                <h3>Filter by Category</h3>
+                <select 
+                  className="filter-select"
+                  value={selectedCategory}
+                  onChange={(e) => setSelectedCategory(e.target.value)}
+                >
+                  {categories.map((category, index) => (
+                    <option key={index} value={category}>{category}</option>
+                  ))}
+                </select>
+                
+                <h3>Filter by Type</h3>
+                <select 
+                  className="filter-select"
+                  value={selectedType}
+                  onChange={(e) => setSelectedType(e.target.value)}
+                >
+                  {types.map((type, index) => (
+                    <option key={index} value={type}>{type}</option>
+                  ))}
+                </select>
+                
+                <h3>Popular Topics</h3>
+                <div className="popular-tags">
+                  {popularTags.map((tag, index) => (
+                    <button 
+                      key={index} 
+                      className="tag-button"
+                      onClick={() => handleTagClick(tag)}
+                    >
+                      {tag}
+                    </button>
                   ))}
                 </div>
-              ) : (
-                <div className="no-results">
-                  <h3>No resources found</h3>
-                  <p>Try adjusting your search criteria or <button onClick={resetFilters}>reset all filters</button></p>
-                </div>
-              )}
+                
+                <button className="reset-button" onClick={resetFilters}>
+                  Reset Filters
+                </button>
+              </div>
               
-              <div className="resources-disclaimer">
-                <p>
-                  These resources are currently in development and will be available soon. 
-                  Our team is working to curate high-quality materials from trusted partners in community development finance.
-                </p>
+              <div className="resources-results">
+                <div className="results-header">
+                  <h2>
+                    {filteredResources.length} {filteredResources.length === 1 ? 'Resource' : 'Resources'} Available
+                  </h2>
+                  <p>Curated resources from trusted partners in community development</p>
+                </div>
+                
+                {filteredResources.length > 0 ? (
+                  <div className="resources-grid">
+                    {filteredResources.map((resource) => (
+                      <div key={resource.id} className={`resource-card ${resource.featured ? 'featured' : ''}`}>
+                        {resource.featured && <span className="featured-badge">Featured</span>}
+                        <div className="resource-content">
+                          <div className="resource-category">{resource.category}</div>
+                          <h3>{resource.title}</h3>
+                          <p>{resource.description}</p>
+                          <div className="resource-meta">
+                            <span className="resource-type">{resource.type}</span>
+                            <span className="resource-org">By {resource.organization}</span>
+                          </div>
+                          <div className="resource-details">
+                            <span className="resource-file-type">{resource.fileType}</span>
+                            <span className="resource-file-size">{resource.fileSize}</span>
+                            <span className="resource-date">Updated: {resource.lastUpdated}</span>
+                          </div>
+                          <div className="resource-tags">
+                            {resource.tags.slice(0, 3).map((tag, tagIndex) => (
+                              <span 
+                                key={tagIndex} 
+                                className="resource-tag"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleTagClick(tag);
+                                }}
+                              >
+                                {tag}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                        <a 
+                          href={resource.url} 
+                          className="resource-link-button" 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                        >
+                          Download Resource
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                          </svg>
+                        </a>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="no-results">
+                    <h3>No resources found</h3>
+                    <p>Try adjusting your search criteria or <button onClick={resetFilters}>reset all filters</button></p>
+                  </div>
+                )}
+                
+                <div className="resources-disclaimer">
+                  <p>
+                    These resources are provided by third-party organizations. Clarity Impact Finance does not host or maintain these resources directly. 
+                    Links will take you to external websites where you can access the full content.
+                  </p>
+                </div>
               </div>
             </div>
           </>
@@ -598,62 +628,54 @@ const Resources = () => {
               </div>
               
               <div className="learning-path-resources">
-                <h3>Resources for this step</h3>
-                <p>The following resources will help you master the concepts in this step of your learning journey.</p>
-                
-                {getStepResources().length > 0 ? (
-                  <div className="resources-grid">
-                    {getStepResources().map((resource) => (
-                      <div key={resource.id} className="resource-card">
-                        <div className="resource-content">
-                          <div className="resource-category">{resource.category}</div>
-                          <h3>{resource.title}</h3>
-                          <p>{resource.description}</p>
-                          <div className="resource-meta">
-                            <span className="resource-type">{resource.type}</span>
-                            <span className="resource-org">By {resource.organization}</span>
-                          </div>
-                          <div className="resource-details">
-                            <span className="resource-file-type">{resource.fileType}</span>
-                            <span className="resource-file-size">{resource.fileSize}</span>
-                            <span className="resource-date">Updated: {resource.lastUpdated}</span>
-                          </div>
-                          <div className="resource-tags">
-                            {resource.tags.slice(0, 3).map((tag, tagIndex) => (
-                              <span 
-                                key={tagIndex} 
-                                className="resource-tag"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  handleTagClick(tag);
-                                }}
-                              >
-                                {tag}
-                              </span>
-                            ))}
-                          </div>
+                <h3>Step Resources</h3>
+                <div className="resources-grid">
+                  {getStepResources().map((resource) => (
+                    <div key={resource.id} className="resource-card">
+                      <div className="resource-content">
+                        <div className="resource-category">{resource.category}</div>
+                        <h3>{resource.title}</h3>
+                        <p>{resource.description}</p>
+                        <div className="resource-meta">
+                          <span className="resource-type">{resource.type}</span>
+                          <span className="resource-org">By {resource.organization}</span>
                         </div>
-                        <a 
-                          href="#" 
-                          className="resource-link-button coming-soon" 
-                          onClick={(e) => e.preventDefault()}
-                        >
-                          Coming Soon
-                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                            <circle cx="12" cy="12" r="10"></circle>
-                            <line x1="12" y1="8" x2="12" y2="12"></line>
-                            <line x1="12" y1="16" x2="12.01" y2="16"></line>
-                          </svg>
-                        </a>
+                        <div className="resource-details">
+                          <span className="resource-file-type">{resource.fileType}</span>
+                          <span className="resource-file-size">{resource.fileSize}</span>
+                          <span className="resource-date">Updated: {resource.lastUpdated}</span>
+                        </div>
+                        <div className="resource-tags">
+                          {resource.tags.slice(0, 3).map((tag, tagIndex) => (
+                            <span 
+                              key={tagIndex} 
+                              className="resource-tag"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleTagClick(tag);
+                              }}
+                            >
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
                       </div>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="no-results">
-                    <h3>No resources available</h3>
-                    <p>There are currently no resources assigned to this learning step.</p>
-                  </div>
-                )}
+                      <a 
+                        href={resource.url} 
+                        className="resource-link-button" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                      >
+                        Download Resource
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                          <polyline points="7 10 12 15 17 10"></polyline>
+                          <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                      </a>
+                    </div>
+                  ))}
+                </div>
               </div>
               
               <div className="learning-path-navigation">
