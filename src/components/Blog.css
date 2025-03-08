@@ -188,22 +188,31 @@
 }
 
 .view-details {
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   font-weight: 600;
   color: #F7941D;
   display: inline-flex;
   align-items: center;
-  margin-top: 0.25rem;
+  margin-top: 0.75rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid #F7941D;
+  border-radius: 20px;
+  transition: all 0.2s ease;
 }
 
 .view-details::after {
-  content: '→';
+  content: '↗';
   margin-left: 0.5rem;
   transition: transform 0.2s ease;
 }
 
+.case-study-box:hover .view-details {
+  background-color: #F7941D;
+  color: white;
+}
+
 .case-study-box:hover .view-details::after {
-  transform: translateX(3px);
+  transform: translateX(3px) translateY(-3px);
 }
 
 .services-cta {
