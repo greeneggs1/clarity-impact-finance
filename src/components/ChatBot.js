@@ -623,10 +623,13 @@ const ChatBot = () => {
   const [inputText, setInputText] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
   
-  // Check if API key is available and enable LLM mode accordingly
-  const apiKeyAvailable = process.env.REACT_APP_OPENAI_API_KEY && 
-                         process.env.REACT_APP_OPENAI_API_KEY !== 'your_openai_api_key_here';
+  // Check if API key is available - more permissive check
+  const apiKeyAvailable = Boolean(process.env.REACT_APP_OPENAI_API_KEY);
   const [useLLM, setUseLLM] = useState(apiKeyAvailable && process.env.REACT_APP_ENABLE_LLM === 'true');
+  
+  // For debugging
+  console.log('API Key available:', apiKeyAvailable);
+  console.log('LLM enabled:', process.env.REACT_APP_ENABLE_LLM === 'true');
   
   const messagesEndRef = useRef(null);
 
@@ -649,12 +652,14 @@ const ChatBot = () => {
     try {
       const apiKey = process.env.REACT_APP_OPENAI_API_KEY;
       
-      // Check if API key is available
-      if (!apiKey || apiKey === 'your_openai_api_key_here') {
+      // More permissive check - just make sure there's some value
+      if (!apiKey) {
         console.error('OpenAI API key not configured');
-        setUseLLM(false); // Automatically switch to rule-based mode
         return `I'm currently operating in rule-based mode because the AI integration is not configured. To enable AI-powered responses, please add your OpenAI API key to the environment variables.`;
       }
+      
+      // Log for debugging (don't log the full key in production)
+      console.log('Using API key starting with:', apiKey.substring(0, 5) + '...');
       
       // Prepare system message based on category
       const systemMessage = `You are a helpful assistant specializing in ${
@@ -1020,14 +1025,15 @@ const ChatBot = () => {
   };
 
   const toggleLLMMode = () => {
-    // Only allow enabling LLM mode if API key is available
+    // Always allow toggling, but show a message if API key is missing
     if (!useLLM && !apiKeyAvailable) {
       setMessages([
         {
           type: 'bot',
-          text: 'Unable to enable AI mode. Please add your OpenAI API key to the environment variables first.'
+          text: 'Unable to enable AI mode. Please add your OpenAI API key to the environment variables first. Check the console for more details.'
         }
       ]);
+      console.error('API key missing or invalid. Current value type:', typeof process.env.REACT_APP_OPENAI_API_KEY);
       return;
     }
     
