@@ -622,7 +622,7 @@ const ChatBot = () => {
   ]);
   const [inputText, setInputText] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
-  const [useLLM, setUseLLM] = useState(false);
+  const [useLLM, setUseLLM] = useState(process.env.REACT_APP_ENABLE_LLM === 'true');
   const messagesEndRef = useRef(null);
 
   const scrollToBottom = () => {
@@ -637,93 +637,70 @@ const ChatBot = () => {
     }
   }, [isOpen, messages]);
 
-  // Function to query an LLM API (OpenAI's GPT-4 or Anthropic's Claude)
+  // Function to query OpenAI's API
   const queryLLM = async (prompt, category) => {
     setIsProcessing(true);
     
     try {
-      // This is where you would make an API call to OpenAI or Anthropic
-      // For now, we'll simulate a response with a timeout
+      const apiKey = process.env.REACT_APP_OPENAI_API_KEY;
       
-      // Example OpenAI API call (commented out)
-      /*
+      // Check if API key is available
+      if (!apiKey || apiKey === 'your_openai_api_key_here') {
+        console.error('OpenAI API key not configured');
+        return `Error: OpenAI API key not configured properly. Please add your API key to the .env file.`;
+      }
+      
+      // Prepare system message based on category
+      const systemMessage = `You are a helpful assistant specializing in ${
+        category === 'cdfi' ? 'Community Development Financial Institutions (CDFIs)' : 
+        category === 'nmtc' ? 'New Markets Tax Credit Program (NMTC)' : 
+        'Charter School financing and development'
+      }. 
+      
+      Provide accurate, concise information based on your knowledge. Focus on practical, actionable information that would be helpful to professionals in the community development finance field.
+      
+      When discussing ${
+        category === 'cdfi' ? 'CDFIs' : 
+        category === 'nmtc' ? 'NMTC' : 
+        'Charter Schools'
+      }, emphasize impact, financing structures, compliance requirements, and best practices.`;
+      
+      // Make the API call to OpenAI
       const response = await fetch('https://api.openai.com/v1/chat/completions', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${process.env.REACT_APP_OPENAI_API_KEY}`
+          'Authorization': `Bearer ${apiKey}`
         },
         body: JSON.stringify({
-          model: 'gpt-4',
+          model: 'gpt-4o',
           messages: [
             {
               role: 'system',
-              content: `You are a helpful assistant specializing in ${category === 'cdfi' ? 'Community Development Financial Institutions' : 
-                        category === 'nmtc' ? 'New Markets Tax Credit Program' : 
-                        'Charter School financing and development'}. 
-                        Provide accurate, concise information based on your knowledge.`
+              content: systemMessage
             },
             {
               role: 'user',
               content: prompt
             }
           ],
-          max_tokens: 500
+          max_tokens: 800,
+          temperature: 0.7
         })
       });
+      
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error('OpenAI API error:', errorData);
+        throw new Error(`API error: ${errorData.error?.message || 'Unknown error'}`);
+      }
       
       const data = await response.json();
       return data.choices[0].message.content;
-      */
       
-      // Example Anthropic API call (commented out)
-      /*
-      const response = await fetch('https://api.anthropic.com/v1/messages', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-api-key': process.env.REACT_APP_ANTHROPIC_API_KEY,
-          'anthropic-version': '2023-06-01'
-        },
-        body: JSON.stringify({
-          model: 'claude-3-opus-20240229',
-          messages: [
-            {
-              role: 'user',
-              content: `You are a helpful assistant specializing in ${category === 'cdfi' ? 'Community Development Financial Institutions' : 
-                        category === 'nmtc' ? 'New Markets Tax Credit Program' : 
-                        'Charter School financing and development'}. 
-                        
-                        Please answer the following question:
-                        ${prompt}`
-            }
-          ],
-          max_tokens: 500
-        })
-      });
-      
-      const data = await response.json();
-      return data.content[0].text;
-      */
-      
-      // Simulate API response time
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Return a simulated response
-      return `This is a simulated LLM response about ${category === 'cdfi' ? 'Community Development Financial Institutions' : 
-              category === 'nmtc' ? 'New Markets Tax Credit Program' : 
-              'Charter School financing and development'} in response to your question: "${prompt}".
-              
-              To use a real LLM like GPT-4 or Claude, you would need to:
-              1. Sign up for an API key from OpenAI or Anthropic
-              2. Store the API key securely in your environment variables
-              3. Uncomment and configure the API call in the queryLLM function
-              4. Deploy with proper backend support for API key security
-              
-              The LLM could then analyze your documents and provide more dynamic responses based on their content.`;
     } catch (error) {
       console.error('Error querying LLM:', error);
-      return `I'm sorry, there was an error processing your request. Please try again later or contact support.`;
+      return `I'm sorry, there was an error processing your request: ${error.message}. Please try again later or contact support.`;
     } finally {
       setIsProcessing(false);
     }
