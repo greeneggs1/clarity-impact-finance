@@ -1,3 +1,22 @@
+# Clarity Impact Finance
+
+A professional website for Clarity Impact Finance, providing services to strengthen CDFIs and maximize community impact.
+
+## Features
+
+- Modern, responsive design
+- Case studies showcase with hover effects
+- Resources hub connecting to specialized content
+- Interactive services section
+- Contact form for inquiries
+
+## Technologies
+
+- React.js
+- CSS3
+- Responsive design
+- GitHub Pages/Vercel deployment
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
