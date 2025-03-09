@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import './Hero.css';
 import { scrollToSection } from '../utils/scroll';
 
@@ -8,11 +8,11 @@ const Hero = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const timerRef = useRef(null);
   
-  // Hero images
-  const heroImages = [
+  // Hero images wrapped in useMemo to prevent recreation on every render
+  const heroImages = useMemo(() => [
     `${window.location.origin}/images/hero1.jpg`,
     `${window.location.origin}/images/hero2.jpg`
-  ];
+  ], []);
   
   // Preload images
   useEffect(() => {
@@ -46,6 +46,7 @@ const Hero = () => {
     if (!isLoaded) return;
     
     const rotateImages = () => {
+      // Start transition to next image
       setIsTransitioning(true);
       
       // After transition duration, change the image
@@ -72,19 +73,13 @@ const Hero = () => {
         {/* Current image with zoom effect */}
         <div 
           className={`hero-image ${isTransitioning ? 'fade-out' : 'fade-in'}`}
-          style={{ 
-            backgroundImage: `url(${heroImages[currentImageIndex]})`,
-            animation: `zoomEffect 5s infinite alternate`
-          }}
+          style={{ backgroundImage: `url(${heroImages[currentImageIndex]})` }}
         ></div>
         
         {/* Next image (shown during transition) */}
         <div 
           className={`hero-image next-image ${isTransitioning ? 'fade-in' : 'fade-out'}`}
-          style={{ 
-            backgroundImage: `url(${heroImages[(currentImageIndex + 1) % heroImages.length]})`,
-            animation: `zoomEffect 5s infinite alternate`
-          }}
+          style={{ backgroundImage: `url(${heroImages[(currentImageIndex + 1) % heroImages.length]})` }}
         ></div>
         
         <div className="hero-overlay"></div>

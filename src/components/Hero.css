@@ -46,6 +46,7 @@
 .hero-image.fade-in {
   opacity: 1;
   z-index: 2;
+  animation: zoomIn 5s ease-out forwards;
 }
 
 .hero-image.fade-out {
@@ -57,8 +58,8 @@
   z-index: 1;
 }
 
-/* Zoom animation */
-@keyframes zoomEffect {
+/* Zoom animation - single direction zoom in */
+@keyframes zoomIn {
   0% {
     transform: scale(1);
   }
