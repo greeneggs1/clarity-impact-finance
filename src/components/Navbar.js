@@ -16,7 +16,7 @@ const Navbar = () => {
       setScrollProgress(progress);
 
       // Update active section
-      const sections = ['home', 'about', 'services', 'blog', 'thought-leadership', 'resources', 'contact'];
+      const sections = ['home', 'about', 'services', 'blog', 'resources', 'contact'];
       for (const section of sections) {
         const element = document.getElementById(section);
         if (element) {
@@ -81,9 +81,6 @@ const Navbar = () => {
               </li>
               <li className={activeSection === 'blog' ? 'active' : ''}>
                 <button onClick={() => handleNavClick('blog')}>Case Studies</button>
-              </li>
-              <li className={activeSection === 'thought-leadership' ? 'active' : ''}>
-                <button onClick={() => handleNavClick('thought-leadership')}>Insights</button>
               </li>
               <li className={activeSection === 'resources' ? 'active' : ''}>
                 <button onClick={() => handleNavClick('resources')}>Resources</button>
