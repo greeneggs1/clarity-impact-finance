@@ -3,86 +3,13 @@ import './About.css';
 import profileImage from '../assets/profile.jpg';
 
 const About = () => {
-  // Timeline data for the founder's journey leading to Clarity's launch
-  const timelineData = [
-    {
-      year: '2018-2020',
-      title: 'CDFI Leadership Experience',
-      description: 'Vice President at Low Income Investment Fund, orchestrating over $150M in community investments.'
-    },
-    {
-      year: '2021-2022',
-      title: 'Industry Research & Planning',
-      description: 'Conducted extensive research on CDFI sector needs and developed strategic consulting framework.'
-    },
-    {
-      year: '2023',
-      title: 'Business Development',
-      description: 'Developed proprietary impact measurement methodology and consulting service offerings.'
-    },
-    {
-      year: 'March 2025',
-      title: 'Clarity Launch',
-      description: 'Officially launched Clarity Impact Finance to transform CDFI operations and impact.'
-    }
-  ];
-
-  // Impact statistics with visual elements
-  const impactStats = [
-    {
-      number: '$150M+',
-      label: 'Prior Investment Experience',
-      icon: '💰',
-      description: 'Capital deployed to underserved communities through strategic lending initiatives'
-    },
-    {
-      number: '10+',
-      label: 'Years in CDFI Sector',
-      icon: '⏱️',
-      description: 'Deep industry expertise and established professional network'
-    },
-    {
-      number: '15+',
-      label: 'Healthcare Facilities',
-      icon: '🏥',
-      description: 'Critical healthcare infrastructure projects in underserved communities'
-    },
-    {
-      number: '20+',
-      label: 'Education Projects',
-      icon: '🏫',
-      description: 'Educational facilities and programs supported through strategic financing'
-    }
-  ];
-
   return (
     <section id="about" className="about">
       <div className="about-content-wrapper">
         <h2>Leadership & Vision</h2>
         
         <div className="vision-statement">
-          <div className="vision-quote">
-            <span className="quote-mark">"</span>
-            <p>A thriving CDFI ecosystem where all organizations, regardless of size, have the capacity to deliver equitable lending and TA solutions that meet the needs of underserved communities.</p>
-            <span className="quote-mark">"</span>
-          </div>
-        </div>
-
-        {/* Journey Timeline Section */}
-        <div className="journey-timeline">
-          <h3 className="section-title">Our Journey</h3>
-          <div className="timeline">
-            {timelineData.map((item, index) => (
-              <div className="timeline-item" key={index}>
-                <div className="timeline-marker"></div>
-                <div className="timeline-content">
-                  <span className="timeline-year">{item.year}</span>
-                  <h4 className="timeline-title">{item.title}</h4>
-                  <p className="timeline-description">{item.description}</p>
-                </div>
-              </div>
-            ))}
-          </div>
+          <p>A thriving CDFI ecosystem where all organizations, regardless of size, have the capacity to deliver equitable lending and TA solutions that meet the needs of underserved communities.</p>
         </div>
 
         <div className="about-grid">
@@ -94,9 +21,7 @@ const About = () => {
               </div>
               <h3>Amir Ali, CFA</h3>
               <p className="founder-title">Founder & Principal Consultant</p>
-              <div className="founder-quote">
-                <p>"Empowering CDFIs to create lasting community impact through strategic innovation."</p>
-              </div>
+              <p className="founder-motto">"Empowering CDFIs to create lasting community impact through strategic innovation."</p>
               <div className="founder-contact">
                 <a href="mailto:amir@clarityimpactfinance.com" className="contact-link">
                   <span className="contact-icon">✉</span>
@@ -122,43 +47,26 @@ const About = () => {
             <div className="professional-section">
               <h4>Strategic Leadership</h4>
               <div className="experience-card">
-                <div className="card-header">
-                  <div className="card-icon">🏢</div>
-                  <h5>Vice President, Community Facilities Lending</h5>
-                </div>
+                <h5>Vice President, Community Facilities Lending</h5>
                 <p className="experience-details">
                   Spearheaded strategic lending initiatives at Low Income Investment Fund (a major CDFI), orchestrating over $150M in 
                   community investments. Developed innovative financing solutions for healthcare, education, 
                   and community facility projects.
                 </p>
-                <div className="highlight-box">
-                  <span className="highlight-label">Key Achievement</span>
-                  <p>Structured complex financing for critical community facilities in underserved markets</p>
-                </div>
               </div>
               <div className="experience-card">
-                <div className="card-header">
-                  <div className="card-icon">💡</div>
-                  <h5>Technical Assistance Innovation</h5>
-                </div>
+                <h5>Technical Assistance Innovation</h5>
                 <p className="experience-details">
                   Pioneered comprehensive TA programs that revolutionized CDFI operations. Created scalable 
                   frameworks for impact measurement, operational efficiency, and program evaluation.
                 </p>
-                <div className="highlight-box">
-                  <span className="highlight-label">Key Achievement</span>
-                  <p>Developed impact measurement framework adopted by multiple CDFIs</p>
-                </div>
               </div>
             </div>
 
             <div className="professional-section">
               <h4>Industry Leadership</h4>
               <div className="experience-card">
-                <div className="card-header">
-                  <div className="card-icon">🌱</div>
-                  <h5>Community Impact</h5>
-                </div>
+                <h5>Community Impact</h5>
                 <p className="experience-details">
                   Active Board Member at YMCA of Yonkers, driving initiatives that strengthen community 
                   engagement and financial sustainability. Direct experience in translating strategic 
@@ -166,63 +74,12 @@ const About = () => {
                 </p>
               </div>
               <div className="experience-card">
-                <div className="card-header">
-                  <div className="card-icon">📊</div>
-                  <h5>Knowledge Leadership</h5>
-                </div>
+                <h5>Knowledge Leadership</h5>
                 <p className="experience-details">
                   Recognized thought leader in CDFI sector development, regularly presenting at impact 
                   finance conferences. Expertise in emerging trends, regulatory changes, and innovative 
                   financing structures.
                 </p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Impact Visualization Section */}
-        <div className="impact-visualization">
-          <h3 className="section-title">Our Expertise</h3>
-          <div className="impact-stats-grid">
-            {impactStats.map((stat, index) => (
-              <div className="impact-stat-card" key={index}>
-                <div className="stat-icon">{stat.icon}</div>
-                <div className="stat-number">{stat.number}</div>
-                <div className="stat-label">{stat.label}</div>
-                <p className="stat-description">{stat.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Case Study Preview */}
-        <div className="case-study-preview">
-          <h3 className="section-title">Featured Project</h3>
-          <div className="case-study-card">
-            <div className="case-study-content">
-              <h4>Rural Healthcare Access Initiative</h4>
-              <div className="case-study-stats">
-                <div className="cs-stat">
-                  <span className="cs-stat-number">$12M</span>
-                  <span className="cs-stat-label">Financing</span>
-                </div>
-                <div className="cs-stat">
-                  <span className="cs-stat-number">3</span>
-                  <span className="cs-stat-label">Facilities</span>
-                </div>
-                <div className="cs-stat">
-                  <span className="cs-stat-number">15,000+</span>
-                  <span className="cs-stat-label">Patients Served</span>
-                </div>
-              </div>
-              <p className="case-study-description">
-                Structured innovative financing for three rural healthcare facilities, 
-                bringing essential medical services to communities with limited healthcare access. 
-                The project combined New Markets Tax Credits, CDFI Fund grants, and private capital.
-              </p>
-              <div className="case-study-outcome">
-                <h5>Outcome</h5>
-                <p>Increased healthcare access for 15,000+ rural residents and created 45 permanent healthcare jobs</p>
               </div>
             </div>
           </div>
