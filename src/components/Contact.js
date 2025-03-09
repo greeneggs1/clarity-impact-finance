@@ -6,7 +6,6 @@ const Contact = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    phone: '',
     organization: '',
     service: '',
     message: ''
@@ -50,7 +49,6 @@ const Contact = () => {
         to_email: contactEmail,
         from_name: formData.name,
         from_email: formData.email,
-        phone: formData.phone || 'Not provided',
         organization: formData.organization || 'Not provided',
         service: formData.service,
         message: formData.message,
@@ -82,7 +80,6 @@ const Contact = () => {
         setFormData({
           name: '',
           email: '',
-          phone: '',
           organization: '',
           service: '',
           message: ''
@@ -118,86 +115,125 @@ const Contact = () => {
   return (
     <section className="contact" id="contact">
       <div className="contact-container">
-        <h2>Get in Touch</h2>
-        <p className="contact-intro">
-          Have questions about our services or want to discuss how we can help your organization? 
-          Reach out to us using the form below.
-        </p>
+        <div className="contact-header">
+          <h2>Let's Connect</h2>
+          <div className="contact-subtitle">
+            <p>Ready to transform your community impact?</p>
+          </div>
+        </div>
         
-        <div className="contact-content-centered">
-          <form className="contact-form" onSubmit={handleSubmit}>
+        <div className="contact-wrapper">
+          <div className="contact-info-panel">
+            <div className="contact-info-content">
+              <h3>Get in Touch</h3>
+              <p>We're here to help you maximize your community impact through strategic financial solutions.</p>
+              
+              <div className="contact-method">
+                <div className="contact-method-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                    <polyline points="22,6 12,13 2,6"></polyline>
+                  </svg>
+                </div>
+                <div className="contact-method-details">
+                  <h4>Email</h4>
+                  <a href="mailto:amir@clarityimpactfinance.com">amir@clarityimpactfinance.com</a>
+                </div>
+              </div>
+              
+              <div className="contact-method">
+                <div className="contact-method-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                  </svg>
+                </div>
+                <div className="contact-method-details">
+                  <h4>LinkedIn</h4>
+                  <a href="https://www.linkedin.com/in/amirali86" target="_blank" rel="noopener noreferrer">Connect on LinkedIn</a>
+                </div>
+              </div>
+              
+              <div className="contact-method">
+                <div className="contact-method-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+                  </svg>
+                </div>
+                <div className="contact-method-details">
+                  <h4>Services</h4>
+                  <p>CDFI Consulting, NMTC Advisory, Federal Program Compliance</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div className="contact-form-panel">
             {formStatus.submitted ? (
               <div className="form-success">
-                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                  <polyline points="22 4 12 14.01 9 11.01"></polyline>
-                </svg>
+                <div className="success-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                  </svg>
+                </div>
+                <h3>Message Sent!</h3>
                 <p>{formStatus.message}</p>
               </div>
             ) : formStatus.error ? (
               <div className="form-error">
-                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <circle cx="12" cy="12" r="10"></circle>
-                  <line x1="12" y1="8" x2="12" y2="12"></line>
-                  <line x1="12" y1="16" x2="12.01" y2="16"></line>
-                </svg>
+                <div className="error-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="8" x2="12" y2="12"></line>
+                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                  </svg>
+                </div>
+                <h3>Something went wrong</h3>
                 <p>{formStatus.message}</p>
                 <button type="button" className="try-again-btn" onClick={() => setFormStatus({...formStatus, error: false})}>
                   Try Again
                 </button>
               </div>
             ) : (
-              <>
-                <div className="form-row">
-                  <div className="form-group">
-                    <label htmlFor="name">Name</label>
-                    <input
-                      type="text"
-                      id="name"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleChange}
-                      placeholder="Your name"
-                      required
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="email">Email</label>
-                    <input
-                      type="email"
-                      id="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      placeholder="Your email address"
-                      required
-                    />
-                  </div>
+              <form className="contact-form" onSubmit={handleSubmit}>
+                <h3>Send a Message</h3>
+                
+                <div className="form-group">
+                  <label htmlFor="name">Full Name</label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    placeholder="Your name"
+                    required
+                  />
                 </div>
                 
-                <div className="form-row">
-                  <div className="form-group">
-                    <label htmlFor="phone">Phone (Optional)</label>
-                    <input
-                      type="tel"
-                      id="phone"
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleChange}
-                      placeholder="Your phone number"
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="organization">Organization (Optional)</label>
-                    <input
-                      type="text"
-                      id="organization"
-                      name="organization"
-                      value={formData.organization}
-                      onChange={handleChange}
-                      placeholder="Your organization"
-                    />
-                  </div>
+                <div className="form-group">
+                  <label htmlFor="email">Email Address</label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    placeholder="Your email address"
+                    required
+                  />
+                </div>
+                
+                <div className="form-group">
+                  <label htmlFor="organization">Organization</label>
+                  <input
+                    type="text"
+                    id="organization"
+                    name="organization"
+                    value={formData.organization}
+                    onChange={handleChange}
+                    placeholder="Your organization (optional)"
+                  />
                 </div>
                 
                 <div className="form-group">
@@ -236,12 +272,12 @@ const Contact = () => {
                   {formStatus.loading ? 'Sending...' : 'Send Message'}
                 </button>
                 
-                <div className="form-note">
-                  We'll get back to you as soon as possible.
+                <div className="form-privacy">
+                  <p>Your information is secure and will not be shared with third parties.</p>
                 </div>
-              </>
+              </form>
             )}
-          </form>
+          </div>
         </div>
       </div>
     </section>
