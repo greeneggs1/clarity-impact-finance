@@ -2,20 +2,34 @@
 :root {
   /* Colors */
   --primary-dark: #1B4620;
+  --primary-darker: #143618;
   --primary-light: #2c6e35;
+  --primary-lighter: #3d8f47;
   --accent: #E67E45;
   --accent-light: #f3a47f;
+  --accent-dark: #d16a33;
   --text-dark: #2d3748;
   --text-medium: #4a5568;
   --text-light: #718096;
+  --text-white: #ffffff;
   --background-light: #f8f9fa;
   --background-white: #ffffff;
+  --background-dark: #1a202c;
   --border-light: rgba(27, 70, 32, 0.1);
+  --border-medium: rgba(27, 70, 32, 0.2);
+  --error: #e74c3c;
+  --success: #2ecc71;
+  --warning: #f39c12;
+  --info: #3498db;
   
   /* Shadows */
+  --shadow-xs: 0 2px 5px rgba(0, 0, 0, 0.05);
   --shadow-sm: 0 5px 15px rgba(0, 0, 0, 0.05);
   --shadow-md: 0 15px 35px rgba(0, 0, 0, 0.08);
   --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.12);
+  --shadow-accent: 0 4px 10px rgba(230, 126, 69, 0.3);
+  --shadow-accent-hover: 0 6px 15px rgba(230, 126, 69, 0.4);
+  --shadow-primary: 0 4px 10px rgba(27, 70, 32, 0.3);
   
   /* Transitions */
   --transition-fast: all 0.3s ease;
@@ -23,21 +37,25 @@
   --transition-slow: all 0.7s ease;
   
   /* Gradients */
-  --gradient-primary: linear-gradient(90deg, #1B4620, #2c6e35);
+  --gradient-primary: linear-gradient(135deg, #1B4620, #2c6e35);
   --gradient-accent: linear-gradient(90deg, #E67E45, #f3a47f);
+  --gradient-light: linear-gradient(to bottom, #f8f9fa, #ffffff);
   
   /* Border Radius */
+  --radius-xs: 4px;
   --radius-sm: 8px;
   --radius-md: 12px;
   --radius-lg: 15px;
   --radius-full: 50%;
   
   /* Spacing */
+  --space-xxs: 0.25rem;
   --space-xs: 0.5rem;
   --space-sm: 1rem;
   --space-md: 2rem;
   --space-lg: 3rem;
   --space-xl: 4rem;
+  --space-xxl: 6rem;
   
   /* Typography */
   --font-heading: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
@@ -49,6 +67,17 @@
   --font-size-xl: 2rem;
   --font-size-2xl: 2.5rem;
   --font-size-3xl: 3rem;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+  --line-height-tight: 1.2;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.8;
+  --letter-spacing-tight: -0.02em;
+  --letter-spacing-normal: 0;
+  --letter-spacing-wide: 0.02em;
 }
 
 body {
@@ -58,6 +87,61 @@ body {
   -moz-osx-font-smoothing: grayscale;
   color: var(--text-dark);
   background-color: var(--background-white);
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-normal);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  margin-top: 0;
+  line-height: var(--line-height-tight);
+  color: var(--text-dark);
+}
+
+h1 {
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+}
+
+h2 {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+}
+
+h3 {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+}
+
+h4 {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+}
+
+h5 {
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-semibold);
+}
+
+h6 {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+}
+
+p {
+  margin-top: 0;
+  margin-bottom: var(--space-md);
+  line-height: var(--line-height-relaxed);
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+  transition: var(--transition-fast);
+}
+
+a:hover {
+  color: var(--accent-dark);
 }
 
 /* Common Component Styles */
@@ -68,6 +152,7 @@ body {
   border: 1px solid var(--border-light);
   transition: var(--transition-fast);
   overflow: hidden;
+  padding: var(--space-md);
 }
 
 .card:hover {
@@ -78,7 +163,7 @@ body {
 .section-title {
   color: var(--primary-dark);
   font-size: var(--font-size-2xl);
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
   margin-bottom: var(--space-lg);
   position: relative;
   text-align: center;
@@ -96,32 +181,47 @@ body {
   border-radius: 2px;
 }
 
+.section-subtitle {
+  text-align: center;
+  color: var(--text-medium);
+  font-size: var(--font-size-md);
+  max-width: 800px;
+  margin: 0 auto var(--space-lg);
+  line-height: var(--line-height-relaxed);
+}
+
 .button-primary {
   background: var(--gradient-accent);
-  color: white;
+  color: var(--text-white);
   border: none;
-  padding: 1rem 2rem;
+  padding: var(--space-sm) var(--space-md);
   border-radius: var(--radius-md);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-sm);
   cursor: pointer;
   transition: var(--transition-fast);
-  box-shadow: 0 4px 10px rgba(230, 126, 69, 0.3);
+  box-shadow: var(--shadow-accent);
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-wide);
 }
 
 .button-primary:hover {
   transform: translateY(-3px);
-  box-shadow: 0 6px 15px rgba(230, 126, 69, 0.4);
+  box-shadow: var(--shadow-accent-hover);
 }
 
 .button-secondary {
   background: transparent;
   color: var(--primary-dark);
   border: 1px solid var(--primary-dark);
-  padding: 1rem 2rem;
+  padding: var(--space-sm) var(--space-md);
   border-radius: var(--radius-md);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-sm);
   cursor: pointer;
   transition: var(--transition-fast);
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-wide);
 }
 
 .button-secondary:hover {
@@ -129,7 +229,49 @@ body {
   transform: translateY(-3px);
 }
 
+.button-text {
+  background: transparent;
+  color: var(--accent);
+  border: none;
+  padding: var(--space-xs) var(--space-sm);
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+  transition: var(--transition-fast);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.button-text:hover {
+  color: var(--accent-dark);
+  gap: var(--space-sm);
+}
+
+/* Form elements */
+input, select, textarea {
+  padding: var(--space-sm);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  transition: var(--transition-fast);
+  width: 100%;
+  background-color: var(--background-white);
+}
+
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(230, 126, 69, 0.1);
+}
+
+label {
+  display: block;
+  margin-bottom: var(--space-xs);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-dark);
+}
+
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }

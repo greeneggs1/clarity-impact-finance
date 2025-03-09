@@ -1,6 +1,6 @@
 .services {
-  padding: 6rem 2rem;
-  background: #ffffff;
+  padding: var(--space-xxl) var(--space-md);
+  background: var(--background-white);
 }
 
 .services-container {
@@ -8,59 +8,58 @@
   margin: 0 auto;
 }
 
-.services h2 {
-  text-align: center;
-  color: #1B4620;
-  font-size: 2.5rem;
-  margin-bottom: 1.5rem;
+.services .section-title {
+  color: var(--primary-dark);
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  margin-bottom: var(--space-sm);
   position: relative;
-  font-weight: 700;
-  letter-spacing: -0.02em;
+  text-align: center;
 }
 
-.services h2::after {
+.services .section-title::after {
   content: '';
   position: absolute;
-  bottom: -1rem;
+  bottom: -0.75rem;
   left: 50%;
   transform: translateX(-50%);
   width: 60px;
   height: 3px;
-  background: #E67E45;
+  background: var(--gradient-accent);
+  border-radius: 2px;
 }
 
 .services-intro {
   text-align: center;
-  color: #2d3748;
-  font-size: 1.2rem;
+  color: var(--text-medium);
+  font-size: var(--font-size-md);
   max-width: 800px;
-  margin: 0 auto 4rem;
-  line-height: 1.6;
+  margin: 0 auto var(--space-xl);
+  line-height: var(--line-height-relaxed);
 }
 
 .services-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 2rem;
-  margin-bottom: 4rem;
+  gap: var(--space-md);
+  margin-bottom: var(--space-xl);
 }
 
 .service-card {
-  background: #fff;
-  border-radius: 15px;
-  padding: 2.5rem;
+  background: var(--background-white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-light);
+  padding: var(--space-md);
+  transition: var(--transition-fast);
   text-align: left;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
-  border: 1px solid rgba(27, 70, 32, 0.1);
   display: flex;
   flex-direction: column;
 }
 
 .service-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 8px 25px rgba(230, 126, 69, 0.15);
-  border-color: #E67E45;
+  box-shadow: var(--shadow-md);
 }
 
 .service-icon {

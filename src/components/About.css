@@ -1,6 +1,6 @@
 .about {
-  padding: 6rem 2rem;
-  background: linear-gradient(to bottom, #f8f9fa, #ffffff);
+  padding: var(--space-xxl) var(--space-md);
+  background: var(--gradient-light);
   width: 100%;
   max-width: 100%;
   overflow-x: hidden;
@@ -57,26 +57,24 @@
   border-radius: 2px;
 }
 
-.section-title {
-  color: #1B4620;
-  font-size: 2.2rem;
-  margin-bottom: 2.5rem;
+.about .section-title {
+  color: var(--primary-dark);
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  margin-bottom: var(--space-lg);
   position: relative;
-  font-weight: 700;
-  padding-bottom: 0.75rem;
   text-align: center;
-  text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.8);
 }
 
-.section-title::after {
+.about .section-title::after {
   content: '';
   position: absolute;
-  bottom: 0;
+  bottom: -0.75rem;
   left: 50%;
   transform: translateX(-50%);
-  width: 50px;
+  width: 60px;
   height: 3px;
-  background: linear-gradient(90deg, #E67E45, #f3a47f);
+  background: var(--gradient-accent);
   border-radius: 2px;
 }
 
