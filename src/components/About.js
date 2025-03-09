@@ -3,27 +3,27 @@ import './About.css';
 import profileImage from '../assets/profile.jpg';
 
 const About = () => {
-  // Timeline data for the company journey
+  // Timeline data for the founder's journey leading to Clarity's launch
   const timelineData = [
     {
-      year: '2020',
-      title: 'Foundation',
-      description: 'Established Clarity Impact Finance with a mission to transform CDFI operations.'
+      year: '2018-2020',
+      title: 'CDFI Leadership Experience',
+      description: 'Vice President at Low Income Investment Fund, orchestrating over $150M in community investments.'
     },
     {
-      year: '2021',
-      title: 'First Major Partnership',
-      description: 'Launched strategic consulting services for small to mid-sized CDFIs.'
-    },
-    {
-      year: '2022',
-      title: 'Impact Framework',
-      description: 'Developed proprietary impact measurement methodology for community investments.'
+      year: '2021-2022',
+      title: 'Industry Research & Planning',
+      description: 'Conducted extensive research on CDFI sector needs and developed strategic consulting framework.'
     },
     {
       year: '2023',
-      title: 'Expansion',
-      description: 'Expanded services to include technical assistance and strategic planning.'
+      title: 'Business Development',
+      description: 'Developed proprietary impact measurement methodology and consulting service offerings.'
+    },
+    {
+      year: 'March 2025',
+      title: 'Clarity Launch',
+      description: 'Officially launched Clarity Impact Finance to transform CDFI operations and impact.'
     }
   ];
 
@@ -31,15 +31,15 @@ const About = () => {
   const impactStats = [
     {
       number: '$150M+',
-      label: 'Community Investments',
+      label: 'Prior Investment Experience',
       icon: '💰',
       description: 'Capital deployed to underserved communities through strategic lending initiatives'
     },
     {
-      number: '25+',
-      label: 'CDFI Partnerships',
-      icon: '🤝',
-      description: 'Strategic partnerships with community development financial institutions'
+      number: '10+',
+      label: 'Years in CDFI Sector',
+      icon: '⏱️',
+      description: 'Deep industry expertise and established professional network'
     },
     {
       number: '15+',
@@ -182,7 +182,7 @@ const About = () => {
 
         {/* Impact Visualization Section */}
         <div className="impact-visualization">
-          <h3 className="section-title">Our Impact</h3>
+          <h3 className="section-title">Our Expertise</h3>
           <div className="impact-stats-grid">
             {impactStats.map((stat, index) => (
               <div className="impact-stat-card" key={index}>
