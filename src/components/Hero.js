@@ -1,97 +1,59 @@
-import React, { useState, useEffect, useRef, useMemo } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import './Hero.css';
 import { scrollToSection } from '../utils/scroll';
 
 const Hero = () => {
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [isTransitioning, setIsTransitioning] = useState(false);
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [nextImageIndex, setNextImageIndex] = useState(1);
-  const timerRef = useRef(null);
-  const transitionTimeoutRef = useRef(null);
+  const [isVideoLoaded, setIsVideoLoaded] = useState(false);
+  const [hasVideoError, setHasVideoError] = useState(false);
+  const videoRef = useRef(null);
   
-  // Hero images wrapped in useMemo to prevent recreation on every render
-  const heroImages = useMemo(() => [
-    `${window.location.origin}/images/hero1.jpg`,
-    `${window.location.origin}/images/hero2.jpg`
-  ], []);
-  
-  // Preload images
+  // Handle video loading and errors
   useEffect(() => {
-    const preloadImages = () => {
-      const imagePromises = heroImages.map((src) => {
-        return new Promise((resolve, reject) => {
-          const img = new Image();
-          img.src = src;
-          img.onload = resolve;
-          img.onerror = reject;
-        });
-      });
+    const videoElement = videoRef.current;
+    
+    if (videoElement) {
+      const handleVideoLoaded = () => {
+        console.log("Video loaded successfully");
+        setIsVideoLoaded(true);
+      };
       
-      Promise.all(imagePromises)
-        .then(() => {
-          console.log("All hero images preloaded successfully");
-          setIsLoaded(true);
-        })
-        .catch((error) => {
-          console.error("Error preloading hero images:", error);
-          // Still set as loaded to show at least something
-          setIsLoaded(true);
-        });
-    };
-    
-    preloadImages();
-  }, [heroImages]);
-  
-  // Set up image rotation
-  useEffect(() => {
-    if (!isLoaded) return;
-    
-    const rotateImages = () => {
-      // Calculate next image index
-      const nextIdx = (currentImageIndex + 1) % heroImages.length;
-      setNextImageIndex(nextIdx);
+      const handleVideoError = (error) => {
+        console.error("Error loading video:", error);
+        setHasVideoError(true);
+      };
       
-      // Start transition to next image
-      setIsTransitioning(true);
+      videoElement.addEventListener('loadeddata', handleVideoLoaded);
+      videoElement.addEventListener('error', handleVideoError);
       
-      // After transition duration, change the image
-      transitionTimeoutRef.current = setTimeout(() => {
-        setCurrentImageIndex(nextIdx);
-        setIsTransitioning(false);
-      }, 1000); // 1 second for the fade transition
-    };
-    
-    // Start the timer for image rotation - each image displays for 5 seconds + 1 second transition
-    timerRef.current = setInterval(rotateImages, 6000);
-    
-    // Clean up the timers on component unmount
-    return () => {
-      if (timerRef.current) {
-        clearInterval(timerRef.current);
-      }
-      if (transitionTimeoutRef.current) {
-        clearTimeout(transitionTimeoutRef.current);
-      }
-    };
-  }, [isLoaded, heroImages, currentImageIndex]);
+      // Clean up event listeners
+      return () => {
+        videoElement.removeEventListener('loadeddata', handleVideoLoaded);
+        videoElement.removeEventListener('error', handleVideoError);
+      };
+    }
+  }, []);
 
   return (
     <section id="home" className="hero">
-      <div className={`hero-background ${isLoaded ? 'loaded' : ''}`}>
-        {/* Current image */}
-        <div 
-          className={`hero-image ${isTransitioning ? 'fade-out' : 'fade-in'}`}
-          style={{ backgroundImage: `url(${heroImages[currentImageIndex]})` }}
-        ></div>
-        
-        {/* Next image (shown during transition) */}
-        <div 
-          className={`hero-image next-image ${isTransitioning ? 'fade-in' : 'fade-out'}`}
-          style={{ backgroundImage: `url(${heroImages[nextImageIndex]})` }}
-        ></div>
-        
-        <div className="hero-overlay"></div>
+      <div className={`video-background ${isVideoLoaded ? 'loaded' : ''}`}>
+        {!hasVideoError ? (
+          <video 
+            ref={videoRef}
+            autoPlay 
+            loop 
+            muted 
+            playsInline
+            className="video-element"
+          >
+            <source src={`${window.location.origin}/videos/ribbon-cutting.mp4`} type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        ) : (
+          <div className="video-error-message">
+            <p>Unable to load video. Please check your connection or try again later.</p>
+          </div>
+        )}
+        <div className="video-overlay"></div>
       </div>
       
       <div className="hero-content">

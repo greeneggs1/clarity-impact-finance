@@ -11,8 +11,8 @@
   background-image: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-darker) 100%);
 }
 
-/* Hero background container */
-.hero-background {
+/* Video background container */
+.video-background {
   position: absolute;
   top: 0;
   left: 0;
@@ -25,71 +25,22 @@
   background-color: var(--primary-dark); /* Match the background color */
 }
 
-.hero-background.loaded {
+.video-background.loaded {
   opacity: 1;
 }
 
-/* Hero image styles */
-.hero-image {
+/* Video element styles */
+.video-element {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-size: cover;
-  background-position: center;
-  transition: opacity 1s ease-in-out;
+  object-fit: cover;
   z-index: 1;
-  opacity: 0; /* Start with opacity 0 */
-  will-change: opacity, transform; /* Optimize for animations */
 }
 
-/* Fade transitions */
-.hero-image.fade-in {
-  opacity: 1;
-  z-index: 2;
-  animation: zoomIn 5s ease-out forwards;
-  animation-delay: 0s; /* Start animation immediately */
-}
-
-.hero-image.fade-out {
-  opacity: 0;
-  z-index: 1;
-  /* No animation during fade-out */
-  transform: scale(1.1); /* Keep the zoomed state */
-  transition: opacity 1s ease-in-out;
-}
-
-.hero-image.next-image {
-  z-index: 1;
-  transform: scale(1); /* Reset scale for next image */
-  /* Ensure next image is fully prepared before transition */
-  backface-visibility: hidden;
-}
-
-/* Zoom animation - single direction zoom in */
-@keyframes zoomIn {
-  0% {
-    transform: scale(1);
-  }
-  100% {
-    transform: scale(1.1);
-  }
-}
-
-/* Ensure there's always a visible background */
-.hero-background::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: var(--primary-dark);
-  z-index: 0;
-}
-
-.hero-overlay {
+.video-overlay {
   position: absolute;
   top: 0;
   left: 0;
@@ -102,67 +53,80 @@
     rgba(27, 70, 32, 0.30) 100%
   );
   mix-blend-mode: multiply;
-  z-index: 3; /* Ensure overlay is above all images */
+  z-index: 2; /* Ensure overlay is above video */
+}
+
+.video-error-message {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--primary-dark);
+  color: white;
+  text-align: center;
+  padding: 2rem;
+  z-index: 1;
+}
+
+.video-error-message p {
+  max-width: 600px;
+  font-size: 1.2rem;
+  line-height: 1.6;
 }
 
 .hero-content {
   max-width: 1200px;
   width: 100%;
   text-align: center;
-  z-index: 1;
-  animation: fadeIn 1s ease-out;
-  padding: 0 1rem;
+  color: white;
   position: relative;
-  background-color: rgba(0, 0, 0, 0.05);
-  padding: 2rem;
-  border-radius: 0;
-  backdrop-filter: blur(0px);
-  box-shadow: none;
+  z-index: 3;
+  animation: fadeIn 1s ease-in-out;
 }
 
 .hero h1 {
-  font-size: 3.2rem;
-  color: white;
+  font-size: 3.5rem;
+  font-weight: 700;
   margin-bottom: 1.5rem;
   line-height: 1.2;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6), 0 0 30px rgba(0, 0, 0, 0.3);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .hero h2 {
   font-size: 1.8rem;
-  color: #E67E45;
-  margin-bottom: 3rem;
-  font-weight: 500;
-  opacity: 0.9;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6), 0 0 30px rgba(0, 0, 0, 0.3);
+  font-weight: 400;
+  margin-bottom: 2.5rem;
+  line-height: 1.4;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .hero-buttons {
   display: flex;
   justify-content: center;
-  margin-bottom: 0;
+  gap: 1.5rem;
 }
 
 .primary-btn {
-  padding: 1.2rem 2.8rem;
+  padding: 0.875rem 2rem;
   font-size: 1.1rem;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.3s ease;
   font-weight: 600;
-  letter-spacing: 0.02em;
-  background: #E67E45;
+  background-color: var(--accent-color);
   color: white;
   border: none;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .primary-btn:hover {
-  background: #d16a33;
+  background-color: var(--accent-color-dark);
   transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
 }
 
 .scroll-indicator {
@@ -170,32 +134,29 @@
   bottom: 2rem;
   left: 50%;
   transform: translateX(-50%);
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: white;
   cursor: pointer;
-  transition: all 0.3s ease;
-  z-index: 1;
+  z-index: 3;
 }
 
 .scroll-text {
-  color: white;
-  font-size: 0.9rem;
+  font-size: 1rem;
   margin-bottom: 0.5rem;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  opacity: 0.9;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .scroll-indicator span {
   font-size: 2rem;
-  color: #E67E45;
   animation: bounce 2s infinite;
-  display: block;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .scroll-indicator:hover {
-  transform: translateX(-50%) translateY(-5px);
+  opacity: 0.8;
 }
 
 @keyframes fadeIn {
@@ -223,49 +184,33 @@
 
 @media (max-width: 768px) {
   .hero {
-    padding: 3rem 1rem;
+    padding: 3rem 1.5rem;
   }
-
+  
   .hero-content {
-    padding: 1rem;
+    max-width: 100%;
   }
-
+  
   .hero h1 {
-    font-size: 2.4rem;
+    font-size: 2.5rem;
   }
-
+  
   .hero h2 {
     font-size: 1.4rem;
   }
-
+  
   .hero-buttons {
-    padding: 0;
+    flex-direction: column;
   }
-
+  
   .primary-btn {
-    padding: 1rem 2.5rem;
-    width: auto;
-    min-width: 200px;
+    width: 100%;
+    margin-bottom: 1rem;
   }
-
+  
   .scroll-indicator {
-    bottom: 1.5rem;
+    bottom: 1rem;
   }
-}
-
-.video-error-message {
-  position: absolute;
-  bottom: 20px;
-  left: 20px;
-  background-color: rgba(255, 0, 0, 0.8);
-  color: white;
-  padding: 12px 16px;
-  border-radius: 6px;
-  font-size: 14px;
-  z-index: 10;
-  max-width: 80%;
-  word-break: break-word;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
 .fallback-image {
