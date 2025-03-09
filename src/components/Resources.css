@@ -182,10 +182,12 @@
 
 .featured-path-steps {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: flex-start;
   gap: var(--space-sm);
   margin-bottom: var(--space-md);
   flex-grow: 1;
+  width: 100%;
 }
 
 .featured-path-step {
@@ -196,6 +198,7 @@
   padding: var(--space-xs) var(--space-sm);
   border-radius: var(--radius-md);
   transition: var(--transition-fast);
+  width: 100%;
 }
 
 .featured-path-step:hover {
@@ -357,7 +360,9 @@
 
 .learning-path-steps {
   display: flex;
-  justify-content: flex-start;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
 }
 
 .learning-path-steps span {
@@ -899,18 +904,17 @@
     font-size: var(--font-size-sm);
   }
   
-  .featured-path-steps {
-    flex-direction: column;
-    align-items: flex-start;
+  .learning-path-container {
+    grid-template-columns: 1fr;
+  }
+  
+  .learning-path-sidebar {
+    position: static;
+    margin-bottom: 2rem;
   }
 }
 
 @media (max-width: 576px) {
-  .featured-path-steps {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  
   .featured-path-step {
     width: 100%;
   }

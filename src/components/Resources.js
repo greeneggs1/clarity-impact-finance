@@ -446,7 +446,10 @@ const Resources = () => {
                   <div 
                     key={path.id} 
                     className="featured-learning-path-card"
-                    onClick={() => handleLearningPathSelect(path.id)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleLearningPathSelect(path.id);
+                    }}
                   >
                     <div className="featured-path-image" style={{ backgroundImage: `url(${path.image})` }}>
                       <div className="featured-path-overlay"></div>
@@ -638,10 +641,13 @@ const Resources = () => {
                 Back to Resources
               </button>
               
-              <h2>{activeLearningPath?.title}</h2>
-              <p>{activeLearningPath?.description}</p>
+              <div className="learning-path-info">
+                <h2>{activeLearningPath?.title}</h2>
+                <p>{activeLearningPath?.description}</p>
+              </div>
               
-              <div className="learning-path-steps">
+              <div className="learning-path-steps-list">
+                <h3>Learning Steps</h3>
                 {activeLearningPath?.steps.map((step, index) => (
                   <div 
                     key={step.id} 
@@ -650,7 +656,7 @@ const Resources = () => {
                   >
                     <div className="step-number">{index + 1}</div>
                     <div className="step-content">
-                      <h3>{step.title}</h3>
+                      <h4>{step.title}</h4>
                       <p>{step.description}</p>
                     </div>
                   </div>
