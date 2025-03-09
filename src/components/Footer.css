@@ -1,6 +1,6 @@
 .footer {
   background-color: var(--primary-dark);
-  color: var(--accent);
+  color: white;
   padding: var(--space-xl) var(--space-md) var(--space-lg);
   position: relative;
   overflow: hidden;
@@ -26,10 +26,11 @@
   grid-template-columns: 2fr 1fr 1fr 1.5fr;
   gap: var(--space-lg);
   margin-bottom: var(--space-xl);
+  align-items: flex-start;
 }
 
 .footer-section h3 {
-  color: var(--accent);
+  color: white;
   font-size: var(--font-size-md);
   margin-bottom: var(--space-md);
   font-weight: 600;
@@ -48,7 +49,7 @@
 }
 
 .footer-section p {
-  color: var(--accent-light);
+  color: white;
   font-size: var(--font-size-sm);
   line-height: 1.6;
   margin-bottom: var(--space-md);
@@ -67,7 +68,7 @@
   height: 36px;
   background-color: rgba(255, 255, 255, 0.1);
   border-radius: 50%;
-  color: var(--accent);
+  color: white;
   transition: var(--transition-fast);
 }
 
@@ -90,7 +91,7 @@
 .footer-links button {
   background: transparent;
   border: none;
-  color: var(--accent-light);
+  color: white;
   cursor: pointer;
   font-size: var(--font-size-sm);
   padding: 0;
@@ -111,17 +112,18 @@
 
 .contact-item {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: var(--space-sm);
 }
 
 .contact-item svg {
   color: var(--accent);
-  margin-top: 3px;
+  margin-top: 0;
+  flex-shrink: 0;
 }
 
 .contact-item span {
-  color: var(--accent-light);
+  color: white;
   font-size: var(--font-size-sm);
   line-height: 1.5;
 }
@@ -136,7 +138,8 @@
 }
 
 .footer-bottom p {
-  color: var(--accent-light);
+  color: white;
+  margin: 0;
 }
 
 .legal-links {
@@ -145,7 +148,7 @@
 }
 
 .legal-links a {
-  color: var(--accent-light);
+  color: white;
   text-decoration: none;
   transition: var(--transition-fast);
 }
@@ -206,6 +209,7 @@
   
   .footer-links button {
     text-align: center;
+    width: 100%;
   }
   
   .contact-info {

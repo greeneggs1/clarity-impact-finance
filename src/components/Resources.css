@@ -19,7 +19,7 @@
 }
 
 .resources-container {
-  max-width: 1400px;
+  max-width: 1200px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -36,9 +36,11 @@
 
 .resources-header h1 {
   color: var(--primary-dark);
-  font-size: var(--font-size-xxl);
+  font-size: var(--font-size-2xl);
   margin-bottom: var(--space-xs);
   font-weight: 700;
+  font-family: var(--font-heading);
+  letter-spacing: -0.02em;
 }
 
 .resources-header p {
@@ -46,9 +48,11 @@
   font-size: var(--font-size-md);
   max-width: 800px;
   margin: 0 auto;
+  line-height: 1.6;
+  font-family: var(--font-body);
 }
 
-/* Featured Learning Pathways */
+/* Featured Learning Paths */
 .featured-learning-paths {
   margin-bottom: var(--space-xl);
 }
@@ -56,16 +60,21 @@
 .featured-learning-paths h2 {
   color: var(--primary-dark);
   font-size: var(--font-size-xl);
-  margin-bottom: var(--space-xs);
-  font-weight: 600;
+  margin-bottom: var(--space-md);
   text-align: center;
+  font-weight: 600;
+  font-family: var(--font-heading);
+  letter-spacing: -0.01em;
 }
 
 .featured-learning-paths > p {
   color: var(--text-medium);
   font-size: var(--font-size-md);
-  margin-bottom: var(--space-lg);
+  max-width: 800px;
+  margin: 0 auto var(--space-lg);
   text-align: center;
+  line-height: 1.6;
+  font-family: var(--font-body);
 }
 
 .featured-learning-paths-grid {
@@ -359,16 +368,19 @@
 }
 
 .learning-path-info h2 {
-  color: #1B4620;
-  font-size: 1.5rem;
-  margin-bottom: 0.75rem;
+  color: var(--primary-dark);
+  font-size: var(--font-size-xl);
+  margin-bottom: var(--space-xs);
   font-weight: 600;
+  font-family: var(--font-heading);
+  letter-spacing: -0.01em;
 }
 
 .learning-path-info p {
-  color: #6b7280;
-  font-size: 0.95rem;
-  line-height: 1.5;
+  color: var(--text-medium);
+  font-size: var(--font-size-md);
+  line-height: 1.6;
+  font-family: var(--font-body);
 }
 
 .learning-path-steps-list {
@@ -378,10 +390,11 @@
 }
 
 .learning-path-steps-list h3 {
-  color: #374151;
-  font-size: 1rem;
-  margin-bottom: 0.5rem;
-  font-weight: 500;
+  color: var(--primary-dark);
+  font-size: var(--font-size-md);
+  margin-bottom: var(--space-md);
+  font-weight: 600;
+  font-family: var(--font-heading);
 }
 
 .learning-path-step {
@@ -422,16 +435,18 @@
 }
 
 .step-content h4 {
-  color: #1B4620;
-  font-size: 0.95rem;
-  margin-bottom: 0.25rem;
-  font-weight: 500;
+  color: var(--primary-dark);
+  font-size: var(--font-size-md);
+  margin-bottom: var(--space-xs);
+  font-weight: 600;
+  font-family: var(--font-heading);
 }
 
 .step-content p {
-  color: #6b7280;
-  font-size: 0.85rem;
-  line-height: 1.4;
+  color: var(--text-medium);
+  font-size: var(--font-size-sm);
+  line-height: 1.5;
+  font-family: var(--font-body);
 }
 
 .learning-path-content {
@@ -443,23 +458,27 @@
 }
 
 .learning-path-step-header h2 {
-  color: #1B4620;
-  font-size: 1.75rem;
-  margin-bottom: 0.75rem;
+  color: var(--primary-dark);
+  font-size: var(--font-size-xl);
+  margin-bottom: var(--space-xs);
   font-weight: 600;
+  font-family: var(--font-heading);
+  letter-spacing: -0.01em;
 }
 
 .learning-path-step-header p {
-  color: #4b5563;
-  font-size: 1.1rem;
-  line-height: 1.5;
+  color: var(--text-medium);
+  font-size: var(--font-size-md);
+  line-height: 1.6;
+  font-family: var(--font-body);
 }
 
 .learning-path-resources h3 {
-  color: #374151;
-  font-size: 1.25rem;
-  margin-bottom: 1.5rem;
-  font-weight: 500;
+  color: var(--primary-dark);
+  font-size: var(--font-size-md);
+  margin-bottom: var(--space-md);
+  font-weight: 600;
+  font-family: var(--font-heading);
 }
 
 .learning-path-navigation {
@@ -591,15 +610,18 @@
 }
 
 .results-header h2 {
-  color: #1B4620;
-  font-size: 1.5rem;
-  margin-bottom: 0.5rem;
+  color: var(--primary-dark);
+  font-size: var(--font-size-lg);
+  margin-bottom: var(--space-xs);
   font-weight: 600;
+  font-family: var(--font-heading);
+  letter-spacing: -0.01em;
 }
 
 .results-header p {
-  color: #6b7280;
-  font-size: 0.95rem;
+  color: var(--text-medium);
+  font-size: var(--font-size-md);
+  font-family: var(--font-body);
 }
 
 .resources-grid {
@@ -658,18 +680,20 @@
 }
 
 .resource-card h3 {
-  color: #111827;
-  font-size: 1.2rem;
-  margin-bottom: 0.75rem;
+  color: var(--primary-dark);
+  font-size: var(--font-size-md);
+  margin-bottom: var(--space-xs);
   font-weight: 600;
+  font-family: var(--font-heading);
   line-height: 1.4;
 }
 
 .resource-card p {
-  color: #4b5563;
-  font-size: 0.95rem;
-  margin-bottom: 1rem;
+  color: var(--text-medium);
+  font-size: var(--font-size-sm);
+  margin-bottom: var(--space-sm);
   line-height: 1.5;
+  font-family: var(--font-body);
   flex-grow: 1;
 }
 
@@ -782,15 +806,17 @@
 }
 
 .resources-disclaimer {
-  margin-top: 3rem;
-  padding-top: 2rem;
-  border-top: 1px solid #e5e7eb;
+  text-align: center;
+  margin-top: var(--space-xl);
 }
 
 .resources-disclaimer p {
-  color: #6b7280;
-  font-size: 0.85rem;
-  line-height: 1.5;
+  color: var(--text-medium);
+  font-size: var(--font-size-sm);
+  max-width: 800px;
+  margin: 0 auto;
+  line-height: 1.6;
+  font-family: var(--font-body);
 }
 
 /* Responsive styles */
