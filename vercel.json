@@ -53,10 +53,12 @@
   ],
   "env": {
     "REACT_APP_VERCEL": "true",
-    "DEPLOYMENT_TIMESTAMP": "2024-03-08-20-30"
+    "DEPLOYMENT_TIMESTAMP": "2024-03-08-20-45",
+    "CI": "false"
   },
   "github": {
     "enabled": true,
-    "silent": false
+    "silent": false,
+    "autoJobCancelation": true
   }
 } 

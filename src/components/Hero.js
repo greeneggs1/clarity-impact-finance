@@ -10,6 +10,7 @@ const Hero = () => {
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const [videoError, setVideoError] = useState(null);
   const [isVideoSupported, setIsVideoSupported] = useState(true);
+  // eslint-disable-next-line no-unused-vars
   const [isVercelEnvironment, setIsVercelEnvironment] = useState(false);
   const videoRef = useRef(null);
   

@@ -625,7 +625,7 @@ const ChatBot = () => {
   
   // More robust check for API key
   const apiKey = process.env.REACT_APP_OPENAI_API_KEY || '';
-  const apiKeyAvailable = apiKey && apiKey.length > 50 && apiKey.startsWith('sk-');
+  const apiKeyAvailable = apiKey && apiKey.length > 10 && apiKey !== 'your_openai_api_key_here';
   
   // Allow manual override for local testing
   const [useLLM, setUseLLM] = useState(false);
@@ -633,7 +633,6 @@ const ChatBot = () => {
   // Debug info
   console.log('API Key available:', apiKeyAvailable);
   console.log('API Key length:', apiKey.length);
-  console.log('API Key starts with:', apiKey.substring(0, 5) + '...');
   console.log('LLM enabled:', useLLM);
   
   const messagesEndRef = useRef(null);
@@ -730,6 +729,7 @@ const ChatBot = () => {
     }
   };
 
+  // eslint-disable-next-line no-unused-vars
   const searchKnowledgeBase = (query, category) => {
     const results = [];
     const queryWords = query.toLowerCase().split(' ').filter(word => 

@@ -554,9 +554,11 @@ const Resources = () => {
                           </div>
                         </div>
                         <a 
-                          href="#"
+                          href="#resource-coming-soon"
                           className="resource-link-button coming-soon" 
                           onClick={(e) => e.preventDefault()}
+                          aria-label="Resource coming soon"
+                          role="button"
                         >
                           Coming Soon
                           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -658,9 +660,11 @@ const Resources = () => {
                         </div>
                       </div>
                       <a 
-                        href="#"
+                        href="#resource-coming-soon"
                         className="resource-link-button coming-soon" 
                         onClick={(e) => e.preventDefault()}
+                        aria-label="Resource coming soon"
+                        role="button"
                       >
                         Coming Soon
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

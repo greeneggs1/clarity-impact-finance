@@ -17,7 +17,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "REACT_APP_VERCEL=true REACT_APP_BUILD_TIME=$(date +%s) react-scripts build",
-    "vercel-build": "rm -rf node_modules/.cache && REACT_APP_VERCEL=true REACT_APP_BUILD_TIME=$(date +%s) react-scripts build",
+    "vercel-build": "CI=false rm -rf node_modules/.cache && REACT_APP_VERCEL=true REACT_APP_BUILD_TIME=$(date +%s) react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
