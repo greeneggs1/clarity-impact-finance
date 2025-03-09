@@ -7,6 +7,9 @@ const Hero = () => {
   const [hasVideoError, setHasVideoError] = useState(false);
   const videoRef = useRef(null);
   
+  // Cloudinary video URL - replace YOUR_CLOUD_NAME with your actual Cloudinary cloud name
+  const videoUrl = "https://res.cloudinary.com/YOUR_CLOUD_NAME/video/upload/v1/clarity-impact/ribbon-cutting.mp4";
+  
   // Handle video loading and errors
   useEffect(() => {
     const videoElement = videoRef.current;
@@ -33,6 +36,12 @@ const Hero = () => {
     }
   }, []);
 
+  // Fallback to local video if Cloudinary video fails to load
+  const handleCloudinaryError = () => {
+    console.log("Cloudinary video failed to load, falling back to local video");
+    setHasVideoError(false); // Reset error state to try local video
+  };
+
   return (
     <section id="home" className="hero">
       <div className={`video-background ${isVideoLoaded ? 'loaded' : ''}`}>
@@ -44,7 +53,9 @@ const Hero = () => {
             muted 
             playsInline
             className="video-element"
+            onError={handleCloudinaryError}
           >
+            <source src={videoUrl} type="video/mp4" />
             <source src={`${window.location.origin}/videos/ribbon-cutting.mp4`} type="video/mp4" />
             Your browser does not support the video tag.
           </video>
