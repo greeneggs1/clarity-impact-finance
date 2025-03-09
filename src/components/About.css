@@ -84,6 +84,22 @@
 .vision-statement {
   margin-bottom: 4.5rem;
   text-align: center;
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+  background: rgba(27, 70, 32, 0.05);
+  padding: 2.5rem;
+  border-radius: 15px;
+  border-left: 5px solid #1B4620;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+.vision-statement p {
+  font-size: 2rem;
+  line-height: 1.5;
+  color: #1B4620;
+  font-weight: 700;
+  letter-spacing: -0.01em;
 }
 
 .vision-quote {
@@ -275,15 +291,16 @@
 }
 
 .founder-profile {
-  background: white;
-  padding: 3rem;
+  background: #ffffff;
+  padding: 2.5rem;
   border-radius: 15px;
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
   text-align: center;
-  border: 1px solid rgba(27, 70, 32, 0.1);
-  transition: transform 0.3s ease;
   position: relative;
   overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid rgba(27, 70, 32, 0.1);
+  margin-bottom: 2rem;
 }
 
 .founder-profile::before {
@@ -379,30 +396,61 @@
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
+  margin-top: 1.5rem;
+  width: 100%;
 }
 
 .contact-link {
-  color: #2d3748;
-  text-decoration: none;
-  transition: all 0.3s ease;
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 0.75rem;
-  padding: 0.75rem;
+  text-decoration: none;
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  padding: 0.75rem 1rem;
   border-radius: 8px;
-  background: rgba(27, 70, 32, 0.03);
-  border: 1px solid rgba(27, 70, 32, 0.05);
+  width: 100%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  color: #333333;
+  background-color: #f5f5f5;
+  border: 1px solid #e0e0e0;
+}
+
+.email-link {
+  color: #0B3213 !important;
+  font-weight: 600;
+  background-color: #f0f0f0;
+  border: 1px solid rgba(27, 70, 32, 0.3);
+}
+
+.linkedin-link {
+  color: #0A66C2 !important;
+  font-weight: 600;
+  background-color: #f0f0f0;
+  border: 1px solid rgba(10, 102, 194, 0.3);
 }
 
 .contact-link:hover {
-  color: #E67E45;
-  background: rgba(230, 126, 69, 0.1);
-  transform: translateY(-2px);
+  background: rgba(27, 70, 32, 0.1);
+  transform: translateX(5px);
 }
 
 .contact-icon {
-  font-size: 1.3rem;
+  margin-right: 0.75rem;
+  font-size: 1.2rem;
+  color: #E67E45;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+}
+
+.email-link .contact-icon {
+  color: #0B3213;
+}
+
+.linkedin-link .contact-icon {
+  color: #0A66C2;
 }
 
 .company-badge {

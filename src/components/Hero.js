@@ -8,7 +8,7 @@ const Hero = () => {
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const videoRef = useRef(null);
   
-  // Cloudinary video URLs
+  // Video URLs - Using direct links to ensure reliability
   const videoUrls = [
     "https://res.cloudinary.com/dxenrdunh/video/upload/v1741485459/ribbon-cutting_lkwd5e.mp4",
     "https://res.cloudinary.com/dxenrdunh/video/upload/v1741488625/hero3-community_hjbydr.mp4"
@@ -22,6 +22,7 @@ const Hero = () => {
       const handleVideoLoaded = () => {
         console.log("Video loaded successfully");
         setIsVideoLoaded(true);
+        setHasVideoError(false);
       };
       
       const handleVideoError = (error) => {
@@ -31,6 +32,9 @@ const Hero = () => {
       
       videoElement.addEventListener('loadeddata', handleVideoLoaded);
       videoElement.addEventListener('error', handleVideoError);
+      
+      // Force video to load
+      videoElement.load();
       
       // Clean up event listeners
       return () => {
@@ -65,12 +69,6 @@ const Hero = () => {
     }
   }, [currentVideoIndex]);
 
-  // Fallback to local video if Cloudinary video fails to load
-  const handleCloudinaryError = () => {
-    console.log("Cloudinary video failed to load, falling back to local video");
-    setHasVideoError(false); // Reset error state to try local video
-  };
-
   return (
     <section id="home" className="hero">
       <div className={`video-background ${isVideoLoaded ? 'loaded' : ''}`}>
@@ -81,18 +79,19 @@ const Hero = () => {
             autoPlay 
             muted 
             playsInline
+            preload="auto"
             className="video-element"
-            onError={handleCloudinaryError}
             // Only loop the first video
             loop={currentVideoIndex === 0}
           >
             <source src={videoUrls[currentVideoIndex]} type="video/mp4" />
-            <source src={`${window.location.origin}/videos/ribbon-cutting.mp4`} type="video/mp4" />
             Your browser does not support the video tag.
           </video>
         ) : (
-          <div className="video-error-message">
-            <p>Unable to load video. Please check your connection or try again later.</p>
+          <div className="video-fallback">
+            <div className="video-error-message">
+              <p>Video content is currently unavailable.</p>
+            </div>
           </div>
         )}
         <div className="video-overlay"></div>
