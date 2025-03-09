@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './Contact.css';
+import emailjs from '@emailjs/browser';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -21,6 +22,11 @@ const Contact = () => {
   // The email address where all form submissions will be sent
   const contactEmail = 'amir@clarityimpactfinance.com';
 
+  // EmailJS configuration - you'll need to sign up at emailjs.com and get these values
+  const EMAILJS_SERVICE_ID = 'YOUR_EMAILJS_SERVICE_ID'; 
+  const EMAILJS_TEMPLATE_ID = 'YOUR_EMAILJS_TEMPLATE_ID';
+  const EMAILJS_PUBLIC_KEY = 'YOUR_EMAILJS_PUBLIC_KEY';
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prevState => ({
@@ -39,26 +45,31 @@ const Contact = () => {
     });
 
     try {
-      // Create the message content with all form data
-      const messageContent = `
-        Name: ${formData.name}
-        Email: ${formData.email}
-        Phone: ${formData.phone || 'Not provided'}
-        Organization: ${formData.organization || 'Not provided'}
-        Service: ${formData.service}
-        Message: ${formData.message}
-      `;
+      // Prepare template parameters for EmailJS
+      const templateParams = {
+        to_email: contactEmail,
+        from_name: formData.name,
+        from_email: formData.email,
+        phone: formData.phone || 'Not provided',
+        organization: formData.organization || 'Not provided',
+        service: formData.service,
+        message: formData.message,
+        reply_to: formData.email
+      };
 
-      // In a real implementation, you would send this to your backend
-      // For now, we'll simulate a successful API call
-      console.log('Form submitted to:', contactEmail);
-      console.log('Form data:', formData);
-      console.log('Message content:', messageContent);
+      // Initialize EmailJS with your public key
+      emailjs.init(EMAILJS_PUBLIC_KEY);
 
-      // Simulate API call delay
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      // Send email using EmailJS
+      await emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        templateParams
+      );
 
-      // Simulate successful submission
+      console.log('Email sent successfully to:', contactEmail);
+      
+      // Update form status on success
       setFormStatus({
         submitted: true,
         error: false,
@@ -84,7 +95,7 @@ const Contact = () => {
         });
       }, 5000);
     } catch (error) {
-      console.error('Error submitting form:', error);
+      console.error('Error sending email:', error);
       setFormStatus({
         submitted: false,
         error: true,
