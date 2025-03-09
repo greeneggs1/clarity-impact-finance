@@ -7,8 +7,8 @@ const Hero = () => {
   const [hasVideoError, setHasVideoError] = useState(false);
   const videoRef = useRef(null);
   
-  // Cloudinary video URL - replace YOUR_CLOUD_NAME with your actual Cloudinary cloud name
-  const videoUrl = "https://res.cloudinary.com/YOUR_CLOUD_NAME/video/upload/v1/clarity-impact/ribbon-cutting.mp4";
+  // Cloudinary video URL
+  const videoUrl = "https://res.cloudinary.com/dxenrdunh/video/upload/v1741485459/ribbon-cutting_lkwd5e.mp4";
   
   // Handle video loading and errors
   useEffect(() => {
