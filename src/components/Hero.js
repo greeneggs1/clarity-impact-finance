@@ -15,22 +15,13 @@ const Hero = () => {
   
   // Use useMemo to prevent recreation of the array on each render
   const videoSources = useMemo(() => {
-    // For Vercel deployments, use videos hosted on a CDN or cloud storage
-    // For local development, use local files
-    if (isVercelEnvironment) {
-      return [
-        // Replace these with your actual CDN/cloud storage URLs
-        "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
-        "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4"
-      ];
-    } else {
-      return [
-        // Local development paths
-        `${window.location.origin}/videos/ribbon-cutting.mp4`,
-        `${window.location.origin}/videos/your-second-video.mp4`
-      ];
-    }
-  }, [isVercelEnvironment]);
+    // For both environments, use videos hosted on a CDN
+    // This ensures consistency between local and Vercel
+    return [
+      "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+      "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4"
+    ];
+  }, []);
   
   // Check if we're in a Vercel environment
   useEffect(() => {
@@ -40,12 +31,15 @@ const Hero = () => {
                      process.env.VERCEL === 'true';
     
     console.log("Is Vercel environment:", isVercel);
+    console.log("Current hostname:", window.location.hostname);
     setIsVercelEnvironment(isVercel);
     
-    // If we're in Vercel and having issues with videos, use the fallback image
-    if (isVercel) {
-      console.log("Using CDN videos for Vercel deployment");
-    }
+    // Log environment information for debugging
+    console.log("Environment variables:", {
+      NODE_ENV: process.env.NODE_ENV,
+      REACT_APP_VERCEL: process.env.REACT_APP_VERCEL,
+      VERCEL: process.env.VERCEL
+    });
   }, []);
   
   // Check if video is supported
@@ -85,10 +79,8 @@ const Hero = () => {
         console.error(`Error preloading video ${index}:`, e);
         setVideoError(`Failed to preload video ${index}: ${src}`);
         
-        // If we're in Vercel and having issues with videos, use the fallback image
-        if (isVercelEnvironment) {
-          setIsVideoSupported(false);
-        }
+        // If we're having issues with videos, use the fallback image
+        setIsVideoSupported(false);
       };
     });
     
@@ -105,10 +97,8 @@ const Hero = () => {
           console.error(`Error fetching video ${index}:`, error);
           setVideoError(`Failed to fetch video ${index}: ${error.message}`);
           
-          // If we're in Vercel and having issues with videos, use the fallback image
-          if (isVercelEnvironment) {
-            setIsVideoSupported(false);
-          }
+          // If we're having issues with videos, use the fallback image
+          setIsVideoSupported(false);
         });
     });
     
@@ -118,7 +108,7 @@ const Hero = () => {
     img.onload = () => console.log("Fallback image loaded");
     img.onerror = (e) => console.error("Error loading fallback image:", e);
     
-  }, [videoSources, isVideoSupported, fallbackImageUrl, isVercelEnvironment]);
+  }, [videoSources, isVideoSupported, fallbackImageUrl]);
 
   const handleVideoLoad = () => {
     console.log("Video loaded successfully");
@@ -155,10 +145,8 @@ const Hero = () => {
               console.error("Video play error:", e);
               setVideoError(`Failed to play video ${nextIndex}: ${e.message}`);
               
-              // If we're in Vercel and having issues with videos, use the fallback image
-              if (isVercelEnvironment) {
-                setIsVideoSupported(false);
-              }
+              // If we're having issues with videos, use the fallback image
+              setIsVideoSupported(false);
             });
         };
         
@@ -169,10 +157,8 @@ const Hero = () => {
       console.error("Error during video transition:", error);
       setVideoError(`Error during video transition: ${error.message}`);
       
-      // If we're in Vercel and having issues with videos, use the fallback image
-      if (isVercelEnvironment) {
-        setIsVideoSupported(false);
-      }
+      // If we're having issues with videos, use the fallback image
+      setIsVideoSupported(false);
     }
   };
   
@@ -183,10 +169,8 @@ const Hero = () => {
     console.error(errorMessage);
     setVideoError(errorMessage);
     
-    // If we're in Vercel and having issues with videos, use the fallback image
-    if (isVercelEnvironment) {
-      setIsVideoSupported(false);
-    }
+    // If we're having issues with videos, use the fallback image
+    setIsVideoSupported(false);
   };
 
   return (
