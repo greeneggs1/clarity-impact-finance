@@ -1,6 +1,6 @@
 .footer {
   background-color: var(--background-dark);
-  color: var(--text-light);
+  color: white;
   padding: var(--space-xl) var(--space-md) var(--space-lg);
   position: relative;
   overflow: hidden;
@@ -29,7 +29,7 @@
 }
 
 .footer-section h3 {
-  color: var(--text-light);
+  color: white;
   font-size: var(--font-size-md);
   margin-bottom: var(--space-md);
   font-weight: 600;
@@ -48,7 +48,7 @@
 }
 
 .footer-section p {
-  color: var(--text-light-muted);
+  color: rgba(255, 255, 255, 0.8);
   font-size: var(--font-size-sm);
   line-height: 1.6;
   margin-bottom: var(--space-md);
@@ -67,7 +67,7 @@
   height: 36px;
   background-color: rgba(255, 255, 255, 0.1);
   border-radius: 50%;
-  color: var(--text-light);
+  color: white;
   transition: var(--transition-fast);
 }
 
@@ -89,7 +89,7 @@
 .footer-links button {
   background: transparent;
   border: none;
-  color: var(--text-light-muted);
+  color: rgba(255, 255, 255, 0.8);
   cursor: pointer;
   font-size: var(--font-size-sm);
   padding: 0;
@@ -120,7 +120,7 @@
 }
 
 .contact-item span {
-  color: var(--text-light-muted);
+  color: rgba(255, 255, 255, 0.8);
   font-size: var(--font-size-sm);
   line-height: 1.5;
 }
@@ -135,7 +135,7 @@
 }
 
 .footer-bottom p {
-  color: var(--text-light-muted);
+  color: rgba(255, 255, 255, 0.7);
 }
 
 .legal-links {
@@ -144,7 +144,7 @@
 }
 
 .legal-links a {
-  color: var(--text-light-muted);
+  color: rgba(255, 255, 255, 0.7);
   text-decoration: none;
   transition: var(--transition-fast);
 }
