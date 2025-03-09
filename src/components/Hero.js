@@ -6,6 +6,7 @@ const Hero = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [nextImageIndex, setNextImageIndex] = useState(1);
   const timerRef = useRef(null);
   const transitionTimeoutRef = useRef(null);
   
@@ -47,12 +48,16 @@ const Hero = () => {
     if (!isLoaded) return;
     
     const rotateImages = () => {
+      // Calculate next image index
+      const nextIdx = (currentImageIndex + 1) % heroImages.length;
+      setNextImageIndex(nextIdx);
+      
       // Start transition to next image
       setIsTransitioning(true);
       
       // After transition duration, change the image
       transitionTimeoutRef.current = setTimeout(() => {
-        setCurrentImageIndex((prevIndex) => (prevIndex + 1) % heroImages.length);
+        setCurrentImageIndex(nextIdx);
         setIsTransitioning(false);
       }, 1000); // 1 second for the fade transition
     };
@@ -69,7 +74,7 @@ const Hero = () => {
         clearTimeout(transitionTimeoutRef.current);
       }
     };
-  }, [isLoaded, heroImages]);
+  }, [isLoaded, heroImages, currentImageIndex]);
 
   return (
     <section id="home" className="hero">
@@ -83,7 +88,7 @@ const Hero = () => {
         {/* Next image (shown during transition) */}
         <div 
           className={`hero-image next-image ${isTransitioning ? 'fade-in' : 'fade-out'}`}
-          style={{ backgroundImage: `url(${heroImages[(currentImageIndex + 1) % heroImages.length]})` }}
+          style={{ backgroundImage: `url(${heroImages[nextImageIndex]})` }}
         ></div>
         
         <div className="hero-overlay"></div>

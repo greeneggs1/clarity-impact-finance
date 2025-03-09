@@ -41,6 +41,7 @@
   transition: opacity 1s ease-in-out;
   z-index: 1;
   opacity: 0; /* Start with opacity 0 */
+  will-change: opacity, transform; /* Optimize for animations */
 }
 
 /* Fade transitions */
@@ -62,6 +63,8 @@
 .hero-image.next-image {
   z-index: 1;
   transform: scale(1); /* Reset scale for next image */
+  /* Ensure next image is fully prepared before transition */
+  backface-visibility: hidden;
 }
 
 /* Zoom animation - single direction zoom in */
