@@ -593,228 +593,6 @@
   line-height: 1.6;
 }
 
-/* Impact Visualization Section */
-.impact-visualization {
-  margin-bottom: 5rem;
-  position: relative;
-}
-
-.impact-visualization::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(27, 70, 32, 0.02);
-  border-radius: 20px;
-  z-index: -1;
-}
-
-.impact-stats-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 2.5rem;
-  padding: 1rem;
-}
-
-.impact-stat-card {
-  background: white;
-  padding: 2.5rem;
-  border-radius: 15px;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
-  text-align: center;
-  border: 1px solid rgba(27, 70, 32, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  position: relative;
-  overflow: hidden;
-}
-
-.impact-stat-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 5px;
-  background: linear-gradient(90deg, #E67E45, #f3a47f);
-}
-
-.impact-stat-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
-}
-
-.stat-icon {
-  font-size: 3rem;
-  margin-bottom: 1.5rem;
-  display: inline-block;
-  position: relative;
-  z-index: 1;
-}
-
-.stat-icon::after {
-  content: '';
-  position: absolute;
-  width: 60px;
-  height: 60px;
-  background: rgba(230, 126, 69, 0.1);
-  border-radius: 50%;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: -1;
-}
-
-.stat-number {
-  font-size: 2.5rem;
-  font-weight: 800;
-  color: #1B4620;
-  margin-bottom: 0.75rem;
-  background: linear-gradient(135deg, #1B4620, #2c6e35);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  display: inline-block;
-}
-
-.stat-label {
-  color: #E67E45;
-  font-size: 1.2rem;
-  font-weight: 700;
-  margin-bottom: 1.2rem;
-  position: relative;
-  display: inline-block;
-  padding-bottom: 0.5rem;
-}
-
-.stat-label::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 40px;
-  height: 2px;
-  background: rgba(230, 126, 69, 0.3);
-}
-
-.stat-description {
-  color: #4a5568;
-  font-size: 1rem;
-  line-height: 1.6;
-}
-
-/* Case Study Preview */
-.case-study-preview {
-  margin-bottom: 5rem;
-}
-
-.case-study-card {
-  background: white;
-  border-radius: 15px;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
-  overflow: hidden;
-  border: 1px solid rgba(27, 70, 32, 0.1);
-  transition: transform 0.3s ease;
-}
-
-.case-study-card:hover {
-  transform: translateY(-10px);
-}
-
-.case-study-content {
-  padding: 3rem;
-}
-
-.case-study-content h4 {
-  color: #1B4620;
-  font-size: 1.8rem;
-  margin-bottom: 2rem;
-  font-weight: 700;
-  position: relative;
-  padding-bottom: 1rem;
-}
-
-.case-study-content h4::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 50px;
-  height: 3px;
-  background: linear-gradient(90deg, #E67E45, #f3a47f);
-  border-radius: 2px;
-}
-
-.case-study-stats {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 2.5rem;
-  padding-bottom: 2rem;
-  border-bottom: 1px solid rgba(27, 70, 32, 0.1);
-}
-
-.cs-stat {
-  text-align: center;
-  position: relative;
-}
-
-.cs-stat::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  right: -30%;
-  width: 1px;
-  height: 40px;
-  background: rgba(27, 70, 32, 0.1);
-  transform: translateY(-50%);
-}
-
-.cs-stat:last-child::after {
-  display: none;
-}
-
-.cs-stat-number {
-  display: block;
-  font-size: 2.2rem;
-  font-weight: 800;
-  color: #E67E45;
-  margin-bottom: 0.5rem;
-}
-
-.cs-stat-label {
-  font-size: 1rem;
-  color: #4a5568;
-  font-weight: 500;
-}
-
-.case-study-description {
-  color: #4a5568;
-  line-height: 1.8;
-  font-size: 1.1rem;
-  margin-bottom: 2.5rem;
-}
-
-.case-study-outcome {
-  background: rgba(27, 70, 32, 0.05);
-  padding: 1.8rem;
-  border-radius: 12px;
-  border-left: 4px solid #1B4620;
-}
-
-.case-study-outcome h5 {
-  color: #1B4620;
-  font-size: 1.2rem;
-  margin-bottom: 0.75rem;
-  font-weight: 700;
-}
-
-.case-study-outcome p {
-  color: #4a5568;
-  line-height: 1.6;
-  font-size: 1.05rem;
-}
-
 /* Market Section Styles */
 .market-section {
   background: white;
@@ -982,45 +760,6 @@
     gap: 3rem;
   }
   
-  .timeline::before {
-    left: 30px;
-  }
-  
-  .timeline-marker {
-    left: 30px;
-  }
-  
-  .timeline-content {
-    width: calc(100% - 80px);
-    margin-left: 80px;
-    margin-right: 0;
-  }
-  
-  .timeline-item:nth-child(even) .timeline-content {
-    margin-left: 80px;
-    margin-right: 0;
-  }
-  
-  .timeline-content::before {
-    left: -10px;
-    right: auto;
-    border-right: none;
-    border-left: 1px solid rgba(27, 70, 32, 0.1);
-    border-bottom: 1px solid rgba(27, 70, 32, 0.1);
-    border-top: none;
-    box-shadow: -5px 5px 10px rgba(0, 0, 0, 0.03);
-  }
-  
-  .timeline-item:nth-child(even) .timeline-content::before {
-    left: -10px;
-    right: auto;
-    border-right: none;
-    border-left: 1px solid rgba(27, 70, 32, 0.1);
-    border-bottom: 1px solid rgba(27, 70, 32, 0.1);
-    border-top: none;
-    box-shadow: -5px 5px 10px rgba(0, 0, 0, 0.03);
-  }
-  
   .founder-column {
     max-width: 600px;
     margin: 0 auto;
@@ -1041,35 +780,14 @@
     font-size: 2.2rem;
   }
   
-  .section-title {
-    font-size: 1.8rem;
-  }
-  
-  .vision-quote p {
-    font-size: 1.3rem;
-  }
-  
-  .impact-stats-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .case-study-stats {
-    flex-direction: column;
-    gap: 1.5rem;
-  }
-  
-  .cs-stat::after {
-    display: none;
-  }
-  
-  .market-stats {
-    grid-template-columns: 1fr;
-  }
-  
   .professional-section,
   .founder-profile,
   .market-section {
     padding: 2rem;
+  }
+  
+  .market-stats {
+    grid-template-columns: 1fr;
   }
   
   .cta-button {
@@ -1079,33 +797,9 @@
 }
 
 @media (max-width: 480px) {
-  .timeline-content {
-    width: calc(100% - 60px);
-    margin-left: 60px;
-    padding: 1.5rem;
-  }
-  
-  .timeline::before {
-    left: 20px;
-  }
-  
-  .timeline-marker {
-    left: 20px;
-    width: 18px;
-    height: 18px;
-  }
-  
   .founder-image {
     width: 180px;
     height: 180px;
-  }
-  
-  .vision-quote {
-    padding: 2rem 1.5rem;
-  }
-  
-  .quote-mark {
-    font-size: 3.5rem;
   }
 }
 
