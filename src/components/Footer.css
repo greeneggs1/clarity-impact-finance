@@ -1,5 +1,5 @@
 .footer {
-  background-color: var(--background-dark);
+  background-color: var(--primary-dark);
   color: var(--accent);
   padding: var(--space-xl) var(--space-md) var(--space-lg);
   position: relative;
@@ -13,7 +13,7 @@
   left: 0;
   width: 100%;
   height: 5px;
-  background: var(--gradient-primary);
+  background: var(--gradient-accent);
 }
 
 .footer-container {
