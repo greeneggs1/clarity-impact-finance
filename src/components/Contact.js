@@ -23,9 +23,9 @@ const Contact = () => {
   const contactEmail = 'amir@clarityimpactfinance.com';
 
   // EmailJS configuration - you'll need to sign up at emailjs.com and get these values
-  const EMAILJS_SERVICE_ID = 'YOUR_EMAILJS_SERVICE_ID'; 
-  const EMAILJS_TEMPLATE_ID = 'YOUR_EMAILJS_TEMPLATE_ID';
-  const EMAILJS_PUBLIC_KEY = 'YOUR_EMAILJS_PUBLIC_KEY';
+  const EMAILJS_SERVICE_ID = 'service_8yvh652'; 
+  const EMAILJS_TEMPLATE_ID = 'template_asituhs';
+  const EMAILJS_PUBLIC_KEY = '3f4qpHZXPHhPyyL7Y';
 
   const handleChange = (e) => {
     const { name, value } = e.target;
