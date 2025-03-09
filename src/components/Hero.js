@@ -40,14 +40,30 @@ const Hero = () => {
     }
   }, [currentVideoIndex]);
 
-  // Rotate videos every 15 seconds
+  // Handle video ended event
   useEffect(() => {
-    const videoRotationInterval = setInterval(() => {
-      setCurrentVideoIndex((prevIndex) => (prevIndex === 0 ? 1 : 0));
-    }, 15000);
+    const videoElement = videoRef.current;
     
-    return () => clearInterval(videoRotationInterval);
-  }, []);
+    if (videoElement) {
+      const handleVideoEnded = () => {
+        // If it's the second video, go back to the first video
+        if (currentVideoIndex === 1) {
+          setCurrentVideoIndex(0);
+        } 
+        // If it's the first video, continue to the second video
+        else if (currentVideoIndex === 0) {
+          setCurrentVideoIndex(1);
+        }
+      };
+      
+      videoElement.addEventListener('ended', handleVideoEnded);
+      
+      // Clean up event listener
+      return () => {
+        videoElement.removeEventListener('ended', handleVideoEnded);
+      };
+    }
+  }, [currentVideoIndex]);
 
   // Fallback to local video if Cloudinary video fails to load
   const handleCloudinaryError = () => {
@@ -63,11 +79,12 @@ const Hero = () => {
             key={currentVideoIndex} // Key changes force React to recreate the video element
             ref={videoRef}
             autoPlay 
-            loop 
             muted 
             playsInline
             className="video-element"
             onError={handleCloudinaryError}
+            // Only loop the first video
+            loop={currentVideoIndex === 0}
           >
             <source src={videoUrls[currentVideoIndex]} type="video/mp4" />
             <source src={`${window.location.origin}/videos/ribbon-cutting.mp4`} type="video/mp4" />
