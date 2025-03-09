@@ -52,6 +52,50 @@
   font-family: var(--font-body);
 }
 
+/* Resources Count Note */
+.resources-count-note {
+  font-size: var(--font-size-sm);
+  color: var(--text-light);
+  font-weight: normal;
+  margin-left: var(--space-xs);
+}
+
+/* Show More Button */
+.show-more-container {
+  display: flex;
+  justify-content: center;
+  margin: var(--space-lg) 0;
+}
+
+.show-more-button {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  background-color: var(--background-light);
+  color: var(--primary-dark);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-md);
+  padding: var(--space-sm) var(--space-lg);
+  font-size: var(--font-size-md);
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.show-more-button:hover {
+  background-color: var(--background-medium);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+.show-more-button svg {
+  transition: var(--transition-fast);
+}
+
+.show-more-button:hover svg {
+  transform: translateY(2px);
+}
+
 /* Featured Learning Paths */
 .featured-learning-paths {
   margin-bottom: var(--space-xl);

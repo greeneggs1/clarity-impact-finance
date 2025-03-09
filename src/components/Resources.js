@@ -8,6 +8,7 @@ const Resources = () => {
   const [activeView, setActiveView] = useState('resources'); // 'resources' or 'learning-path'
   const [activeLearningPath, setActiveLearningPath] = useState(null);
   const [activePathStep, setActivePathStep] = useState(null);
+  const [showAllResources, setShowAllResources] = useState(false);
   
   // Learning paths
   const learningPaths = [
@@ -369,12 +370,19 @@ const Resources = () => {
     return matchesSearch && matchesCategory && matchesType;
   });
 
+  // Get initial 4 resources to display
+  const initialResources = filteredResources.filter(resource => resource.featured).slice(0, 4);
+  
+  // Determine which resources to display based on showAllResources state
+  const displayedResources = showAllResources ? filteredResources : initialResources;
+
   // Handle tag click
   const handleTagClick = (tag) => {
     setSearchTerm(tag);
     setSelectedCategory('All Categories');
     setSelectedType('All Types');
     setActiveView('resources');
+    setShowAllResources(true); // Show all resources when filtering by tag
   };
 
   // Reset all filters
@@ -382,6 +390,7 @@ const Resources = () => {
     setSearchTerm('');
     setSelectedCategory('All Categories');
     setSelectedType('All Types');
+    setShowAllResources(false); // Reset to showing only initial resources
   };
 
   // Handle learning path selection
@@ -390,6 +399,7 @@ const Resources = () => {
     setActiveLearningPath(selectedPath);
     setActivePathStep(selectedPath.steps[0]);
     setActiveView('learning-path');
+    setShowAllResources(true); // Show all resources when viewing learning path
   };
 
   // Handle learning path step selection
@@ -409,6 +419,11 @@ const Resources = () => {
     setActiveView('resources');
     setActiveLearningPath(null);
     setActivePathStep(null);
+  };
+
+  // Toggle showing all resources
+  const handleShowAllResources = () => {
+    setShowAllResources(true);
   };
 
   return (
@@ -470,14 +485,20 @@ const Resources = () => {
                   className="search-input"
                   placeholder="Search by keyword..."
                   value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
+                  onChange={(e) => {
+                    setSearchTerm(e.target.value);
+                    if (e.target.value) setShowAllResources(true);
+                  }}
                 />
                 
                 <h3>Filter by Category</h3>
                 <select 
                   className="filter-select"
                   value={selectedCategory}
-                  onChange={(e) => setSelectedCategory(e.target.value)}
+                  onChange={(e) => {
+                    setSelectedCategory(e.target.value);
+                    if (e.target.value !== 'All Categories') setShowAllResources(true);
+                  }}
                 >
                   {categories.map((category, index) => (
                     <option key={index} value={category}>{category}</option>
@@ -488,7 +509,10 @@ const Resources = () => {
                 <select 
                   className="filter-select"
                   value={selectedType}
-                  onChange={(e) => setSelectedType(e.target.value)}
+                  onChange={(e) => {
+                    setSelectedType(e.target.value);
+                    if (e.target.value !== 'All Types') setShowAllResources(true);
+                  }}
                 >
                   {types.map((type, index) => (
                     <option key={index} value={type}>{type}</option>
@@ -516,60 +540,76 @@ const Resources = () => {
               <div className="resources-results">
                 <div className="results-header">
                   <h2>
-                    {filteredResources.length} {filteredResources.length === 1 ? 'Resource' : 'Resources'} Available
+                    {displayedResources.length} {displayedResources.length === 1 ? 'Resource' : 'Resources'} Available
+                    {!showAllResources && filteredResources.length > initialResources.length && (
+                      <span className="resources-count-note"> (Showing {initialResources.length} of {filteredResources.length})</span>
+                    )}
                   </h2>
                   <p>Curated resources from trusted partners in community development</p>
                 </div>
                 
-                {filteredResources.length > 0 ? (
-                  <div className="resources-grid">
-                    {filteredResources.map((resource) => (
-                      <div key={resource.id} className={`resource-card ${resource.featured ? 'featured' : ''}`}>
-                        {resource.featured && <span className="featured-badge">Featured</span>}
-                        <div className="resource-content">
-                          <div className="resource-category">{resource.category}</div>
-                          <h3>{resource.title}</h3>
-                          <p>{resource.description}</p>
-                          <div className="resource-meta">
-                            <span className="resource-type">{resource.type}</span>
+                {displayedResources.length > 0 ? (
+                  <>
+                    <div className="resources-grid">
+                      {displayedResources.map((resource) => (
+                        <div key={resource.id} className={`resource-card ${resource.featured ? 'featured' : ''}`}>
+                          {resource.featured && <span className="featured-badge">Featured</span>}
+                          <div className="resource-content">
+                            <div className="resource-category">{resource.category}</div>
+                            <h3>{resource.title}</h3>
+                            <p>{resource.description}</p>
+                            <div className="resource-meta">
+                              <span className="resource-type">{resource.type}</span>
+                            </div>
+                            <div className="resource-details">
+                              <span className="resource-file-type">{resource.fileType}</span>
+                              <span className="resource-file-size">{resource.fileSize}</span>
+                              <span className="resource-date">Updated: {resource.lastUpdated}</span>
+                            </div>
+                            <div className="resource-tags">
+                              {resource.tags.slice(0, 3).map((tag, tagIndex) => (
+                                <span 
+                                  key={tagIndex} 
+                                  className="resource-tag"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleTagClick(tag);
+                                  }}
+                                >
+                                  {tag}
+                                </span>
+                              ))}
+                            </div>
                           </div>
-                          <div className="resource-details">
-                            <span className="resource-file-type">{resource.fileType}</span>
-                            <span className="resource-file-size">{resource.fileSize}</span>
-                            <span className="resource-date">Updated: {resource.lastUpdated}</span>
-                          </div>
-                          <div className="resource-tags">
-                            {resource.tags.slice(0, 3).map((tag, tagIndex) => (
-                              <span 
-                                key={tagIndex} 
-                                className="resource-tag"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  handleTagClick(tag);
-                                }}
-                              >
-                                {tag}
-                              </span>
-                            ))}
-                          </div>
+                          <a 
+                            href="#resource-coming-soon"
+                            className="resource-link-button coming-soon" 
+                            onClick={(e) => e.preventDefault()}
+                            aria-label="Resource coming soon"
+                            role="button"
+                          >
+                            Coming Soon
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                              <circle cx="12" cy="12" r="10"></circle>
+                              <line x1="12" y1="8" x2="12" y2="16"></line>
+                              <line x1="8" y1="12" x2="16" y2="12"></line>
+                            </svg>
+                          </a>
                         </div>
-                        <a 
-                          href="#resource-coming-soon"
-                          className="resource-link-button coming-soon" 
-                          onClick={(e) => e.preventDefault()}
-                          aria-label="Resource coming soon"
-                          role="button"
-                        >
-                          Coming Soon
+                      ))}
+                    </div>
+                    
+                    {!showAllResources && filteredResources.length > initialResources.length && (
+                      <div className="show-more-container">
+                        <button className="show-more-button" onClick={handleShowAllResources}>
+                          Show All Resources
                           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                            <circle cx="12" cy="12" r="10"></circle>
-                            <line x1="12" y1="8" x2="12" y2="16"></line>
-                            <line x1="8" y1="12" x2="16" y2="12"></line>
+                            <polyline points="6 9 12 15 18 9"></polyline>
                           </svg>
-                        </a>
+                        </button>
                       </div>
-                    ))}
-                  </div>
+                    )}
+                  </>
                 ) : (
                   <div className="no-results">
                     <h3>No resources found</h3>
@@ -598,13 +638,10 @@ const Resources = () => {
                 Back to Resources
               </button>
               
-              <div className="learning-path-info">
-                <h2>{activeLearningPath?.title}</h2>
-                <p>{activeLearningPath?.description}</p>
-              </div>
+              <h2>{activeLearningPath?.title}</h2>
+              <p>{activeLearningPath?.description}</p>
               
-              <div className="learning-path-steps-list">
-                <h3>Learning Steps</h3>
+              <div className="learning-path-steps">
                 {activeLearningPath?.steps.map((step, index) => (
                   <div 
                     key={step.id} 
@@ -613,7 +650,7 @@ const Resources = () => {
                   >
                     <div className="step-number">{index + 1}</div>
                     <div className="step-content">
-                      <h4>{step.title}</h4>
+                      <h3>{step.title}</h3>
                       <p>{step.description}</p>
                     </div>
                   </div>
@@ -622,94 +659,46 @@ const Resources = () => {
             </div>
             
             <div className="learning-path-content">
-              <div className="learning-path-step-header">
-                <h2>{activePathStep?.title}</h2>
-                <p>{activePathStep?.description}</p>
-              </div>
+              <h2>{activePathStep?.title} Resources</h2>
+              <p>Curated resources to help you master this topic</p>
               
               <div className="learning-path-resources">
-                <h3>Step Resources</h3>
-                <div className="resources-grid">
-                  {getStepResources().map((resource) => (
-                    <div key={resource.id} className="resource-card">
-                      <div className="resource-content">
-                        <div className="resource-category">{resource.category}</div>
-                        <h3>{resource.title}</h3>
-                        <p>{resource.description}</p>
-                        <div className="resource-meta">
-                          <span className="resource-type">{resource.type}</span>
-                        </div>
-                        <div className="resource-details">
-                          <span className="resource-file-type">{resource.fileType}</span>
-                          <span className="resource-file-size">{resource.fileSize}</span>
-                          <span className="resource-date">Updated: {resource.lastUpdated}</span>
-                        </div>
-                        <div className="resource-tags">
-                          {resource.tags.slice(0, 3).map((tag, tagIndex) => (
-                            <span 
-                              key={tagIndex} 
-                              className="resource-tag"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                handleTagClick(tag);
-                              }}
-                            >
-                              {tag}
-                            </span>
-                          ))}
-                        </div>
+                {getStepResources().map((resource) => (
+                  <div key={resource.id} className="resource-card">
+                    <div className="resource-content">
+                      <div className="resource-category">{resource.category}</div>
+                      <h3>{resource.title}</h3>
+                      <p>{resource.description}</p>
+                      <div className="resource-meta">
+                        <span className="resource-type">{resource.type}</span>
                       </div>
-                      <a 
-                        href="#resource-coming-soon"
-                        className="resource-link-button coming-soon" 
-                        onClick={(e) => e.preventDefault()}
-                        aria-label="Resource coming soon"
-                        role="button"
-                      >
-                        Coming Soon
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                          <circle cx="12" cy="12" r="10"></circle>
-                          <line x1="12" y1="8" x2="12" y2="16"></line>
-                          <line x1="8" y1="12" x2="16" y2="12"></line>
-                        </svg>
-                      </a>
+                      <div className="resource-details">
+                        <span className="resource-file-type">{resource.fileType}</span>
+                        <span className="resource-file-size">{resource.fileSize}</span>
+                        <span className="resource-date">Updated: {resource.lastUpdated}</span>
+                      </div>
+                      <div className="resource-tags">
+                        {resource.tags.slice(0, 3).map((tag, tagIndex) => (
+                          <span key={tagIndex} className="resource-tag">{tag}</span>
+                        ))}
+                      </div>
                     </div>
-                  ))}
-                </div>
-              </div>
-              
-              <div className="learning-path-navigation">
-                {activeLearningPath?.steps.indexOf(activePathStep) > 0 && (
-                  <button 
-                    className="prev-step-button"
-                    onClick={() => {
-                      const currentIndex = activeLearningPath.steps.indexOf(activePathStep);
-                      handleStepSelect(activeLearningPath.steps[currentIndex - 1].id);
-                    }}
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <line x1="19" y1="12" x2="5" y2="12"></line>
-                      <polyline points="12 19 5 12 12 5"></polyline>
-                    </svg>
-                    Previous Step
-                  </button>
-                )}
-                
-                {activeLearningPath?.steps.indexOf(activePathStep) < activeLearningPath?.steps.length - 1 && (
-                  <button 
-                    className="next-step-button"
-                    onClick={() => {
-                      const currentIndex = activeLearningPath.steps.indexOf(activePathStep);
-                      handleStepSelect(activeLearningPath.steps[currentIndex + 1].id);
-                    }}
-                  >
-                    Next Step
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <line x1="5" y1="12" x2="19" y2="12"></line>
-                      <polyline points="12 5 19 12 12 19"></polyline>
-                    </svg>
-                  </button>
-                )}
+                    <a 
+                      href="#resource-coming-soon"
+                      className="resource-link-button coming-soon" 
+                      onClick={(e) => e.preventDefault()}
+                      aria-label="Resource coming soon"
+                      role="button"
+                    >
+                      Coming Soon
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="8" x2="12" y2="16"></line>
+                        <line x1="8" y1="12" x2="16" y2="12"></line>
+                      </svg>
+                    </a>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
