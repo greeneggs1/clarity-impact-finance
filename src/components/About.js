@@ -21,7 +21,7 @@ const About = () => {
               </div>
               <h3>Amir Ali, CFA</h3>
               <p className="founder-title">Founder & Principal Consultant</p>
-              <p className="founder-motto">"Empowering CDFIs to create lasting community impact through strategic innovation."</p>
+              <p className="founder-motto">"I help community lenders create lasting positive change through smart, innovative approaches."</p>
               <div className="founder-contact">
                 <a href="mailto:amir@clarityimpactfinance.com" className="contact-link email-link">
                   <span className="contact-icon">✉</span>
@@ -53,16 +53,13 @@ const About = () => {
               <div className="experience-card">
                 <h5>Vice President, Community Facilities Lending</h5>
                 <p className="experience-details">
-                  Spearheaded strategic lending initiatives at Low Income Investment Fund (a major CDFI), orchestrating over $150M in 
-                  community investments. Developed innovative financing solutions for healthcare, education, 
-                  and community facility projects.
+                  As Vice President of Community Facilities Lending, I led initiatives that brought $150M to neighborhoods that needed it most. I created practical funding solutions for health centers, schools, and community spaces.
                 </p>
               </div>
               <div className="experience-card">
-                <h5>Technical Assistance Innovation</h5>
+                <h5>Make Help More Effective</h5>
                 <p className="experience-details">
-                  Pioneered comprehensive TA programs that revolutionized CDFI operations. Created scalable 
-                  frameworks for impact measurement, operational efficiency, and program evaluation.
+                  I led federal programs and ensured they met all requirements. I streamlined compliance processes to reduce paperwork while maintaining accountability. My approach helped organizations navigate complex regulations and put more resources toward serving communities instead of administrative burdens.
                 </p>
               </div>
             </div>
