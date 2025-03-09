@@ -29,6 +29,11 @@
   align-items: flex-start;
 }
 
+.footer-section {
+  display: flex;
+  flex-direction: column;
+}
+
 .footer-section h3 {
   color: white;
   font-size: var(--font-size-md);
@@ -36,6 +41,8 @@
   font-weight: 600;
   position: relative;
   padding-bottom: var(--space-xs);
+  display: inline-block;
+  align-self: flex-start;
 }
 
 .footer-section h3::after {
@@ -82,10 +89,12 @@
   list-style: none;
   padding: 0;
   margin: 0;
+  width: 100%;
 }
 
 .footer-links li {
   margin-bottom: var(--space-xs);
+  width: 100%;
 }
 
 .footer-links button {
@@ -97,6 +106,9 @@
   padding: 0;
   text-align: left;
   transition: var(--transition-fast);
+  width: 100%;
+  display: block;
+  text-align: left;
 }
 
 .footer-links button:hover {
@@ -112,6 +124,7 @@
   padding: var(--space-md);
   border-radius: var(--radius-md);
   border: 1px solid rgba(255, 255, 255, 0.1);
+  width: 100%;
 }
 
 .contact-item {
@@ -219,7 +232,6 @@
   
   .footer-links button {
     text-align: left;
-    width: 100%;
   }
   
   .contact-info {
