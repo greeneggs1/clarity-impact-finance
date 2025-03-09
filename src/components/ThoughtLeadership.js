@@ -126,8 +126,8 @@ const ThoughtLeadership = () => {
   return (
     <section id="thought-leadership" className="thought-leadership">
       <div className="container">
-        <h2>Thought Leadership</h2>
-        <p className="section-intro">
+        <h2 className="section-title">Thought Leadership</h2>
+        <p className="section-subtitle">
           Insights and perspectives on community development finance from our team of experts.
         </p>
 
