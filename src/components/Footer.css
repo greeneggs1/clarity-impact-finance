@@ -151,6 +151,23 @@
   line-height: 1.5;
 }
 
+.contact-link {
+  background: transparent;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: var(--font-size-sm);
+  padding: 0;
+  text-align: left;
+  transition: var(--transition-fast);
+  text-decoration: none;
+}
+
+.contact-link:hover {
+  color: var(--accent);
+  transform: translateX(3px);
+}
+
 .footer-bottom {
   display: flex;
   justify-content: space-between;
