@@ -101,6 +101,7 @@
   border: 1px solid var(--border-light);
   position: relative;
   overflow: hidden;
+  margin-bottom: 20px;
 }
 
 .article-card:hover {
@@ -251,12 +252,14 @@
 @media (max-width: 992px) {
   .articles-grid {
     grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
   }
 }
 
 @media (max-width: 768px) {
   .articles-grid {
     grid-template-columns: 1fr;
+    gap: 30px;
   }
   
   .newsletter-form {
