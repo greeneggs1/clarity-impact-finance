@@ -57,11 +57,11 @@
   line-height: 1.6;
 }
 
-.contact-content {
-  display: grid;
-  grid-template-columns: 1fr 2fr;
-  gap: var(--space-lg);
-  max-width: 100%;
+.contact-content-centered {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  max-width: 800px;
   margin: 0 auto;
 }
 
@@ -234,7 +234,7 @@
 
 .contact-form {
   width: 100%;
-  max-width: 100%;
+  max-width: 800px;
   background-color: white;
   padding: var(--space-lg);
   border-radius: var(--radius-lg);
