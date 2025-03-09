@@ -1,247 +1,93 @@
-import React, { useState, useEffect, useMemo, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './Hero.css';
 import { scrollToSection } from '../utils/scroll';
 
 const Hero = () => {
-  // Force Vercel to update with this timestamp: 2024-03-08-20-30
-  console.log("Hero component loaded - Vercel deployment timestamp: 2024-03-08-20-30");
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const timerRef = useRef(null);
   
-  const [isVideoLoaded, setIsVideoLoaded] = useState(false);
-  const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
-  const [videoError, setVideoError] = useState(null);
-  const [isVideoSupported, setIsVideoSupported] = useState(true);
-  // eslint-disable-next-line no-unused-vars
-  const [isVercelEnvironment, setIsVercelEnvironment] = useState(false);
-  const [useLocalVideos, setUseLocalVideos] = useState(true);
-  const videoRef = useRef(null);
-  
-  // Fallback image - use an absolute URL that will work on Vercel
-  const fallbackImageUrl = "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80";
-  
-  // Local video sources
-  const localVideoSources = [
-    `${window.location.origin}/videos/ribbon-cutting.mp4`,
-    `${window.location.origin}/videos/your-second-video.mp4`
+  // Hero images
+  const heroImages = [
+    `${window.location.origin}/images/hero1.jpg`,
+    `${window.location.origin}/images/hero2.jpg`
   ];
   
-  // CDN video sources (fallback)
-  const cdnVideoSources = [
-    "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
-    "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4"
-  ];
-  
-  // Use useMemo to prevent recreation of the array on each render
-  const videoSources = useMemo(() => {
-    return useLocalVideos ? localVideoSources : cdnVideoSources;
-  }, [useLocalVideos, localVideoSources, cdnVideoSources]);
-  
-  // Check if we're in a Vercel environment
+  // Preload images
   useEffect(() => {
-    // Check if we're in a Vercel environment
-    const isVercel = window.location.hostname.includes('vercel.app') || 
-                     process.env.REACT_APP_VERCEL === 'true' ||
-                     process.env.VERCEL === 'true';
-    
-    console.log("Is Vercel environment:", isVercel);
-    console.log("Current hostname:", window.location.hostname);
-    setIsVercelEnvironment(isVercel);
-    
-    // Log environment information for debugging
-    console.log("Environment variables:", {
-      NODE_ENV: process.env.NODE_ENV,
-      REACT_APP_VERCEL: process.env.REACT_APP_VERCEL,
-      VERCEL: process.env.VERCEL
-    });
-  }, []);
-  
-  // Check if local videos are available
-  useEffect(() => {
-    const checkLocalVideos = async () => {
-      try {
-        // Try to fetch the first local video
-        const response = await fetch(localVideoSources[0], { method: 'HEAD' });
-        if (!response.ok) {
-          console.log("Local videos not available, using CDN videos");
-          setUseLocalVideos(false);
-        } else {
-          console.log("Local videos available");
-          setUseLocalVideos(true);
-        }
-      } catch (error) {
-        console.error("Error checking local videos:", error);
-        setUseLocalVideos(false);
-      }
+    const preloadImages = () => {
+      const imagePromises = heroImages.map((src) => {
+        return new Promise((resolve, reject) => {
+          const img = new Image();
+          img.src = src;
+          img.onload = resolve;
+          img.onerror = reject;
+        });
+      });
+      
+      Promise.all(imagePromises)
+        .then(() => {
+          console.log("All hero images preloaded successfully");
+          setIsLoaded(true);
+        })
+        .catch((error) => {
+          console.error("Error preloading hero images:", error);
+          // Still set as loaded to show at least something
+          setIsLoaded(true);
+        });
     };
     
-    checkLocalVideos();
-  }, [localVideoSources]);
+    preloadImages();
+  }, [heroImages]);
   
-  // Check if video is supported
+  // Set up image rotation
   useEffect(() => {
-    const videoTest = document.createElement('video');
-    if (!videoTest.canPlayType) {
-      console.log("Video not supported by browser");
-      setIsVideoSupported(false);
-      return;
-    }
+    if (!isLoaded) return;
     
-    const canPlayMP4 = videoTest.canPlayType('video/mp4');
-    if (canPlayMP4 === '') {
-      console.log("MP4 video not supported by browser");
-      setIsVideoSupported(false);
-    } else {
-      console.log("MP4 video support level:", canPlayMP4);
-    }
-  }, []);
-  
-  // Preload videos on mount
-  useEffect(() => {
-    if (!isVideoSupported) return;
-    
-    console.log("Preloading videos from sources:", videoSources);
-    
-    // Preload all videos
-    videoSources.forEach((src, index) => {
-      const video = document.createElement('video');
-      video.preload = 'auto';
-      video.src = src;
-      video.load();
-      console.log(`Preloading video ${index}: ${src}`);
+    const rotateImages = () => {
+      setIsTransitioning(true);
       
-      // Add error handling for preloading
-      video.onerror = (e) => {
-        console.error(`Error preloading video ${index}:`, e);
-        setVideoError(`Failed to preload video ${index}: ${src}`);
-        
-        // If we're having issues with videos, use the fallback image
-        setIsVideoSupported(false);
-      };
-    });
-    
-    // Try to directly fetch the video files
-    videoSources.forEach((src, index) => {
-      fetch(src, { method: 'HEAD' })
-        .then(response => {
-          console.log(`Video ${index} fetch response:`, response.status, response.ok);
-          if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-          }
-        })
-        .catch(error => {
-          console.error(`Error fetching video ${index}:`, error);
-          setVideoError(`Failed to fetch video ${index}: ${error.message}`);
-          
-          // If we're having issues with videos, use the fallback image
-          setIsVideoSupported(false);
-        });
-    });
-    
-    // Preload fallback image
-    const img = new Image();
-    img.src = fallbackImageUrl;
-    img.onload = () => console.log("Fallback image loaded");
-    img.onerror = (e) => console.error("Error loading fallback image:", e);
-    
-  }, [videoSources, isVideoSupported, fallbackImageUrl]);
-
-  const handleVideoLoad = () => {
-    console.log("Video loaded successfully");
-    setIsVideoLoaded(true);
-    setVideoError(null);
-  };
-  
-  const handleVideoEnd = () => {
-    if (!isVideoSupported || !videoRef.current) return;
-    
-    console.log("Video ended, switching to next video");
-    
-    // Calculate next video index
-    const nextIndex = (currentVideoIndex + 1) % videoSources.length;
-    console.log(`Switching from video ${currentVideoIndex} to ${nextIndex}`);
-    
-    try {
-      // First make the video invisible
-      videoRef.current.className = 'inactive';
-      
-      // After a short delay, change the source and make it active again
+      // After transition duration, change the image
       setTimeout(() => {
-        videoRef.current.src = videoSources[nextIndex];
-        videoRef.current.load();
-        
-        // When the new video is loaded, play it and make it visible
-        videoRef.current.onloadeddata = () => {
-          videoRef.current.play()
-            .then(() => {
-              console.log(`Video ${nextIndex} playing successfully`);
-              videoRef.current.className = 'active';
-            })
-            .catch(e => {
-              console.error("Video play error:", e);
-              setVideoError(`Failed to play video ${nextIndex}: ${e.message}`);
-              
-              // If we're having issues with videos, use the fallback image
-              setIsVideoSupported(false);
-            });
-        };
-        
-        // Update the current index
-        setCurrentVideoIndex(nextIndex);
-      }, 100);
-    } catch (error) {
-      console.error("Error during video transition:", error);
-      setVideoError(`Error during video transition: ${error.message}`);
-      
-      // If we're having issues with videos, use the fallback image
-      setIsVideoSupported(false);
-    }
-  };
-  
-  const handleVideoError = (e) => {
-    console.error("Video error:", e);
-    const videoElement = e.target;
-    const errorMessage = `Video error: ${videoElement.error ? videoElement.error.message : 'Unknown error'}`;
-    console.error(errorMessage);
-    setVideoError(errorMessage);
+        setCurrentImageIndex((prevIndex) => (prevIndex + 1) % heroImages.length);
+        setIsTransitioning(false);
+      }, 1000); // 1 second for the fade transition
+    };
     
-    // If we're having issues with videos, use the fallback image
-    setIsVideoSupported(false);
-  };
+    // Start the timer for image rotation
+    timerRef.current = setInterval(rotateImages, 5000); // 5 seconds per image
+    
+    // Clean up the timer on component unmount
+    return () => {
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+      }
+    };
+  }, [isLoaded, heroImages]);
 
   return (
     <section id="home" className="hero">
-      <div className={`video-background ${isVideoLoaded || !isVideoSupported ? 'loaded' : ''}`}>
-        {isVideoSupported ? (
-          // Video background
-          <video 
-            ref={videoRef}
-            autoPlay 
-            muted 
-            playsInline
-            onLoadedData={handleVideoLoad}
-            onEnded={handleVideoEnd}
-            onError={handleVideoError}
-            className="active"
-          >
-            <source src={videoSources[currentVideoIndex]} type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
-        ) : (
-          // Fallback image background
-          <div 
-            className="fallback-image active" 
-            style={{ backgroundImage: `url(${fallbackImageUrl})` }}
-            aria-label="Hero background image"
-          ></div>
-        )}
+      <div className={`hero-background ${isLoaded ? 'loaded' : ''}`}>
+        {/* Current image with zoom effect */}
+        <div 
+          className={`hero-image ${isTransitioning ? 'fade-out' : 'fade-in'}`}
+          style={{ 
+            backgroundImage: `url(${heroImages[currentImageIndex]})`,
+            animation: `zoomEffect 5s infinite alternate`
+          }}
+        ></div>
         
-        <div className="video-overlay"></div>
+        {/* Next image (shown during transition) */}
+        <div 
+          className={`hero-image next-image ${isTransitioning ? 'fade-in' : 'fade-out'}`}
+          style={{ 
+            backgroundImage: `url(${heroImages[(currentImageIndex + 1) % heroImages.length]})`,
+            animation: `zoomEffect 5s infinite alternate`
+          }}
+        ></div>
         
-        {/* Display error message if there's an issue with the video */}
-        {videoError && process.env.NODE_ENV === 'development' && (
-          <div className="video-error-message">
-            {videoError}
-          </div>
-        )}
+        <div className="hero-overlay"></div>
       </div>
       
       <div className="hero-content">
