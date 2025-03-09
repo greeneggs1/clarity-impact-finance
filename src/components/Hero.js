@@ -12,20 +12,28 @@ const Hero = () => {
   const [isVideoSupported, setIsVideoSupported] = useState(true);
   // eslint-disable-next-line no-unused-vars
   const [isVercelEnvironment, setIsVercelEnvironment] = useState(false);
+  const [useLocalVideos, setUseLocalVideos] = useState(true);
   const videoRef = useRef(null);
   
   // Fallback image - use an absolute URL that will work on Vercel
   const fallbackImageUrl = "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80";
   
+  // Local video sources
+  const localVideoSources = [
+    `${window.location.origin}/videos/ribbon-cutting.mp4`,
+    `${window.location.origin}/videos/your-second-video.mp4`
+  ];
+  
+  // CDN video sources (fallback)
+  const cdnVideoSources = [
+    "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+    "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4"
+  ];
+  
   // Use useMemo to prevent recreation of the array on each render
   const videoSources = useMemo(() => {
-    // For both environments, use videos hosted on a CDN
-    // This ensures consistency between local and Vercel
-    return [
-      "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
-      "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4"
-    ];
-  }, []);
+    return useLocalVideos ? localVideoSources : cdnVideoSources;
+  }, [useLocalVideos, localVideoSources, cdnVideoSources]);
   
   // Check if we're in a Vercel environment
   useEffect(() => {
@@ -45,6 +53,28 @@ const Hero = () => {
       VERCEL: process.env.VERCEL
     });
   }, []);
+  
+  // Check if local videos are available
+  useEffect(() => {
+    const checkLocalVideos = async () => {
+      try {
+        // Try to fetch the first local video
+        const response = await fetch(localVideoSources[0], { method: 'HEAD' });
+        if (!response.ok) {
+          console.log("Local videos not available, using CDN videos");
+          setUseLocalVideos(false);
+        } else {
+          console.log("Local videos available");
+          setUseLocalVideos(true);
+        }
+      } catch (error) {
+        console.error("Error checking local videos:", error);
+        setUseLocalVideos(false);
+      }
+    };
+    
+    checkLocalVideos();
+  }, [localVideoSources]);
   
   // Check if video is supported
   useEffect(() => {
