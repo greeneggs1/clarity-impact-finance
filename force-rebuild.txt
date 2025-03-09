@@ -1,0 +1,10 @@
+This file is used to force Vercel to rebuild the entire project.
+Timestamp: 2024-03-08-20-30
+
+If Vercel is still showing an older version of the website, this file should trigger a complete rebuild.
+
+Changes made in the latest version:
+1. Updated Hero component to use CDN-hosted videos
+2. Added vercel.json configuration
+3. Updated package.json with Vercel-specific build scripts
+4. Improved fallback mechanism for video playback 

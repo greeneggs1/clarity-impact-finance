@@ -3,6 +3,9 @@ import './Hero.css';
 import { scrollToSection } from '../utils/scroll';
 
 const Hero = () => {
+  // Force Vercel to update with this timestamp: 2024-03-08-20-30
+  console.log("Hero component loaded - Vercel deployment timestamp: 2024-03-08-20-30");
+  
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const [videoError, setVideoError] = useState(null);
