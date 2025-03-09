@@ -16,7 +16,7 @@ const Navbar = () => {
       setScrollProgress(progress);
 
       // Update active section
-      const sections = ['home', 'about', 'services', 'blog', 'resources', 'contact'];
+      const sections = ['home', 'about', 'services', 'blog', 'thought-leadership', 'resources', 'contact'];
       for (const section of sections) {
         const element = document.getElementById(section);
         if (element) {
@@ -35,11 +35,25 @@ const Navbar = () => {
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
+    // Close menu when clicking outside
+    if (!isMenuOpen) {
+      document.addEventListener('click', closeMenuOnClickOutside);
+    } else {
+      document.removeEventListener('click', closeMenuOnClickOutside);
+    }
+  };
+
+  const closeMenuOnClickOutside = (e) => {
+    if (!e.target.closest('.navbar-container')) {
+      setIsMenuOpen(false);
+      document.removeEventListener('click', closeMenuOnClickOutside);
+    }
   };
 
   const handleNavClick = (sectionId) => {
     scrollToSection(sectionId);
     setIsMenuOpen(false);
+    document.removeEventListener('click', closeMenuOnClickOutside);
   };
 
   return (
@@ -54,42 +68,31 @@ const Navbar = () => {
         </button>
 
         <div className={`navbar-menu ${isMenuOpen ? 'open' : ''}`}>
-          <button 
-            className={`nav-link ${activeSection === 'home' ? 'active' : ''}`}
-            onClick={() => handleNavClick('home')}
-          >
-            Home
-          </button>
-          <button 
-            className={`nav-link ${activeSection === 'about' ? 'active' : ''}`}
-            onClick={() => handleNavClick('about')}
-          >
-            About
-          </button>
-          <button 
-            className={`nav-link ${activeSection === 'services' ? 'active' : ''}`}
-            onClick={() => handleNavClick('services')}
-          >
-            Services
-          </button>
-          <button 
-            className={`nav-link ${activeSection === 'blog' ? 'active' : ''}`}
-            onClick={() => handleNavClick('blog')}
-          >
-            Case Studies
-          </button>
-          <button 
-            className={`nav-link ${activeSection === 'resources' ? 'active' : ''}`}
-            onClick={() => handleNavClick('resources')}
-          >
-            Resources
-          </button>
-          <button 
-            className={`nav-link ${activeSection === 'contact' ? 'active' : ''}`}
-            onClick={() => handleNavClick('contact')}
-          >
-            Contact
-          </button>
+          <div className={`nav-links ${isMenuOpen ? 'active' : ''}`}>
+            <ul>
+              <li className={activeSection === 'home' ? 'active' : ''}>
+                <button onClick={() => handleNavClick('home')}>Home</button>
+              </li>
+              <li className={activeSection === 'about' ? 'active' : ''}>
+                <button onClick={() => handleNavClick('about')}>About</button>
+              </li>
+              <li className={activeSection === 'services' ? 'active' : ''}>
+                <button onClick={() => handleNavClick('services')}>Services</button>
+              </li>
+              <li className={activeSection === 'blog' ? 'active' : ''}>
+                <button onClick={() => handleNavClick('blog')}>Case Studies</button>
+              </li>
+              <li className={activeSection === 'thought-leadership' ? 'active' : ''}>
+                <button onClick={() => handleNavClick('thought-leadership')}>Insights</button>
+              </li>
+              <li className={activeSection === 'resources' ? 'active' : ''}>
+                <button onClick={() => handleNavClick('resources')}>Resources</button>
+              </li>
+              <li className={activeSection === 'contact' ? 'active' : ''}>
+                <button onClick={() => handleNavClick('contact')}>Contact</button>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
       <div className="scroll-progress" style={{ width: `${scrollProgress}%` }}></div>
@@ -97,4 +100,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar; 
+export default Navbar;
