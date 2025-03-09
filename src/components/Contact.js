@@ -14,8 +14,12 @@ const Contact = () => {
   const [formStatus, setFormStatus] = useState({
     submitted: false,
     error: false,
-    message: ''
+    message: '',
+    loading: false
   });
+
+  // The email address where all form submissions will be sent
+  const contactEmail = 'amir@clarityimpactfinance.com';
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -25,34 +29,69 @@ const Contact = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Form submission logic would go here
-    console.log('Form submitted:', formData);
-    
-    // Simulate successful submission
     setFormStatus({
-      submitted: true,
+      submitted: false,
       error: false,
-      message: 'Thank you for your message. We will contact you soon!'
+      message: '',
+      loading: true
     });
-    
-    // Reset form after 5 seconds
-    setTimeout(() => {
-      setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        organization: '',
-        service: '',
-        message: ''
+
+    try {
+      // Create the message content with all form data
+      const messageContent = `
+        Name: ${formData.name}
+        Email: ${formData.email}
+        Phone: ${formData.phone || 'Not provided'}
+        Organization: ${formData.organization || 'Not provided'}
+        Service: ${formData.service}
+        Message: ${formData.message}
+      `;
+
+      // In a real implementation, you would send this to your backend
+      // For now, we'll simulate a successful API call
+      console.log('Form submitted to:', contactEmail);
+      console.log('Form data:', formData);
+      console.log('Message content:', messageContent);
+
+      // Simulate API call delay
+      await new Promise(resolve => setTimeout(resolve, 1500));
+
+      // Simulate successful submission
+      setFormStatus({
+        submitted: true,
+        error: false,
+        message: 'Thank you for your message. We will contact you soon!',
+        loading: false
       });
+      
+      // Reset form after 5 seconds
+      setTimeout(() => {
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          organization: '',
+          service: '',
+          message: ''
+        });
+        setFormStatus({
+          submitted: false,
+          error: false,
+          message: '',
+          loading: false
+        });
+      }, 5000);
+    } catch (error) {
+      console.error('Error submitting form:', error);
       setFormStatus({
         submitted: false,
-        error: false,
-        message: ''
+        error: true,
+        message: 'There was an error sending your message. Please try again later.',
+        loading: false
       });
-    }, 5000);
+    }
   };
 
   return (
@@ -86,7 +125,7 @@ const Contact = () => {
               </div>
               <div>
                 <h3>Email</h3>
-                <p>info@clarityimpactfinance.com</p>
+                <p>{contactEmail}</p>
               </div>
             </div>
             
@@ -113,6 +152,22 @@ const Contact = () => {
                 </svg>
                 <p>{formStatus.message}</p>
               </div>
+            ) : formStatus.error ? (
+              <div className="form-error">
+                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="12" y1="8" x2="12" y2="12"></line>
+                  <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                </svg>
+                <p>{formStatus.message}</p>
+                <button 
+                  type="button" 
+                  className="try-again-btn"
+                  onClick={() => setFormStatus({submitted: false, error: false, message: '', loading: false})}
+                >
+                  Try Again
+                </button>
+              </div>
             ) : (
               <>
                 <div className="form-row">
@@ -126,6 +181,7 @@ const Contact = () => {
                       onChange={handleChange}
                       required
                       placeholder="Your name"
+                      disabled={formStatus.loading}
                     />
                   </div>
 
@@ -139,6 +195,7 @@ const Contact = () => {
                       onChange={handleChange}
                       required
                       placeholder="Your email address"
+                      disabled={formStatus.loading}
                     />
                   </div>
                 </div>
@@ -153,6 +210,7 @@ const Contact = () => {
                       value={formData.phone}
                       onChange={handleChange}
                       placeholder="Your phone number (optional)"
+                      disabled={formStatus.loading}
                     />
                   </div>
 
@@ -165,6 +223,7 @@ const Contact = () => {
                       value={formData.organization}
                       onChange={handleChange}
                       placeholder="Your organization (optional)"
+                      disabled={formStatus.loading}
                     />
                   </div>
                 </div>
@@ -177,6 +236,7 @@ const Contact = () => {
                     value={formData.service}
                     onChange={handleChange}
                     required
+                    disabled={formStatus.loading}
                   >
                     <option value="">Select a Service</option>
                     <option value="underwriting">Underwriting & Lending Strategy</option>
@@ -196,12 +256,21 @@ const Contact = () => {
                     required
                     rows="5"
                     placeholder="How can we help you?"
+                    disabled={formStatus.loading}
                   ></textarea>
                 </div>
 
-                <button type="submit" className="submit-btn">
-                  Send Message
+                <button 
+                  type="submit" 
+                  className={`submit-btn ${formStatus.loading ? 'loading' : ''}`}
+                  disabled={formStatus.loading}
+                >
+                  {formStatus.loading ? 'Sending...' : 'Send Message'}
                 </button>
+                
+                <div className="form-note">
+                  <p>All messages will be sent to {contactEmail}</p>
+                </div>
               </>
             )}
           </form>

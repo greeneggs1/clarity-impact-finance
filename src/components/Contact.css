@@ -131,14 +131,59 @@
   border: 1px solid rgba(27, 70, 32, 0.1);
 }
 
+.form-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--space-xl) var(--space-md);
+  color: var(--text-dark);
+  background-color: rgba(220, 53, 69, 0.05);
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(220, 53, 69, 0.1);
+}
+
 .form-success svg {
   color: var(--accent);
   margin-bottom: var(--space-md);
 }
 
-.form-success p {
+.form-error svg {
+  color: #dc3545;
+  margin-bottom: var(--space-md);
+}
+
+.form-success p, .form-error p {
   font-size: var(--font-size-lg);
   font-weight: 500;
+}
+
+.try-again-btn {
+  margin-top: var(--space-md);
+  background-color: var(--background-light);
+  color: var(--text-dark);
+  border: 1px solid var(--border-light);
+  padding: var(--space-xs) var(--space-md);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.try-again-btn:hover {
+  background-color: var(--background-dark);
+  color: white;
+}
+
+.form-note {
+  margin-top: var(--space-md);
+  text-align: center;
+  font-size: var(--font-size-sm);
+  color: var(--text-light);
+  padding: var(--space-xs);
+  background-color: rgba(27, 70, 32, 0.05);
+  border-radius: var(--radius-sm);
 }
 
 .contact-form {
@@ -218,12 +263,33 @@
   text-transform: uppercase;
   letter-spacing: 0.5px;
   box-shadow: var(--shadow-sm);
+  position: relative;
 }
 
-.submit-btn:hover {
+.submit-btn.loading {
   background-color: var(--accent-light);
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
+  cursor: not-allowed;
+  opacity: 0.8;
+}
+
+.submit-btn.loading::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  top: 50%;
+  right: 20px;
+  margin-top: -10px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* Responsive styles */
