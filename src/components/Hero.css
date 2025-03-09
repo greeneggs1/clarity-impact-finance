@@ -111,22 +111,24 @@
 }
 
 .primary-btn {
-  padding: 0.875rem 2rem;
+  padding: 1rem 2.5rem;
   font-size: 1.1rem;
   font-weight: 600;
-  background-color: var(--accent-color);
+  background-color: var(--accent);
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: var(--transition-fast);
+  box-shadow: var(--shadow-sm);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
 }
 
 .primary-btn:hover {
-  background-color: var(--accent-color-dark);
+  background-color: var(--accent-light);
   transform: translateY(-2px);
-  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--shadow-md);
 }
 
 .scroll-indicator {
