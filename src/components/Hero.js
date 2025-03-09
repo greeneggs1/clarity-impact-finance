@@ -7,6 +7,7 @@ const Hero = () => {
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const timerRef = useRef(null);
+  const transitionTimeoutRef = useRef(null);
   
   // Hero images wrapped in useMemo to prevent recreation on every render
   const heroImages = useMemo(() => [
@@ -50,19 +51,22 @@ const Hero = () => {
       setIsTransitioning(true);
       
       // After transition duration, change the image
-      setTimeout(() => {
+      transitionTimeoutRef.current = setTimeout(() => {
         setCurrentImageIndex((prevIndex) => (prevIndex + 1) % heroImages.length);
         setIsTransitioning(false);
       }, 1000); // 1 second for the fade transition
     };
     
-    // Start the timer for image rotation
-    timerRef.current = setInterval(rotateImages, 5000); // 5 seconds per image
+    // Start the timer for image rotation - each image displays for 5 seconds + 1 second transition
+    timerRef.current = setInterval(rotateImages, 6000);
     
-    // Clean up the timer on component unmount
+    // Clean up the timers on component unmount
     return () => {
       if (timerRef.current) {
         clearInterval(timerRef.current);
+      }
+      if (transitionTimeoutRef.current) {
+        clearTimeout(transitionTimeoutRef.current);
       }
     };
   }, [isLoaded, heroImages]);
@@ -70,7 +74,7 @@ const Hero = () => {
   return (
     <section id="home" className="hero">
       <div className={`hero-background ${isLoaded ? 'loaded' : ''}`}>
-        {/* Current image with zoom effect */}
+        {/* Current image */}
         <div 
           className={`hero-image ${isTransitioning ? 'fade-out' : 'fade-in'}`}
           style={{ backgroundImage: `url(${heroImages[currentImageIndex]})` }}

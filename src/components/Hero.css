@@ -40,6 +40,7 @@
   background-position: center;
   transition: opacity 1s ease-in-out;
   z-index: 1;
+  opacity: 0; /* Start with opacity 0 */
 }
 
 /* Fade transitions */
@@ -47,15 +48,20 @@
   opacity: 1;
   z-index: 2;
   animation: zoomIn 5s ease-out forwards;
+  animation-delay: 0s; /* Start animation immediately */
 }
 
 .hero-image.fade-out {
   opacity: 0;
   z-index: 1;
+  /* No animation during fade-out */
+  transform: scale(1.1); /* Keep the zoomed state */
+  transition: opacity 1s ease-in-out;
 }
 
 .hero-image.next-image {
   z-index: 1;
+  transform: scale(1); /* Reset scale for next image */
 }
 
 /* Zoom animation - single direction zoom in */
