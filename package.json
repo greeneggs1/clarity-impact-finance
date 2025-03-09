@@ -43,6 +43,8 @@
   },
   "devDependencies": {
     "@craco/craco": "^7.1.0",
-    "file-loader": "^6.2.0"
+    "file-loader": "^6.2.0",
+    "png-to-ico": "^2.1.8",
+    "svg2png": "^4.1.1"
   }
 }
