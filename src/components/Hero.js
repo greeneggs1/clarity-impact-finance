@@ -5,10 +5,14 @@ import { scrollToSection } from '../utils/scroll';
 const Hero = () => {
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   const [hasVideoError, setHasVideoError] = useState(false);
+  const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const videoRef = useRef(null);
   
-  // Cloudinary video URL
-  const videoUrl = "https://res.cloudinary.com/dxenrdunh/video/upload/v1741485459/ribbon-cutting_lkwd5e.mp4";
+  // Cloudinary video URLs
+  const videoUrls = [
+    "https://res.cloudinary.com/dxenrdunh/video/upload/v1741485459/ribbon-cutting_lkwd5e.mp4",
+    "https://res.cloudinary.com/dxenrdunh/video/upload/v1741488625/hero3-community_hjbydr.mp4"
+  ];
   
   // Handle video loading and errors
   useEffect(() => {
@@ -34,6 +38,15 @@ const Hero = () => {
         videoElement.removeEventListener('error', handleVideoError);
       };
     }
+  }, [currentVideoIndex]);
+
+  // Rotate videos every 15 seconds
+  useEffect(() => {
+    const videoRotationInterval = setInterval(() => {
+      setCurrentVideoIndex((prevIndex) => (prevIndex === 0 ? 1 : 0));
+    }, 15000);
+    
+    return () => clearInterval(videoRotationInterval);
   }, []);
 
   // Fallback to local video if Cloudinary video fails to load
@@ -47,6 +60,7 @@ const Hero = () => {
       <div className={`video-background ${isVideoLoaded ? 'loaded' : ''}`}>
         {!hasVideoError ? (
           <video 
+            key={currentVideoIndex} // Key changes force React to recreate the video element
             ref={videoRef}
             autoPlay 
             loop 
@@ -55,7 +69,7 @@ const Hero = () => {
             className="video-element"
             onError={handleCloudinaryError}
           >
-            <source src={videoUrl} type="video/mp4" />
+            <source src={videoUrls[currentVideoIndex]} type="video/mp4" />
             <source src={`${window.location.origin}/videos/ribbon-cutting.mp4`} type="video/mp4" />
             Your browser does not support the video tag.
           </video>

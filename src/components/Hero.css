@@ -38,6 +38,26 @@
   height: 100%;
   object-fit: cover;
   z-index: 1;
+  transition: opacity 1.5s ease-in-out;
+}
+
+/* Add fade transition for video switching */
+.video-fade-enter {
+  opacity: 0;
+}
+
+.video-fade-enter-active {
+  opacity: 1;
+  transition: opacity 1.5s ease-in-out;
+}
+
+.video-fade-exit {
+  opacity: 1;
+}
+
+.video-fade-exit-active {
+  opacity: 0;
+  transition: opacity 1.5s ease-in-out;
 }
 
 .video-overlay {
