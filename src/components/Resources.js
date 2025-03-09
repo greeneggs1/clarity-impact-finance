@@ -532,7 +532,6 @@ const Resources = () => {
                           <p>{resource.description}</p>
                           <div className="resource-meta">
                             <span className="resource-type">{resource.type}</span>
-                            <span className="resource-org">By {resource.organization}</span>
                           </div>
                           <div className="resource-details">
                             <span className="resource-file-type">{resource.fileType}</span>
@@ -637,7 +636,6 @@ const Resources = () => {
                         <p>{resource.description}</p>
                         <div className="resource-meta">
                           <span className="resource-type">{resource.type}</span>
-                          <span className="resource-org">By {resource.organization}</span>
                         </div>
                         <div className="resource-details">
                           <span className="resource-file-type">{resource.fileType}</span>
