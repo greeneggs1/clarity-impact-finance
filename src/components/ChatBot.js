@@ -627,8 +627,8 @@ const ChatBot = () => {
   const apiKey = process.env.REACT_APP_OPENAI_API_KEY || '';
   const apiKeyAvailable = apiKey && apiKey.length > 10 && apiKey !== 'your_openai_api_key_here';
   
-  // Allow manual override for local testing
-  const [useLLM, setUseLLM] = useState(false);
+  // Enable AI by default
+  const [useLLM, setUseLLM] = useState(true);
   
   // Debug info
   console.log('API Key available:', apiKeyAvailable);
@@ -636,18 +636,72 @@ const ChatBot = () => {
   console.log('LLM enabled:', useLLM);
   
   const messagesEndRef = useRef(null);
+  const messagesContainerRef = useRef(null);
 
+  // Enhanced scrollToBottom function with multiple approaches for reliability
   const scrollToBottom = () => {
+    // Approach 1: Using the ref to the bottom element
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
     }
+    
+    // Approach 2: Directly setting scrollTop on the container
+    if (messagesContainerRef.current) {
+      const { scrollHeight } = messagesContainerRef.current;
+      messagesContainerRef.current.scrollTop = scrollHeight;
+    }
   };
 
+  // Scroll to bottom whenever messages change or chat is opened
   useEffect(() => {
     if (isOpen) {
-      scrollToBottom();
+      // Use setTimeout to ensure DOM has updated before scrolling
+      setTimeout(scrollToBottom, 100);
     }
   }, [isOpen, messages]);
+
+  // Set up a MutationObserver to detect changes in the messages container
+  useEffect(() => {
+    if (!messagesContainerRef.current) return;
+    
+    const messagesContainer = messagesContainerRef.current;
+    
+    // Create a MutationObserver to watch for changes
+    const observer = new MutationObserver(() => {
+      scrollToBottom();
+    });
+    
+    // Start observing the container for DOM changes
+    observer.observe(messagesContainer, {
+      childList: true,
+      subtree: true,
+      characterData: true
+    });
+    
+    // Clean up the observer on component unmount
+    return () => {
+      observer.disconnect();
+    };
+  }, [isOpen]);
+
+  // Update initial message when component mounts to reflect AI being enabled by default
+  useEffect(() => {
+    if (!apiKeyAvailable && useLLM) {
+      setMessages([
+        {
+          type: 'bot',
+          text: 'Hi! I can help answer your questions about community development finance. I\'m using simulated AI responses since no valid API key was found. Please select a topic you\'re interested in:'
+        }
+      ]);
+    } else if (apiKeyAvailable && useLLM) {
+      setMessages([
+        {
+          type: 'bot',
+          text: 'Hi! I can help answer your questions about community development finance using AI-powered responses. Please select a topic you\'re interested in:'
+        }
+      ]);
+    }
+  }, [apiKeyAvailable, useLLM]);
 
   // Function to query OpenAI's API
   const queryLLM = async (prompt, category) => {
@@ -660,17 +714,41 @@ const ChatBot = () => {
         // Simulate API delay
         await new Promise(resolve => setTimeout(resolve, 1500));
         
-        return `This is a simulated AI response about ${
-          category === 'cdfi' ? 'Community Development Financial Institutions (CDFIs)' : 
-          category === 'nmtc' ? 'New Markets Tax Credit Program (NMTC)' : 
-          'Charter School financing and development'
-        } in response to your question: "${prompt}".
+        // Create a simulated response that follows our guidelines
+        const topic = category === 'cdfi' ? 'Community Development Financial Institutions (CDFIs)' : 
+                      category === 'nmtc' ? 'New Markets Tax Credit Program (NMTC)' : 
+                      'Charter School financing and development';
         
-        To use the real OpenAI API:
-        1. Make sure your .env file contains a valid REACT_APP_OPENAI_API_KEY
-        2. The API key should start with "sk-" and be about 51 characters long
-        3. Restart your development server after updating the .env file
-        4. Check the console logs for debugging information`;
+        return `Here's a concise answer about ${topic}:
+
+${prompt.includes('what') || prompt.includes('explain') || prompt.includes('describe') ? 
+`Key points about ${topic}:
+• They provide financial services to underserved communities
+• They focus on economic development and community impact
+• They often work with traditional lenders as partners
+• They measure both financial and social returns` : 
+
+prompt.includes('how') ? 
+`How to work with ${topic}:
+• Identify your community development goals first
+• Research CDFIs that specialize in your sector
+• Prepare clear impact metrics for your project
+• Be ready to demonstrate community benefit` :
+
+prompt.includes('benefits') || prompt.includes('advantages') ? 
+`Benefits of ${topic}:
+• Access to capital for underserved communities
+• Flexible terms compared to traditional financing
+• Technical assistance often included
+• Focus on long-term community impact` :
+
+`Important information about ${topic}:
+• Created to address gaps in traditional financing
+• Regulated by the CDFI Fund at the US Treasury
+• Over 1,400 certified CDFIs nationwide
+• Provide services including loans, investments, and technical assistance`}
+
+Need more specific information? Feel free to ask a more targeted question.`;
       }
       
       // Log for debugging (don't log the full key in production)
@@ -694,6 +772,13 @@ const ChatBot = () => {
                 'Charter School financing and development'
               }. 
               
+              RESPONSE GUIDELINES:
+              1. Keep responses concise and to the point - no more than 3-4 short paragraphs maximum
+              2. Use bullet points whenever listing information, examples, steps, or features
+              3. Break complex information into easily scannable sections with clear headings
+              4. Avoid lengthy explanations - focus on key points only
+              5. Use simple, direct language and avoid jargon when possible
+              
               Provide accurate, concise information based on your knowledge. Focus on practical, actionable information that would be helpful to professionals in the community development finance field.
               
               When discussing ${
@@ -707,7 +792,7 @@ const ChatBot = () => {
               content: prompt
             }
           ],
-          max_tokens: 800,
+          max_tokens: 500,
           temperature: 0.7
         })
       });
@@ -934,22 +1019,29 @@ const ChatBot = () => {
       { type: 'user', text: `I want to learn about ${category === 'cdfi' ? 'CDFIs' : category === 'nmtc' ? 'NMTC' : 'Charter Schools'}` },
       { type: 'bot', text: welcomeMessage }
     ]);
+    
+    // Scroll to bottom after category selection
+    setTimeout(scrollToBottom, 10);
   };
 
   const handleExampleClick = (question) => {
     if (!selectedCategory) {
       setMessages([...messages, { type: 'bot', text: 'Please select a topic first (CDFI, NMTC, or Charter Schools).' }]);
+      // Scroll after adding the message
+      setTimeout(scrollToBottom, 10);
       return;
     }
     
     setMessages([...messages, { type: 'user', text: question }]);
+    // Scroll immediately after adding user message
+    setTimeout(scrollToBottom, 10);
     
     setTimeout(async () => {
       const botResponse = await getBotResponse(question, selectedCategory);
       setMessages(prevMessages => [...prevMessages, { type: 'bot', text: botResponse }]);
       
       // Scroll to bottom after bot response
-      scrollToBottom();
+      setTimeout(scrollToBottom, 10);
     }, 100);
   };
 
@@ -963,18 +1055,22 @@ const ChatBot = () => {
         { type: 'bot', text: 'Please select a topic first (CDFI, NMTC, or Charter Schools).' }
       ]);
       setInputText('');
+      // Scroll after adding the messages
+      setTimeout(scrollToBottom, 10);
       return;
     }
 
     setMessages([...messages, { type: 'user', text: inputText }]);
     setInputText('');
+    // Scroll immediately after adding user message
+    setTimeout(scrollToBottom, 10);
     
     setTimeout(async () => {
       const botResponse = await getBotResponse(inputText, selectedCategory);
       setMessages(prevMessages => [...prevMessages, { type: 'bot', text: botResponse }]);
       
       // Scroll to bottom after bot response
-      scrollToBottom();
+      setTimeout(scrollToBottom, 10);
     }, 100);
   };
 
@@ -988,17 +1084,25 @@ const ChatBot = () => {
     ]);
   };
 
-  // Add a function to handle document links
+  // Enhanced function to handle document links and formatting
   const renderMessageWithLinks = (text) => {
+    // Process bullet points and line breaks first
+    const processedText = text
+      // Convert bullet points with proper spacing
+      .replace(/•\s+/g, '• ')
+      // Ensure proper line breaks
+      .replace(/\n{3,}/g, '\n\n'); // Replace multiple line breaks with just two
+    
     // Regular expression to match markdown-style links: [text](url)
     const linkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
     
     // Split the text by links
-    const parts = text.split(linkRegex);
+    const parts = processedText.split(linkRegex);
     
     if (parts.length === 1) {
-      // No links found, return the text as is
-      return text;
+      // No links found, return the processed text
+      // Use white-space: pre-line in CSS to preserve line breaks
+      return processedText;
     }
     
     const elements = [];
@@ -1089,11 +1193,11 @@ const ChatBot = () => {
             <h3>Clarity Chatbot</h3>
             <div className="chat-header-controls">
               <button 
-                className="llm-toggle-button"
+                className={`llm-toggle-button ${useLLM ? 'active' : ''}`}
                 onClick={toggleLLMMode}
-                title={useLLM ? "Switch to predefined responses" : "Switch to LLM-powered responses"}
+                title={useLLM ? "Switch to predefined responses" : "Switch to AI-powered responses"}
               >
-                {useLLM ? "AI: ON" : "AI: OFF"}
+                {useLLM ? "AI Mode" : "Basic Mode"}
               </button>
               <button 
                 className="close-button"
@@ -1103,7 +1207,7 @@ const ChatBot = () => {
               </button>
             </div>
           </div>
-          <div className="messages-container">
+          <div className="messages-container" ref={messagesContainerRef}>
             {messages.map((message, index) => (
               <div 
                 key={index} 
