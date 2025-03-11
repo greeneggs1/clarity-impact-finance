@@ -28,20 +28,22 @@ The following logo files have been updated with the official Clarity Impact Fina
 
 ## CSS Adjustments
 
-The following CSS adjustments have been made to ensure the logo displays properly:
+The following CSS adjustments have been made to ensure the logo displays prominently:
 
 1. **Desktop**: 
-   - Logo height increased to 100px for maximum visibility
-   - Navbar container padding reduced to 0.5rem to accommodate the larger logo
+   - Logo height dramatically increased to 140px for maximum visibility
+   - Navbar container width increased to 1400px to provide more space
+   - Navbar container padding reduced to 0.25rem to focus on the logo
+   - Navbar brand given flex: 1 and max-width: 70% to ensure logo has plenty of room
 
 2. **Tablet** (max-width: 992px):
-   - Logo height set to 90px for medium-sized screens
+   - Logo height set to 120px for medium-sized screens
 
 3. **Mobile** (max-width: 768px):
-   - Logo height set to 80px for smaller screens
-   - Container padding adjusted to 0.4rem 1.5rem for better mobile layout
+   - Logo height set to 100px for smaller screens
+   - Container padding adjusted to 0.25rem 1.5rem for better mobile layout
 
-These responsive adjustments ensure the logo is prominently displayed across all device sizes while maintaining proper layout.
+These responsive adjustments ensure the logo is the dominant visual element across all device sizes while maintaining proper layout.
 
 ## Original Logo Files
 

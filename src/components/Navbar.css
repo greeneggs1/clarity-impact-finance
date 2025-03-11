@@ -10,9 +10,9 @@
 }
 
 .navbar-container {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 0.5rem 2rem;
+  padding: 0.25rem 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -21,10 +21,12 @@
 .navbar-brand {
   display: flex;
   align-items: center;
+  flex: 1;
+  max-width: 70%;
 }
 
 .navbar-logo {
-  height: 100px;
+  height: 140px;
   cursor: pointer;
   transition: transform 0.3s ease;
 }
@@ -195,7 +197,7 @@
   }
 
   .navbar-logo {
-    height: 90px; /* Size for tablets - between desktop and mobile */
+    height: 120px; /* Increased from 90px to 120px for tablets */
   }
 
   .nav-links.active {
@@ -222,11 +224,11 @@
   }
 
   .navbar-logo {
-    height: 80px;
+    height: 100px; /* Increased from 80px to 100px for mobile */
   }
 
   .navbar-container {
-    padding: 0.4rem 1.5rem;
+    padding: 0.25rem 1.5rem; /* Adjusted padding for mobile */
   }
 
   .navbar-menu {
