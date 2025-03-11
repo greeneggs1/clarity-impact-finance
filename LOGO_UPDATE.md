@@ -28,7 +28,10 @@ The following logo files have been updated with the official Clarity Impact Fina
 
 ## CSS Adjustments
 
-The navbar logo height has been adjusted to 60px (from 50px) to ensure the new logo displays properly.
+The following CSS adjustments have been made to ensure the logo displays properly:
+
+1. The navbar logo height has been increased to 80px (originally 50px, then 60px) to make the logo more prominent
+2. The navbar container padding has been adjusted to 0.75rem (from 1rem) to accommodate the larger logo while maintaining the overall navbar height
 
 ## Original Logo Files
 
