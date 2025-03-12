@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import './Resources.css';
 
 const Resources = () => {
@@ -429,289 +430,69 @@ const Resources = () => {
   return (
     <section id="resources" className="resources">
       <div className="resources-container">
-        {activeView === 'resources' ? (
-          <>
-            <div className="resources-header">
-              <h1>Resource Hub</h1>
-              <p>Connect to specialized resources from leading organizations in community development finance.</p>
-              <div className="resource-hub-description">
-                <p>Our Resource Hub serves as a comprehensive training and development platform specifically designed for the CDFI sector. We've curated essential tools, guides, and frameworks to help community development financial institutions build capacity, improve lending practices, and maximize their impact in underserved communities.</p>
-              </div>
-            </div>
-            
-            {/* Prominent Learning Pathways */}
-            <div className="featured-learning-paths">
-              <h2>Learning Pathways</h2>
-              <p>Follow guided learning journeys curated by industry experts to develop specialized skills in community finance</p>
-              
-              <div className="featured-learning-paths-grid">
-                {learningPaths.map((path) => (
-                  <div 
-                    key={path.id} 
-                    className="featured-learning-path-card"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleLearningPathSelect(path.id);
-                    }}
-                  >
-                    <div className="featured-path-image" style={{ backgroundImage: `url(${path.image})` }}>
-                      <div className="featured-path-overlay"></div>
-                    </div>
-                    <div className="featured-path-content">
-                      <h3>{path.title}</h3>
-                      <p>{path.description}</p>
-                      <div className="featured-path-steps">
-                        {path.steps.map((step, index) => (
-                          <div key={step.id} className="featured-path-step">
-                            <div className="step-number">{index + 1}</div>
-                            <div className="step-name">{step.title}</div>
-                          </div>
-                        ))}
-                      </div>
-                      <button className="start-path-button">
-                        Start Learning Path
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                          <line x1="5" y1="12" x2="19" y2="12"></line>
-                          <polyline points="12 5 19 12 12 19"></polyline>
-                        </svg>
-                      </button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-            
-            <div className="resources-main-content">
-              <div className="resources-filters">
-                <h2>Search & Filter</h2>
-                
-                <h3>Search Resources</h3>
-                <input
-                  type="text"
-                  className="search-input"
-                  placeholder="Search by keyword..."
-                  value={searchTerm}
-                  onChange={(e) => {
-                    setSearchTerm(e.target.value);
-                    if (e.target.value) setShowAllResources(true);
-                  }}
-                />
-                
-                <h3>Filter by Category</h3>
-                <select 
-                  className="filter-select"
-                  value={selectedCategory}
-                  onChange={(e) => {
-                    setSelectedCategory(e.target.value);
-                    if (e.target.value !== 'All Categories') setShowAllResources(true);
-                  }}
-                >
-                  {categories.map((category, index) => (
-                    <option key={index} value={category}>{category}</option>
-                  ))}
-                </select>
-                
-                <h3>Filter by Type</h3>
-                <select 
-                  className="filter-select"
-                  value={selectedType}
-                  onChange={(e) => {
-                    setSelectedType(e.target.value);
-                    if (e.target.value !== 'All Types') setShowAllResources(true);
-                  }}
-                >
-                  {types.map((type, index) => (
-                    <option key={index} value={type}>{type}</option>
-                  ))}
-                </select>
-                
-                <h3>Popular Topics</h3>
-                <div className="popular-tags">
-                  {popularTags.map((tag, index) => (
-                    <button 
-                      key={index} 
-                      className="tag-button"
-                      onClick={() => handleTagClick(tag)}
-                    >
-                      {tag}
-                    </button>
-                  ))}
+        <h2>Resource Hub</h2>
+        <p className="resources-intro">
+          Access our comprehensive collection of training materials, guides, and tools designed specifically for CDFI professionals
+        </p>
+        
+        <div className="resources-preview">
+          <div className="resources-description">
+            <h3>CDFI Training & Development Resources</h3>
+            <p>
+              Our Resource Hub provides a comprehensive collection of training materials, guides, templates, 
+              and tools designed specifically for CDFI professionals. Whether you're a loan officer, portfolio 
+              manager, or compliance specialist, our curated resources will help you enhance your skills and 
+              improve your organization's impact in underserved communities.
+            </p>
+            <p>
+              Explore our Learning Pathways for structured professional development or browse our resource 
+              library for specific tools and guides to address your immediate needs.
+            </p>
+            <Link to="/resources" className="resources-cta-button">
+              Explore All Resources
+            </Link>
+          </div>
+          
+          <div className="resources-featured">
+            <h3>Featured Resources</h3>
+            <div className="featured-resources-grid">
+              <div className="featured-resource-card">
+                <h4>CDFI Underwriting Best Practices Guide</h4>
+                <p>Comprehensive guide to CDFI underwriting standards and best practices for various loan types.</p>
+                <div className="resource-tags">
+                  <span className="resource-tag">underwriting</span>
+                  <span className="resource-tag">best practices</span>
                 </div>
-                
-                <button className="reset-button" onClick={resetFilters}>
-                  Reset Filters
-                </button>
               </div>
               
-              <div className="resources-results">
-                <div className="results-header">
-                  <h2>
-                    {displayedResources.length} {displayedResources.length === 1 ? 'Resource' : 'Resources'} Available
-                    {!showAllResources && filteredResources.length > initialResources.length && (
-                      <span className="resources-count-note"> (Showing {initialResources.length} of {filteredResources.length})</span>
-                    )}
-                  </h2>
-                  <p>Curated resources from trusted partners in community development</p>
+              <div className="featured-resource-card">
+                <h4>Portfolio Risk Management Framework</h4>
+                <p>Framework for assessing and managing risk across a CDFI loan portfolio.</p>
+                <div className="resource-tags">
+                  <span className="resource-tag">risk management</span>
+                  <span className="resource-tag">portfolio monitoring</span>
                 </div>
-                
-                {displayedResources.length > 0 ? (
-                  <>
-                    <div className="resources-grid">
-                      {displayedResources.map((resource) => (
-                        <div key={resource.id} className={`resource-card ${resource.featured ? 'featured' : ''}`}>
-                          {resource.featured && <span className="featured-badge">Featured</span>}
-                          <div className="resource-content">
-                            <div className="resource-category">{resource.category}</div>
-                            <h3>{resource.title}</h3>
-                            <p>{resource.description}</p>
-                            <div className="resource-meta">
-                              <span className="resource-type">{resource.type}</span>
-                            </div>
-                            <div className="resource-details">
-                              <span className="resource-file-type">{resource.fileType}</span>
-                              <span className="resource-file-size">{resource.fileSize}</span>
-                              <span className="resource-date">Updated: {resource.lastUpdated}</span>
-                            </div>
-                            <div className="resource-tags">
-                              {resource.tags.slice(0, 3).map((tag, tagIndex) => (
-                                <span 
-                                  key={tagIndex} 
-                                  className="resource-tag"
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    handleTagClick(tag);
-                                  }}
-                                >
-                                  {tag}
-                                </span>
-                              ))}
-                            </div>
-                          </div>
-                          <a 
-                            href="#resource-coming-soon"
-                            className="resource-link-button coming-soon" 
-                            onClick={(e) => e.preventDefault()}
-                            aria-label="Resource coming soon"
-                            role="button"
-                          >
-                            Coming Soon
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                              <circle cx="12" cy="12" r="10"></circle>
-                              <line x1="12" y1="8" x2="12" y2="16"></line>
-                              <line x1="8" y1="12" x2="16" y2="12"></line>
-                            </svg>
-                          </a>
-                        </div>
-                      ))}
-                    </div>
-                    
-                    {!showAllResources && filteredResources.length > initialResources.length && (
-                      <div className="show-more-container">
-                        <button className="show-more-button" onClick={handleShowAllResources}>
-                          Show All Resources
-                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                            <polyline points="6 9 12 15 18 9"></polyline>
-                          </svg>
-                        </button>
-                      </div>
-                    )}
-                  </>
-                ) : (
-                  <div className="no-results">
-                    <h3>No resources found</h3>
-                    <p>Try adjusting your search criteria or <button onClick={resetFilters}>reset all filters</button></p>
-                  </div>
-                )}
-                
-                <div className="resources-disclaimer">
-                  <p>
-                    These resources are provided by third-party organizations. Clarity Impact Finance does not host or maintain these resources directly. 
-                    Links will take you to external websites where you can access the full content.
-                  </p>
+              </div>
+              
+              <div className="featured-resource-card">
+                <h4>CDFI Fund Compliance Handbook</h4>
+                <p>Comprehensive handbook on CDFI Fund compliance requirements and reporting.</p>
+                <div className="resource-tags">
+                  <span className="resource-tag">compliance</span>
+                  <span className="resource-tag">reporting</span>
                 </div>
               </div>
             </div>
-          </>
-        ) : (
-          // Learning Path View
-          <div className="learning-path-container">
-            <div className="learning-path-sidebar">
-              <button className="back-button" onClick={handleBackToResources}>
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <line x1="19" y1="12" x2="5" y2="12"></line>
-                  <polyline points="12 19 5 12 12 5"></polyline>
-                </svg>
-                Back to Resources
-              </button>
-              
-              <div className="learning-path-info">
-                <h2>{activeLearningPath?.title}</h2>
-                <p>{activeLearningPath?.description}</p>
-              </div>
-              
-              <div className="learning-path-steps-list">
-                <h3>Learning Steps</h3>
-                {activeLearningPath?.steps.map((step, index) => (
-                  <div 
-                    key={step.id} 
-                    className={`learning-path-step ${activePathStep?.id === step.id ? 'active' : ''}`}
-                    onClick={() => handleStepSelect(step.id)}
-                  >
-                    <div className="step-number">{index + 1}</div>
-                    <div className="step-content">
-                      <h4>{step.title}</h4>
-                      <p>{step.description}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
             
-            <div className="learning-path-content">
-              <h2>{activePathStep?.title} Resources</h2>
-              <p>Curated resources to help you master this topic</p>
-              
-              <div className="learning-path-resources">
-                {getStepResources().map((resource) => (
-                  <div key={resource.id} className="resource-card">
-                    <div className="resource-content">
-                      <div className="resource-category">{resource.category}</div>
-                      <h3>{resource.title}</h3>
-                      <p>{resource.description}</p>
-                      <div className="resource-meta">
-                        <span className="resource-type">{resource.type}</span>
-                      </div>
-                      <div className="resource-details">
-                        <span className="resource-file-type">{resource.fileType}</span>
-                        <span className="resource-file-size">{resource.fileSize}</span>
-                        <span className="resource-date">Updated: {resource.lastUpdated}</span>
-                      </div>
-                      <div className="resource-tags">
-                        {resource.tags.slice(0, 3).map((tag, tagIndex) => (
-                          <span key={tagIndex} className="resource-tag">{tag}</span>
-                        ))}
-                      </div>
-                    </div>
-                    <a 
-                      href="#resource-coming-soon"
-                      className="resource-link-button coming-soon" 
-                      onClick={(e) => e.preventDefault()}
-                      aria-label="Resource coming soon"
-                      role="button"
-                    >
-                      Coming Soon
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <circle cx="12" cy="12" r="10"></circle>
-                        <line x1="12" y1="8" x2="12" y2="16"></line>
-                        <line x1="8" y1="12" x2="16" y2="12"></line>
-                      </svg>
-                    </a>
-                  </div>
-                ))}
-              </div>
+            <div className="learning-paths-preview">
+              <h3>Learning Pathways</h3>
+              <p>Follow structured learning paths designed for specific CDFI roles and skill development.</p>
+              <Link to="/resources" className="resources-link">
+                View Learning Pathways →
+              </Link>
             </div>
           </div>
-        )}
+        </div>
       </div>
     </section>
   );

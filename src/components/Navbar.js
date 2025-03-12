@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { scrollToSection } from '../utils/scroll';
 import logo from '../assets/logo-new.svg';
 import './Navbar.css';
@@ -96,6 +97,10 @@ const Navbar = () => {
   };
 
   const handleNavClick = (sectionId) => {
+    if (sectionId === 'resources') {
+      // Don't use scrollToSection for resources, let the Link component handle it
+      return;
+    }
     scrollToSection(sectionId);
     setIsMenuOpen(false);
     document.removeEventListener('click', closeMenuOnClickOutside);
@@ -138,7 +143,13 @@ const Navbar = () => {
               <ul>
                 {navLinks.map(link => (
                   <li key={link.id} className={activeSection === link.id ? 'active' : ''}>
-                    <button onClick={() => handleNavClick(link.id)}>{link.label}</button>
+                    {link.id === 'resources' ? (
+                      <Link to="/resources" onClick={() => setIsMenuOpen(false)}>
+                        {link.label}
+                      </Link>
+                    ) : (
+                      <button onClick={() => handleNavClick(link.id)}>{link.label}</button>
+                    )}
                   </li>
                 ))}
               </ul>
@@ -156,7 +167,13 @@ const Navbar = () => {
               <ul>
                 {navLinks.map(link => (
                   <li key={link.id} className={activeSection === link.id ? 'active' : ''}>
-                    <button onClick={() => handleNavClick(link.id)}>{link.label}</button>
+                    {link.id === 'resources' ? (
+                      <Link to="/resources" className="nav-link">
+                        {link.label}
+                      </Link>
+                    ) : (
+                      <button onClick={() => handleNavClick(link.id)}>{link.label}</button>
+                    )}
                   </li>
                 ))}
               </ul>
@@ -169,8 +186,9 @@ const Navbar = () => {
             </button>
           </div>
         )}
+        
+        <div className="scroll-progress" style={{ width: `${scrollProgress}%` }}></div>
       </div>
-      <div className="scroll-progress" style={{ width: `${scrollProgress}%` }}></div>
     </nav>
   );
 };

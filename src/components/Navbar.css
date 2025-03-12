@@ -80,7 +80,7 @@
   margin: 0;
 }
 
-.nav-links button {
+.nav-links button, .nav-links a {
   background: transparent;
   border: none;
   color: #ffffff;
@@ -91,14 +91,16 @@
   position: relative;
   transition: all 0.3s ease;
   letter-spacing: 0.02em;
+  text-decoration: none;
+  display: inline-block;
 }
 
-.nav-links li.active button {
+.nav-links li.active button, .nav-links li.active a {
   color: var(--accent);
   font-weight: 600;
 }
 
-.nav-links li.active button::after {
+.nav-links li.active button::after, .nav-links li.active a::after {
   content: '';
   position: absolute;
   bottom: 0;
@@ -109,7 +111,7 @@
   background-color: var(--accent);
 }
 
-.nav-links button:hover {
+.nav-links button:hover, .nav-links a:hover {
   color: var(--accent);
 }
 
@@ -216,14 +218,14 @@
     text-align: center;
   }
   
-  .nav-links button {
+  .nav-links button, .nav-links a {
     width: 100%;
     padding: 1rem;
     font-size: 18px;
     font-weight: 600;
   }
   
-  .nav-links li.active button::after {
+  .nav-links li.active button::after, .nav-links li.active a::after {
     display: none;
   }
   
@@ -347,7 +349,7 @@
   margin: 0 5px;
 }
 
-.nav-links button {
+.nav-links button, .nav-links a {
   background: transparent;
   border: none;
   color: #ffffff;
@@ -359,11 +361,11 @@
   transition: all 0.3s ease;
 }
 
-.nav-links li.active button {
+.nav-links li.active button, .nav-links li.active a {
   color: var(--accent);
 }
 
-.nav-links li.active button::after {
+.nav-links li.active button::after, .nav-links li.active a::after {
   content: '';
   position: absolute;
   bottom: 0;
@@ -374,16 +376,16 @@
   background-color: var(--accent);
 }
 
-.nav-links button:hover {
+.nav-links button:hover, .nav-links a:hover {
   color: var(--accent);
 }
 
 /* When navbar is scrolled, adjust text color */
-.navbar.scrolled .nav-links button {
+.navbar.scrolled .nav-links button, .navbar.scrolled .nav-links a {
   color: #ffffff;
 }
 
-.navbar.scrolled .nav-links li.active button {
+.navbar.scrolled .nav-links li.active button, .navbar.scrolled .nav-links li.active a {
   color: var(--accent);
 }
 
@@ -412,11 +414,11 @@
     margin: 10px 0;
   }
   
-  .nav-links li.active button::after {
+  .nav-links li.active button::after, .nav-links li.active a::after {
     bottom: -5px;
   }
   
-  .nav-links button {
+  .nav-links button, .nav-links a {
     color: #ffffff;
     font-weight: 600;
   }
@@ -449,7 +451,7 @@
     visibility: visible;
   }
 
-  .nav-links button {
+  .nav-links button, .nav-links a {
     color: #ffffff;
     font-weight: 600;
     width: 100%;
@@ -457,16 +459,16 @@
     padding: 1rem;
   }
   
-  .nav-links li.active button {
+  .nav-links li.active button, .nav-links li.active a {
     color: var(--accent);
     font-weight: 700;
   }
 
-  .nav-links li.active button::after {
+  .nav-links li.active button::after, .nav-links li.active a::after {
     display: none;
   }
 
-  .nav-links button:hover {
+  .nav-links button:hover, .nav-links a:hover {
     background: rgba(230, 126, 69, 0.1);
   }
 } 
