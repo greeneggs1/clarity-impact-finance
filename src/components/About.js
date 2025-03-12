@@ -1,11 +1,15 @@
 import React from 'react';
 import './About.css';
 import profileImage from '../assets/profile.jpg';
+import logoEmblem from '../assets/logo-emblem.svg';
 
 const About = () => {
   return (
     <section id="about" className="about">
       <div className="about-content-wrapper">
+        <div className="logo-emblem-container">
+          <img src={logoEmblem} alt="Clarity Impact Finance Logo Emblem" className="logo-emblem" />
+        </div>
         <h2>Leadership & Vision</h2>
         
         <div className="vision-statement">
@@ -83,35 +87,6 @@ const About = () => {
                 </p>
               </div>
             </div>
-          </div>
-        </div>
-
-        <div className="market-section">
-          <h3>Market Insight</h3>
-          <div className="market-stats">
-            <div className="stat-card">
-              <span className="stat-number">550+</span>
-              <p>Target CDFIs<br /><span className="stat-detail">Small to Mid-Sized Institutions</span></p>
-            </div>
-            <div className="stat-card">
-              <span className="stat-number">$150M+</span>
-              <p>Proven Track Record<br /><span className="stat-detail">In Community Investments</span></p>
-            </div>
-            <div className="stat-card">
-              <span className="stat-number">$5B</span>
-              <p>Market Potential<br /><span className="stat-detail">2023 CDFI Fund Awards</span></p>
-            </div>
-          </div>
-          <p className="market-description">
-            In today's evolving CDFI landscape, small and mid-sized institutions face unique challenges 
-            in building robust lending programs and measuring impact. Our deep expertise in deploying 
-            over $150M in strategic investments positions us to help these institutions unlock their 
-            full potential and maximize community impact.
-          </p>
-          <div className="market-cta">
-            <button onClick={() => window.location.href = '#contact'} className="cta-button">
-              Partner With Us
-            </button>
           </div>
         </div>
       </div>

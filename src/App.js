@@ -4,7 +4,7 @@ import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import About from './components/About';
 import Services from './components/Services';
-import Blog from './components/Blog';
+import ImpactStory from './components/ImpactStory';
 import Resources from './components/Resources';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
@@ -13,13 +13,16 @@ import ChatBot from './components/ChatBot';
 function App() {
   return (
     <div className="App">
+      <a href="#main-content" className="skip-to-content">Skip to main content</a>
       <Navbar />
-      <Hero />
-      <About />
-      <Services />
-      <Blog />
-      <Resources />
-      <Contact />
+      <main id="main-content">
+        <Hero />
+        <About />
+        <Services />
+        <ImpactStory />
+        <Resources />
+        <Contact />
+      </main>
       <Footer />
       <ChatBot />
     </div>

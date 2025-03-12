@@ -1,0 +1,60 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Convert SVG to PNG</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    .container { margin-bottom: 20px; }
+    button { padding: 10px; margin: 5px; background: #0D4715; color: white; border: none; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <h1>Favicon Generator</h1>
+  <p>Use this page to generate favicon files from the SVG emblem.</p>
+  
+  <div class="container">
+    <h2>Emblem Preview</h2>
+    <img id="emblem" src="./public/logo-emblem.svg" alt="Logo Emblem" style="width: 200px; height: 200px;">
+  </div>
+  
+  <div class="container">
+    <h2>Generate Favicon Files</h2>
+    <button onclick="generatePNG(16)">Generate 16x16 Favicon</button>
+    <button onclick="generatePNG(32)">Generate 32x32 Favicon</button>
+    <button onclick="generatePNG(192)">Generate 192x192 Logo</button>
+    <button onclick="generatePNG(512)">Generate 512x512 Logo</button>
+  </div>
+  
+  <div id="downloads" class="container">
+    <h2>Download Links</h2>
+    <p>Click the buttons above to generate download links</p>
+  </div>
+  
+  <script>
+    function generatePNG(size) {
+      const canvas = document.createElement('canvas');
+      canvas.width = size;
+      canvas.height = size;
+      const ctx = canvas.getContext('2d');
+      
+      const img = document.getElementById('emblem');
+      ctx.drawImage(img, 0, 0, size, size);
+      
+      const dataUrl = canvas.toDataURL('image/png');
+      
+      const link = document.createElement('a');
+      link.href = dataUrl;
+      link.download = size === 16 ? 'favicon-16x16.png' : 
+                     size === 32 ? 'favicon-32x32.png' : 
+                     `logo${size}.png`;
+      link.textContent = `Download ${size}x${size} PNG`;
+      
+      const container = document.getElementById('downloads');
+      container.appendChild(link);
+      container.appendChild(document.createElement('br'));
+    }
+  </script>
+</body>
+</html>
+  

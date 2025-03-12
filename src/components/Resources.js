@@ -434,12 +434,15 @@ const Resources = () => {
             <div className="resources-header">
               <h1>Resource Hub</h1>
               <p>Connect to specialized resources from leading organizations in community development finance.</p>
+              <div className="resource-hub-description">
+                <p>Our Resource Hub serves as a comprehensive training and development platform specifically designed for the CDFI sector. We've curated essential tools, guides, and frameworks to help community development financial institutions build capacity, improve lending practices, and maximize their impact in underserved communities.</p>
+              </div>
             </div>
             
             {/* Prominent Learning Pathways */}
             <div className="featured-learning-paths">
               <h2>Learning Pathways</h2>
-              <p>Follow guided learning journeys curated by industry experts</p>
+              <p>Follow guided learning journeys curated by industry experts to develop specialized skills in community finance</p>
               
               <div className="featured-learning-paths-grid">
                 {learningPaths.map((path) => (

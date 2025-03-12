@@ -1,5 +1,5 @@
 .services {
-  padding: 3rem 2rem 6rem;
+  padding: 0 2rem 6rem;
   background: #ffffff;
 }
 
@@ -34,7 +34,7 @@
   color: #2d3748;
   font-size: 1.2rem;
   max-width: 800px;
-  margin: 0 auto 4rem;
+  margin: 0 auto 2.5rem;
   line-height: 1.6;
 }
 
@@ -55,6 +55,7 @@
   border: 1px solid rgba(27, 70, 32, 0.1);
   display: flex;
   flex-direction: column;
+  height: 100%;
 }
 
 .service-card:hover {
@@ -74,6 +75,9 @@
   font-size: 1.8rem;
   margin-bottom: 1.5rem;
   font-weight: 700;
+  min-height: 2.7rem;
+  display: flex;
+  align-items: center;
 }
 
 .service-content {
@@ -97,6 +101,7 @@
   flex-grow: 1;
   display: flex;
   flex-direction: column;
+  min-height: 180px;
 }
 
 .service-features li {
@@ -115,15 +120,16 @@
 
 .service-benefits {
   background: linear-gradient(145deg, #1B4620 0%, #153618 100%);
-  padding: 1.25rem 1.75rem;
+  padding: 1.25rem 1.75rem 1.75rem;
   border-radius: 12px;
   margin-bottom: 2rem;
-  margin-top: 1rem;
+  margin-top: -6rem;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  height: 260px;
 }
 
 .service-benefits:hover {
@@ -135,7 +141,7 @@
 .service-benefits h4 {
   color: #E67E45;
   font-size: 1.3rem;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.5rem;
   font-weight: 700;
   letter-spacing: 0.01em;
   position: relative;
@@ -159,8 +165,8 @@
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.6rem;
-  justify-content: center;
+  gap: 0.8rem;
+  justify-content: flex-start;
 }
 
 .service-benefits li {

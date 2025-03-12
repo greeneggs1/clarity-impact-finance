@@ -9,8 +9,6 @@ const Footer = () => {
     { name: 'Home', section: 'home' },
     { name: 'About', section: 'about' },
     { name: 'Services', section: 'services' },
-    { name: 'Case Studies', section: 'blog' },
-    { name: 'Insights', section: 'thought-leadership' },
     { name: 'Resources', section: 'resources' },
     { name: 'Contact', section: 'contact' }
   ];

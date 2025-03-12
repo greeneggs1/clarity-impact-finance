@@ -3,14 +3,14 @@ import './Hero.css';
 import { scrollToSection } from '../utils/scroll';
 
 const Hero = () => {
-  const [isVideoLoaded, setIsVideoLoaded] = useState(false);
+  const [isVideoLoaded, setIsVideoLoaded] = useState(true);
   const [hasVideoError, setHasVideoError] = useState(false);
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const videoRef = useRef(null);
   
   // Video URLs - Using direct links to ensure reliability
   const videoUrls = [
-    "https://res.cloudinary.com/dxenrdunh/video/upload/v1741485459/ribbon-cutting_lkwd5e.mp4",
+    "https://res.cloudinary.com/dxenrdunh/video/upload/v1741744125/20250311_1844_Thriving_Diverse_Community_simple_compose_01jp3p2g0rfg2vxwem9vg0xxwr_tyrsec.mp4",
     "https://res.cloudinary.com/dxenrdunh/video/upload/v1741488625/hero3-community_hjbydr.mp4"
   ];
   
@@ -19,18 +19,11 @@ const Hero = () => {
     const videoElement = videoRef.current;
     
     if (videoElement) {
-      const handleVideoLoaded = () => {
-        console.log("Video loaded successfully");
-        setIsVideoLoaded(true);
-        setHasVideoError(false);
-      };
-      
       const handleVideoError = (error) => {
         console.error("Error loading video:", error);
         setHasVideoError(true);
       };
       
-      videoElement.addEventListener('loadeddata', handleVideoLoaded);
       videoElement.addEventListener('error', handleVideoError);
       
       // Force video to load
@@ -38,7 +31,6 @@ const Hero = () => {
       
       // Clean up event listeners
       return () => {
-        videoElement.removeEventListener('loadeddata', handleVideoLoaded);
         videoElement.removeEventListener('error', handleVideoError);
       };
     }
@@ -71,7 +63,7 @@ const Hero = () => {
 
   return (
     <section id="home" className="hero">
-      <div className={`video-background ${isVideoLoaded ? 'loaded' : ''}`}>
+      <div className="video-background loaded">
         {!hasVideoError ? (
           <video 
             key={currentVideoIndex} // Key changes force React to recreate the video element
@@ -99,13 +91,13 @@ const Hero = () => {
       
       <div className="hero-content">
         <h1>Empowering CDFIs to Transform Communities</h1>
-        <h2>Strategic Consulting for Mission Driven Lenders</h2>
+        <h2>We provide strategic consulting and innovative solutions for mission-driven lenders to maximize their impact, streamline operations, and create sustainable change in underserved communities.</h2>
         <div className="hero-buttons">
           <button 
             className="primary-btn"
             onClick={() => scrollToSection('services')}
           >
-            View Our Services
+            Explore Our Services
           </button>
         </div>
       </div>

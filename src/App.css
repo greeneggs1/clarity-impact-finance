@@ -116,10 +116,10 @@ section {
   }
 }
 
-/* Accessibility improvements */
+/* Basic accessibility improvements */
 :focus {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
 }
 
 /* Smooth scrolling */
@@ -132,6 +132,16 @@ button,
 a.button, 
 input[type="submit"] {
   cursor: pointer;
+  min-height: 44px; /* Minimum touch target size */
+  min-width: 44px;
+  padding: 8px 16px;
+}
+
+button:focus-visible, 
+a.button:focus-visible, 
+input[type="submit"]:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
 }
 
 button:disabled, 
@@ -149,6 +159,7 @@ input[type="submit"]:disabled {
   width: 1px;
   height: 1px;
   overflow: hidden;
+  z-index: 9999;
 }
 
 .skip-to-content:focus {
@@ -160,8 +171,18 @@ input[type="submit"]:disabled {
   padding: var(--space-sm) var(--space-md);
   background: var(--primary-dark);
   color: white;
-  z-index: 9999;
   text-decoration: none;
+  font-weight: bold;
+}
+
+/* Basic reduce motion support */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 .App-logo {
