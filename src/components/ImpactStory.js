@@ -8,7 +8,7 @@ const ImpactStory = () => {
       id: 1,
       title: "Central City Concern, Portland, OR",
       description: "The Blackburn Center provides 124 units of supportive housing and integrated healthcare services through innovative financing.",
-      image: "/images/central-city-concern.jpg",
+      image: `${process.env.PUBLIC_URL}/images/central-city-concern.jpg`,
       stats: [
         { value: "124", label: "Supportive Housing Units" },
         { value: "3,000+", label: "Patients Served Annually" },
@@ -19,7 +19,7 @@ const ImpactStory = () => {
       id: 2,
       title: "Martha O'Bryan Center, Nashville, TN",
       description: "Helping families leave poverty in a single generation through family support services, job training, and high-quality education.",
-      image: "/images/martha-obryan-center.jpg",
+      image: `${process.env.PUBLIC_URL}/images/martha-obryan-center.jpg`,
       stats: [
         { value: "$15M", label: "Capital Deployed" },
         { value: "5,000+", label: "Families Served" },
@@ -30,7 +30,7 @@ const ImpactStory = () => {
       id: 3,
       title: "Amana Academy, Atlanta, GA",
       description: "Supporting the expansion of a STEM-focused charter school with innovative educational program and facilities",
-      image: "/images/amana-academy.jpg",
+      image: `${process.env.PUBLIC_URL}/images/amana-academy.jpg`,
       stats: [
         { value: "700+", label: "Students Served" },
         { value: "15+ Yrs", label: "Track Record" },
