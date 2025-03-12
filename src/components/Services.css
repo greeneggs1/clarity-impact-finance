@@ -209,30 +209,6 @@
   box-shadow: 0 6px 12px rgba(230, 126, 69, 0.3);
 }
 
-.services-cta {
-  text-align: center;
-  background: #1B4620;
-  color: white;
-  padding: 4rem;
-  border-radius: 15px;
-  margin-top: 4rem;
-}
-
-.services-cta h3 {
-  font-size: 2rem;
-  margin-bottom: 1rem;
-  font-weight: 700;
-}
-
-.services-cta p {
-  font-size: 1.2rem;
-  margin-bottom: 2rem;
-  opacity: 0.9;
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
 .contact-btn {
   background: #E67E45;
   color: white;
@@ -278,14 +254,6 @@
 
   .service-card p {
     font-size: 1rem;
-  }
-
-  .services-cta h3 {
-    font-size: 1.8rem;
-  }
-
-  .services-cta p {
-    font-size: 1.1rem;
   }
 
   .contact-btn {

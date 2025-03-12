@@ -132,17 +132,6 @@ const Services = () => {
             </button>
           </div>
         </div>
-
-        <div className="services-cta">
-          <h3>Ready to Transform Your CDFI's Impact?</h3>
-          <p>Let's discuss how our expertise can help you achieve your community development goals.</p>
-          <button 
-            className="contact-btn"
-            onClick={() => scrollToSection('contact')}
-          >
-            Schedule a Consultation
-          </button>
-        </div>
       </div>
     </section>
   );
