@@ -15,36 +15,8 @@
       "dest": "/static/$1"
     },
     {
-      "src": "/videos/(.*)",
-      "dest": "/videos/$1"
-    },
-    {
-      "src": "/images/(.*)",
-      "dest": "/images/$1"
-    },
-    {
-      "src": "/chatbot-resources/(.*)",
-      "dest": "/chatbot-resources/$1"
-    },
-    {
       "src": "/favicon.ico",
       "dest": "/favicon.ico"
-    },
-    {
-      "src": "/favicon-16x16.png",
-      "dest": "/favicon-16x16.png"
-    },
-    {
-      "src": "/favicon-32x32.png",
-      "dest": "/favicon-32x32.png"
-    },
-    {
-      "src": "/logo192.png",
-      "dest": "/logo192.png"
-    },
-    {
-      "src": "/logo512.png",
-      "dest": "/logo512.png"
     },
     {
       "src": "/manifest.json",
@@ -60,14 +32,10 @@
     }
   ],
   "env": {
-    "REACT_APP_VERCEL": "true",
-    "DEPLOYMENT_TIMESTAMP": "2024-03-09-00-00",
-    "CI": "false",
-    "PROJECT_NAME": "clarity-impact-finance2"
+    "CI": "false"
   },
   "github": {
     "enabled": true,
-    "silent": false,
-    "autoJobCancelation": true
+    "silent": false
   }
 } 
