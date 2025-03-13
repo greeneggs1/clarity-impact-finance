@@ -3,7 +3,6 @@ import './Hero.css';
 import { scrollToSection } from '../utils/scroll';
 
 const Hero = () => {
-  const [isVideoLoaded, setIsVideoLoaded] = useState(true);
   const [hasVideoError, setHasVideoError] = useState(false);
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const videoRef = useRef(null);
@@ -12,12 +11,6 @@ const Hero = () => {
   const videoUrls = [
     "https://res.cloudinary.com/dxenrdunh/video/upload/v1741744125/20250311_1844_Thriving_Diverse_Community_simple_compose_01jp3p2g0rfg2vxwem9vg0xxwr_tyrsec.mp4",
     "https://res.cloudinary.com/dxenrdunh/video/upload/v1741488625/hero3-community_hjbydr.mp4"
-  ];
-  
-  // Poster images (first frame of each video)
-  const posterUrls = [
-    "https://res.cloudinary.com/dxenrdunh/video/upload/so_0/v1741744125/20250311_1844_Thriving_Diverse_Community_simple_compose_01jp3p2g0rfg2vxwem9vg0xxwr_tyrsec.jpg",
-    "https://res.cloudinary.com/dxenrdunh/video/upload/so_0/v1741488625/hero3-community_hjbydr.jpg"
   ];
   
   // Handle video loading and errors
@@ -78,7 +71,6 @@ const Hero = () => {
             muted 
             playsInline
             preload="auto"
-            poster={posterUrls[currentVideoIndex]}
             className="video-element"
             // Only loop the first video
             loop={currentVideoIndex === 0}
