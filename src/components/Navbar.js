@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import { scrollToSection } from '../utils/scroll';
 import logo from '../assets/logo-new.svg';
 import './Navbar.css';
@@ -97,97 +96,68 @@ const Navbar = () => {
   };
 
   const handleNavClick = (sectionId) => {
-    if (sectionId === 'resources') {
-      // Don't use scrollToSection for resources, let the Link component handle it
-      return;
-    }
     scrollToSection(sectionId);
     setIsMenuOpen(false);
     document.removeEventListener('click', closeMenuOnClickOutside);
   };
 
-  // Determine navbar classes
-  const navbarClasses = [
-    'navbar',
-    isScrolled ? 'scrolled' : '',
-    isVisible || isMenuOpen ? 'visible' : 'hidden'
-  ].filter(Boolean).join(' ');
-
-  // Navigation links configuration
-  const navLinks = [
-    { id: 'home', label: 'Home' },
-    { id: 'about', label: 'About' },
-    { id: 'services', label: 'Services' },
-    { id: 'resources', label: 'Resources' }
-  ];
-
   return (
-    <nav className={navbarClasses}>
+    <nav className={`navbar ${isScrolled ? 'scrolled' : ''} ${isVisible ? 'visible' : 'hidden'}`}>
       <div className="navbar-container">
-        <div className="navbar-brand">
-          <img 
-            src={logo} 
-            alt="Clarity Impact Finance" 
-            className="navbar-logo" 
-            onClick={() => handleNavClick('home')} 
-          />
+        <div className="navbar-brand" onClick={() => scrollToSection('home')}>
+          <img src={logo} alt="Clarity Impact Finance Logo" className="navbar-logo" />
         </div>
 
-        <button className="menu-toggle" onClick={toggleMenu} aria-label="Toggle menu">
-          <span className={`menu-icon ${isMenuOpen ? 'open' : ''}`}></span>
+        <button className={`menu-toggle ${isMenuOpen ? 'active' : ''}`} onClick={toggleMenu}>
+          <span></span>
+          <span></span>
+          <span></span>
         </button>
 
-        {isMobile ? (
-          <div className={`navbar-menu ${isMenuOpen ? 'open' : ''}`}>
-            <div className="nav-links active">
-              <ul>
-                {navLinks.map(link => (
-                  <li key={link.id} className={activeSection === link.id ? 'active' : ''}>
-                    {link.id === 'resources' ? (
-                      <Link to="/resources" onClick={() => setIsMenuOpen(false)}>
-                        {link.label}
-                      </Link>
-                    ) : (
-                      <button onClick={() => handleNavClick(link.id)}>{link.label}</button>
-                    )}
-                  </li>
-                ))}
-              </ul>
-              <button 
-                className="contact-btn" 
-                onClick={() => handleNavClick('contact')}
-              >
-                Contact Us
-              </button>
-            </div>
-          </div>
-        ) : (
-          <div className="navbar-menu">
-            <div className="nav-links">
-              <ul>
-                {navLinks.map(link => (
-                  <li key={link.id} className={activeSection === link.id ? 'active' : ''}>
-                    {link.id === 'resources' ? (
-                      <Link to="/resources" className="nav-link">
-                        {link.label}
-                      </Link>
-                    ) : (
-                      <button onClick={() => handleNavClick(link.id)}>{link.label}</button>
-                    )}
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <button 
-              className="contact-btn" 
-              onClick={() => handleNavClick('contact')}
-            >
-              Contact Us
-            </button>
-          </div>
-        )}
-        
-        <div className="scroll-progress" style={{ width: `${scrollProgress}%` }}></div>
+        <div className={`nav-links ${isMenuOpen ? 'active' : ''}`}>
+          <ul>
+            <li className={activeSection === 'home' ? 'active' : ''}>
+              <button onClick={() => handleNavClick('home')}>Home</button>
+            </li>
+            <li className={activeSection === 'about' ? 'active' : ''}>
+              <button onClick={() => handleNavClick('about')}>About</button>
+            </li>
+            <li className={activeSection === 'services' ? 'active' : ''}>
+              <button onClick={() => handleNavClick('services')}>Services</button>
+            </li>
+            <li className={activeSection === 'blog' ? 'active' : ''}>
+              <button onClick={() => handleNavClick('blog')}>Blog</button>
+            </li>
+            <li className={activeSection === 'resources' ? 'active' : ''}>
+              <button onClick={() => handleNavClick('resources')}>Resources</button>
+            </li>
+            <li className={activeSection === 'contact' ? 'active' : ''}>
+              <button onClick={() => handleNavClick('contact')}>Contact</button>
+            </li>
+          </ul>
+        </div>
+      </div>
+      
+      {/* Progress indicator bar */}
+      <div className="scroll-progress-container">
+        <div 
+          className="scroll-progress-bar" 
+          style={{ width: `${scrollProgress}%` }}
+        ></div>
+      </div>
+      
+      {/* Quick section navigation dots */}
+      <div className="section-dots">
+        {['home', 'about', 'services', 'blog', 'resources', 'contact'].map(section => (
+          <button
+            key={section}
+            className={`section-dot ${activeSection === section ? 'active' : ''}`}
+            onClick={() => handleNavClick(section)}
+            aria-label={`Go to ${section} section`}
+          >
+            <span className="dot-tooltip">{section}</span>
+          </button>
+        ))}
       </div>
     </nav>
   );

@@ -89,7 +89,7 @@ const Hero = () => {
       </div>
       
       <div className="hero-content">
-        <h1>Empowering CDFIs to Transform Communities</h1>
+        <h1>Transforming Communities Through Finance</h1>
         <h2>We provide strategic consulting and innovative solutions for mission-driven lenders to maximize their impact, streamline operations, and create sustainable change in underserved communities.</h2>
         <div className="hero-buttons">
           <button 
@@ -97,6 +97,12 @@ const Hero = () => {
             onClick={() => scrollToSection('services')}
           >
             Explore Our Services
+          </button>
+          <button 
+            className="secondary-btn"
+            onClick={() => scrollToSection('contact')}
+          >
+            Contact Us
           </button>
         </div>
       </div>
