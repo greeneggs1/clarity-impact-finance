@@ -10,17 +10,6 @@ const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const [prevScrollPos, setPrevScrollPos] = useState(0);
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
-
-  // Check if the device is mobile
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768);
-    };
-    
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -109,9 +98,9 @@ const Navbar = () => {
         </div>
 
         <button className={`menu-toggle ${isMenuOpen ? 'active' : ''}`} onClick={toggleMenu}>
-          <span></span>
-          <span></span>
-          <span></span>
+          <span className="hamburger-line"></span>
+          <span className="hamburger-line"></span>
+          <span className="hamburger-line"></span>
         </button>
 
         <div className={`nav-links ${isMenuOpen ? 'active' : ''}`}>
@@ -144,20 +133,6 @@ const Navbar = () => {
           className="scroll-progress-bar" 
           style={{ width: `${scrollProgress}%` }}
         ></div>
-      </div>
-      
-      {/* Quick section navigation dots */}
-      <div className="section-dots">
-        {['home', 'about', 'services', 'blog', 'resources', 'contact'].map(section => (
-          <button
-            key={section}
-            className={`section-dot ${activeSection === section ? 'active' : ''}`}
-            onClick={() => handleNavClick(section)}
-            aria-label={`Go to ${section} section`}
-          >
-            <span className="dot-tooltip">{section}</span>
-          </button>
-        ))}
       </div>
     </nav>
   );
