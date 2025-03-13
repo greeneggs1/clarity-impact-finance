@@ -3,34 +3,6 @@ import './About.css';
 import profileImage from '../assets/profile.jpg';
 import logoEmblem from '../assets/logo-emblem.svg';
 
-// Sample advisor data - replace with your actual advisors
-const advisors = [
-  {
-    id: 1,
-    name: "Jane Smith, PhD",
-    title: "Financial Inclusion Expert",
-    organization: "Urban Development Institute",
-    bio: "20+ years experience in financial inclusion policy and implementation across urban markets.",
-    image: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80"
-  },
-  {
-    id: 2,
-    name: "Michael Johnson, MBA",
-    title: "CDFI Operations Specialist",
-    organization: "Community Capital Alliance",
-    bio: "Former COO of major CDFI with expertise in operational efficiency and scaling impact.",
-    image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80"
-  },
-  {
-    id: 3,
-    name: "Elena Rodriguez, JD",
-    title: "Regulatory Compliance Counsel",
-    organization: "Financial Access Law Center",
-    bio: "Specializes in navigating complex regulatory frameworks for mission-driven financial institutions.",
-    image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80"
-  }
-];
-
 const About = () => {
   return (
     <section id="about" className="about">
@@ -115,28 +87,6 @@ const About = () => {
                 </p>
               </div>
             </div>
-          </div>
-        </div>
-
-        {/* Advisors Section */}
-        <div className="advisors-section">
-          <h2>Advisors</h2>
-          <p className="advisors-intro">Our work is guided by industry experts who bring decades of experience in community development finance, impact investment, and financial inclusion.</p>
-          
-          <div className="advisors-grid">
-            {advisors.map(advisor => (
-              <div key={advisor.id} className="advisor-card">
-                <div className="advisor-image">
-                  <img src={advisor.image} alt={advisor.name} />
-                </div>
-                <div className="advisor-info">
-                  <h3>{advisor.name}</h3>
-                  <h4>{advisor.title}</h4>
-                  <h5>{advisor.organization}</h5>
-                  <p>{advisor.bio}</p>
-                </div>
-              </div>
-            ))}
           </div>
         </div>
       </div>
