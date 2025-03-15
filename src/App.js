@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
-import About from './components/About';
+import TeamSection from './components/TeamSection';
 import Services from './components/Services';
 import ImpactStory from './components/ImpactStory';
 import Blog from './components/Blog';
@@ -37,7 +37,7 @@ function App() {
                 <Navbar />
                 <main id="main-content">
                   <Hero />
-                  <About />
+                  <TeamSection />
                   <Services />
                   <ImpactStory />
                   <Blog />
