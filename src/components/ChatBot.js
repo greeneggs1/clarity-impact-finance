@@ -111,6 +111,18 @@ const ChatBot = () => {
             setTimeout(() => {
               latestMessage.classList.remove('highlighted-response');
             }, 2000);
+            
+            // If this is just the greeting message, make sure options are visible
+            if (messages.length === 1 && !optionsMinimized) {
+              // Find the options layout
+              const optionsLayout = document.querySelector('.chatbot-options-layout');
+              if (optionsLayout) {
+                // Make sure options are visible after greeting
+                setTimeout(() => {
+                  optionsLayout.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 300);
+              }
+            }
           }
         }
       }, 100);
@@ -551,6 +563,13 @@ const ChatBot = () => {
     // When opening the chat, make sure options are visible
     if (!isOpen && isMobile) {
       setOptionsMinimized(false);
+      
+      // Reset to initial state when opening chat to ensure options are visible
+      if (messages.length === 1) {
+        // Only if we have just the greeting message
+        setSelectedCategory(null);
+        setShowContactForm(false);
+      }
     }
     setIsOpen(prevIsOpen => !prevIsOpen);
   };
@@ -612,6 +631,18 @@ const ChatBot = () => {
   // Function to toggle options visibility on mobile
   const toggleOptionsVisibility = () => {
     setOptionsMinimized(!optionsMinimized);
+    
+    // When expanding options, ensure proper layout adjustments
+    if (optionsMinimized) {
+      // Small delay to allow the CSS transition to start
+      setTimeout(() => {
+        // Scroll to the options section to make it fully visible
+        const optionsLayout = document.querySelector('.chatbot-options-layout');
+        if (optionsLayout) {
+          optionsLayout.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 50);
+    }
   };
 
   return (
