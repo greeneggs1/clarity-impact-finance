@@ -82,7 +82,7 @@ What drives Amir most is witnessing the tangible differences that strategic capi
         <div className="advisory-board-section">
           <h3 className="section-subheading">Advisory Board</h3>
           <div className="coming-soon-container">
-            <p className="coming-soon-message">Coming Soon</p>
+            <p className="coming-soon-message">Coming Soon - Updated</p>
           </div>
         </div>
 
