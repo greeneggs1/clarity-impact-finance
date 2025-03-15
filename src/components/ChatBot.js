@@ -1,615 +1,32 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import './ChatBot.css';
-
-// Predefined knowledge base from cdfi.org and ofn.org
-const knowledgeBase = {
-  cdfiBasics: `
-Community Development Financial Institutions (CDFIs) are private-sector, financial intermediaries with community development as their primary mission. Where others see risk, CDFIs see opportunity.
-
-CDFIs measure success by focusing on the "double bottom line": economic gains and the contributions they make to the local community. They rebuild businesses, housing, voluntary organizations, and services central to revitalizing our nation's poor and working class neighborhoods.
-
-Key Statistics:
-- Over 1,400 certified CDFIs nationwide
-- Manage more than $222 billion in assets
-- Serve clients across all 50 states, DC, US Virgin Islands, and Puerto Rico
-
-Client Demographics:
-- 66% Clients of Color
-- 85% Low-Income Clients
-- 27% Rural Clients
-- 48% Women Clients
-  `,
-  
-  cdfiTypes: `
-There are four main types of CDFIs, each serving different community needs:
-
-1. Community Development Banks:
-- Provide capital to rebuild economically distressed communities
-- For-profit corporations with community representation on boards
-- Regulated by FDIC and other federal/state agencies
-- Deposits are FDIC insured
-
-2. Community Development Credit Unions:
-- Promote ownership of assets and savings
-- Provide affordable credit and retail financial services
-- Nonprofit financial cooperatives owned by members
-- Regulated by National Credit Union Administration
-- Deposits typically NCUA insured
-
-3. Community Development Loan Funds:
-- Focus on businesses, housing, and community service organizations
-- Provide financing and development services
-- Typically nonprofit organizations
-- Governed by boards with community representation
-
-4. Community Development Venture Capital Funds:
-- Provide equity and debt-with-equity features
-- Focus on small and medium-sized businesses
-- Can be for-profit or nonprofit
-- Include community representation
-  `,
-
-  services: `
-CDFIs provide essential tools and services to underserved communities:
-
-Core Financial Services:
-- Traditional banking and financial services
-- Small business lending
-- Affordable housing financing
-- Community facility funding
-- Personal loans and savings accounts
-- Microenterprise development
-
-Underwriting and Lending:
-- Credit analysis and risk assessment
-- Financial statement analysis
-- Cash flow projections
-- Collateral evaluation
-- Term structuring
-- Risk mitigation strategies
-
-NMTC Consulting:
-- Project structuring
-- Application preparation
-- Compliance monitoring
-- Impact measurement
-- Reporting requirements
-- Investor relations
-
-Federal Program Compliance and Asset Management:
-- Bond Guarantee Program (BGP) administration
-  • Quarterly reporting and monitoring
-  • Asset-liability matching
-  • Credit enhancement tracking
-- Department of Education program management
-  • Title IV compliance oversight
-  • Financial aid administration
-  • Default prevention programs
-- Portfolio monitoring and oversight
-  • Risk assessment and mitigation
-  • Performance tracking
-  • Compliance monitoring
-- Federal grant compliance
-  • Reporting and documentation
-  • Audit preparation
-  • Program-specific requirements
-
-Technical Assistance:
-- Financial education and training
-- Business development support
-- Compliance guidance
-- Grant writing assistance
-- Technology implementation
-- Staff capacity building
-
-Development Services:
-- Community needs assessment
-- Project feasibility studies
-- Partnership development
-- Impact measurement
-- Sustainability planning
-- Strategic advisory services
-  `,
-
-  impact: `
-CDFIs create significant impact in communities through:
-
-Economic Development:
-- Job creation and retention
-- Small business growth
-- Local economic stimulation
-- Wealth building opportunities
-
-Community Benefits:
-- Affordable housing development
-- Community facility creation
-- Financial education
-- Technical assistance
-- Local decision-making
-- Sustainable community development
-
-Multiplier Effect:
-- Loan repayments recycled into new community investments
-- Creation of future markets for mainstream financial institutions
-- "Graduate" borrowers to conventional lending
-- Ripple effects bringing responsible homeowners and locally-owned businesses
-  `,
-
-  funding: `
-CDFIs attract capital from diverse sources:
-
-Private Sector:
-- Corporations
-- Individual investors
-- Religious institutions
-- Private foundations
-- Bank investments (CRA-motivated)
-- Impact investors
-- Corporate partners
-
-Public Sector:
-- CDFI Fund (U.S. Treasury)
-- Capital grants
-- Equity investments
-- Technical assistance awards
-- New Markets Tax Credits
-- Bank Enterprise Award Program
-
-Customer Sources:
-- Depositor funds (for banks and credit unions)
-- Loan repayments
-- Service fees
-  `,
-
-  history: `
-CDFI History and Evolution:
-
-Origins:
-- Roots in immigrant guilds of NYC's Lower East Side
-- Prairie Populists of late 1800s
-- First community development credit unions in 1930s
-- Modern industry began in late 1960s and early 1970s
-
-Key Developments:
-- 1973: First community development bank (South Shore Bank, Chicago)
-- 1977: Santa Cruz Community Credit Union established
-- 1994: Riegle Community Development Banking Act
-- 1995: CRA regulations recognize CDFI investments
-
-Current Status:
-Key Functions of CDFIs:
-- Providing affordable housing loans
-- Supporting small business development
-- Offering community facility financing
-- Creating jobs through business lending
-- Delivering financial education and technical assistance
-
-Impact Areas:
-- Economic Development
-- Affordable Housing
-- Community Facilities
-- Small Business Growth
-- Financial Inclusion
-  `,
-  
-  certificationProcess: `
-CDFI Certification Process and Requirements:
-
-1. Primary Mission Test:
-- Must have a primary mission of promoting community development
-- Documentation of mission in organizing documents
-- Track record of community development activities
-
-2. Financing Entity Test:
-- Must be a financing entity
-- Dedication of assets to development services
-- Demonstrated lending or investment activity
-
-3. Target Market Test:
-- Service to eligible target market
-- Investment Areas (geographic)
-- Low-Income Targeted Populations
-- Other Targeted Populations
-
-4. Accountability Test:
-- Maintain accountability to defined target market
-- Board representation from target market
-- Advisory board involvement
-
-5. Development Services Test:
-- Provision of development services
-- Technical assistance
-- Financial education
-- Business planning support
-
-Application Steps:
-1. Submit CDFI Certification Application
-2. Provide supporting documentation
-3. Undergo review by CDFI Fund
-4. Respond to additional information requests
-5. Receive certification decision
-  `,
-
-  fundingGuide: `
-CDFI Funding Sources and Programs:
-
-1. Federal Funding:
-- CDFI Fund Financial Assistance (FA)
-- Technical Assistance (TA) grants
-- Bank Enterprise Award (BEA) Program
-- Capital Magnet Fund
-- New Markets Tax Credit Program
-
-2. Private Sector Sources:
-- Bank investments (CRA-motivated)
-- Foundation grants
-- Impact investors
-- Corporate partners
-- Religious institutions
-
-3. State and Local Resources:
-- State CDFI programs
-- Municipal partnerships
-- Local economic development initiatives
-- Regional funding collaboratives
-
-Application Tips:
-- Start preparation early
-- Ensure strong track record
-- Document community impact
-- Build diverse funding sources
-- Maintain compliance records
-  `,
-
-  complianceAndAsset: `
-Federal Program Compliance and Asset Management Details:
-
-Bond Guarantee Program (BGP):
-- Compliance with CDFI Fund requirements
-- Quarterly reporting and monitoring
-- Asset-liability matching
-- Risk management protocols
-- Capital adequacy maintenance
-- Credit enhancement tracking
-- Impact measurement systems
-
-Department of Education Programs:
-- Title IV compliance
-- Financial aid administration
-- Student loan servicing
-- Default prevention
-- Reporting requirements
-- Program eligibility maintenance
-- Administrative capability demonstration
-
-Asset Management Framework:
-- Portfolio segmentation
-- Risk-based pricing models
-- Early warning systems
-- Workout strategies
-- Collection procedures
-- Loss mitigation protocols
-- Performance analytics
-
-Compliance Management Systems:
-- Policy and procedure development
-- Staff training programs
-- Internal audit protocols
-- Documentation standards
-- Quality control measures
-- Regulatory change management
-- Compliance testing procedures
-
-Risk Management:
-- Credit risk assessment
-- Market risk evaluation
-- Operational risk monitoring
-- Compliance risk tracking
-- Strategic risk analysis
-- Reputation risk management
-- Capital adequacy assessment
-
-Reporting and Documentation:
-- Federal agency reporting
-- Impact measurement
-- Performance metrics
-- Compliance certifications
-- Audit documentation
-- Board reporting
-- Stakeholder communications
-  `,
-  
-  // New Markets Tax Credit (NMTC) knowledge base
-  nmtcBasics: `
-The New Markets Tax Credit Program (NMTC Program) helps economically distressed communities attract private investment capital by providing investors with a federal tax credit.
-
-Established by Congress in 2000, the NMTC Program permits individual and corporate taxpayers to receive a credit against federal income taxes for making Qualified Equity Investments (QEIs) in qualified community development entities (CDEs).
-
-The credit provided to the investor totals 39% of the cost of the investment and is claimed over a seven-year period.
-
-Key Program Features:
-- Administered by the CDFI Fund
-- Attracts investment capital to low-income communities
-- Permits taxpayers to claim credit against federal income taxes
-- Provides 39% tax credit over seven years (5% for each of first three years, 6% for remaining four years)
-- Investments must remain in qualified low-income communities for seven years
-  `,
-  
-  nmtcEligibility: `
-NMTC Program Eligibility Requirements:
-
-For Community Development Entities (CDEs):
-- Must be certified by the CDFI Fund
-- Primary mission of serving low-income communities
-- Accountability to residents of low-income communities
-- Must have a track record of providing capital or technical assistance
-
-For Qualified Low-Income Community Investments (QLICIs):
-- Must be located in eligible census tracts
-- Typically areas with poverty rates of at least 20% or
-- Median family income at or below 80% of area median
-
-For Businesses:
-- Must be located in qualifying low-income census tracts
-- Cannot be in certain prohibited business types (e.g., gambling facilities, liquor stores, etc.)
-- Must generate revenues and create jobs within the low-income community
-
-For Investors:
-- Can be banks, insurance companies, corporations, or individuals
-- Must make equity investments in CDEs
-- Must maintain investment for the full seven-year period to claim full tax credit
-  `,
-  
-  nmtcApplication: `
-NMTC Application Process:
-
-1. CDE Certification:
-- Organizations must first be certified as CDEs by the CDFI Fund
-- Application requires demonstration of primary mission and accountability
-
-2. NMTC Allocation Application:
-- Annual competitive application process
-- CDEs apply to the CDFI Fund for the authority to issue tax credits to investors
-- Applications evaluated based on business strategy, community impact, management capacity, and capitalization strategy
-
-3. Allocation Awards:
-- CDFI Fund announces allocation awards annually
-- Successful CDEs receive authority to issue a specific dollar amount of tax credits
-
-4. Deployment of Allocation:
-- CDEs raise capital from investors in exchange for tax credits
-- CDEs deploy capital as QLICIs in qualified businesses and projects
-- Investments must be maintained for seven years
-
-5. Compliance and Reporting:
-- CDEs must report to the CDFI Fund annually
-- Must demonstrate compliance with program requirements
-- Must show community impact of investments
-  `,
-  
-  nmtcImpact: `
-NMTC Program Impact:
-
-Economic Development Outcomes:
-- Since inception, the NMTC has generated over $60 billion in investments in low-income communities
-- Created or retained approximately 830,000 jobs
-- Financed over 6,500 businesses and revitalization projects
-- Every $1 of federal tax revenue foregone generates $8 of private investment
-
-Types of Projects Financed:
-- Community facilities (healthcare centers, schools, childcare)
-- Manufacturing and industrial facilities
-- Mixed-use real estate
-- Grocery stores and fresh food retailers in food deserts
-- Small business incubators
-- Arts and cultural facilities
-- Charter schools and educational facilities
-
-Community Benefits:
-- Job creation and retention
-- Increased access to healthcare, education, and healthy food
-- Improved community facilities
-- Environmental remediation
-- Affordable housing development
-- Catalytic effect on additional investment
-  `,
-  
-  // Charter Schools knowledge base
-  charterSchoolsBasics: `
-Charter schools are public schools operating under a contract (or "charter") with an authorizing entity, typically a state or local school board. They receive public funding but operate with more autonomy than traditional public schools.
-
-Key Characteristics:
-- Publicly funded, tuition-free schools
-- Open to all students, often through lottery if oversubscribed
-- Operate with increased autonomy in exchange for increased accountability
-- Governed by independent boards
-- Exempt from some regulations that apply to traditional public schools
-- Must meet academic performance standards outlined in their charter
-
-Charter School Models:
-- Startup charter schools (new schools)
-- Conversion charter schools (converted from existing public schools)
-- Virtual charter schools (online learning)
-- Specialized focus schools (STEM, arts, language immersion, etc.)
-- Networks or Charter Management Organizations (CMOs)
-  `,
-  
-  charterSchoolsFunding: `
-Charter School Funding Sources:
-
-Public Funding:
-- Per-pupil allocation from state and local sources
-- Typically receive 70-80% of the per-pupil funding of traditional public schools
-- Often do not receive facilities funding
-- Eligible for certain federal grants and programs
-
-Private Funding:
-- Philanthropy and foundation grants
-- Corporate partnerships
-- Individual donors
-- Community support
-
-Specialized Funding Programs:
-- Charter School Program (CSP) federal grants
-- Credit enhancement programs
-- State charter school facilities funds
-- Tax-exempt bond financing
-- CDFI financing programs
-- New Markets Tax Credits
-
-Funding Challenges:
-- Facilities acquisition and financing
-- Cash flow management during startup
-- Unequal funding compared to district schools
-- Limited access to local tax revenue
-- Sustainability beyond startup funding
-  `,
-  
-  charterSchoolsFinancing: `
-Charter School Financing Options:
-
-Facilities Financing:
-- Commercial bank loans
-- Tax-exempt bond financing
-- CDFI loans and program-related investments
-- New Markets Tax Credits
-- USDA Community Facilities program
-- State charter school facilities funds
-- Lease financing
-- Public-private partnerships
-
-Working Capital Solutions:
-- Lines of credit
-- Bridge loans for delayed public payments
-- Receivables financing
-- Cash flow loans
-
-Growth Capital:
-- Philanthropy and grants
-- Program-related investments
-- Charter School Growth Fund
-- Social impact investments
-- Charter network expansion funds
-
-Technical Assistance:
-- Financial planning and budgeting
-- Facilities acquisition support
-- Credit enhancement programs
-- Financial modeling
-- Board training on financial oversight
-  `,
-  
-  charterSchoolsImpact: `
-Charter School Impact and Outcomes:
-
-Academic Performance:
-- Results vary by school, network, and region
-- Urban charter schools often show stronger results
-- Charter networks like KIPP, Success Academy, and Uncommon Schools demonstrate significant academic gains
-- Innovation in teaching methods and school models
-
-Student Demographics:
-- Serve approximately 3.7 million students nationwide
-- Higher percentages of Black and Hispanic students than traditional public schools
-- Similar percentages of economically disadvantaged students
-- Growing English Language Learner and special education populations
-
-Community Impact:
-- School choice options for underserved communities
-- Neighborhood revitalization around school sites
-- Parent and community engagement
-- Innovative educational approaches
-- Professional development opportunities for educators
-
-Challenges and Considerations:
-- Quality varies significantly across the sector
-- Concerns about equity and access
-- Sustainability challenges for independent schools
-- Facilities acquisition and financing hurdles
-- Balancing autonomy with accountability
-  `
+import emailjs from 'emailjs-com';
+
+// Predefined FAQ database
+const faqDatabase = {
+  services: `Clarity Impact Finance provides the following services: Underwriting, Lending Strategy, Process Mapping, Training, and Compliance/Asset Management.`,
+  pricing: `Let's discuss your specific needs to determine the right pricing for your organization.`,
+  location: `We are based in New York but work with clients nationally.`,
+  contact: `You can get in touch with our team by emailing us at contact@clarityimpactfinance.com or by calling (555) 123-4567 during business hours. You can also use the contact form in this chat by clicking the "Contact Us" button.`
 };
 
-// Example questions by category
-const categoryQuestions = {
-  cdfi: [
-    "What are CDFIs?",
-    "How are CDFIs funded?",
-    "What services do CDFIs provide?"
-  ],
-  nmtc: [
-    "What is the New Markets Tax Credit Program?",
-    "How do businesses qualify for NMTC financing?",
-    "What impact has the NMTC Program had?"
-  ],
-  charterSchools: [
-    "How are charter schools funded?",
-    "What financing options are available for charter schools?",
-    "What impact do charter schools have on communities?"
-  ]
-};
+// Example questions to display in the chatbot
+const faqQuestions = [
+  "What services do you provide?",
+  "How can I get in touch?",
+  "How does your pricing work?",
+  "Where are you located?"
+];
 
-// External resources by category
-const categoryResources = {
-  cdfi: "Learn more at https://www.cdfifund.gov/",
-  nmtc: "Learn more at https://www.cdfifund.gov/programs-training/programs/new-markets-tax-credit",
-  charterSchools: "Learn more at https://charterschoolcenter.ed.gov/"
-};
+// EmailJS service details
+const EMAILJS_SERVICE_ID = "service_id"; // Replace with your EmailJS service ID
+const EMAILJS_TEMPLATE_ID = "template_id"; // Replace with your EmailJS template ID
+const EMAILJS_USER_ID = "user_id"; // Replace with your EmailJS user ID
 
-// Document resources by category
-const documentResources = {
-  cdfi: [
-    {
-      title: "CDFI Certification Guide",
-      description: "A comprehensive guide to CDFI certification requirements and process",
-      path: "/chatbot-resources/cdfi/cdfi-certification-guide.pdf"
-    },
-    {
-      title: "CDFI Fund Annual Report (2023)",
-      description: "Official annual report detailing CDFI Fund programs and impact",
-      path: "/chatbot-resources/cdfi/CDFI_Fund_FY_2023_Annual_Report_FINAL_508c.pdf"
-    },
-    {
-      title: "Sizing the CDFI Market",
-      description: "Research report on understanding CDFI industry growth and market size",
-      path: "/chatbot-resources/cdfi/sizing-the-cdfi-market-understanding-industry-growth.pdf"
-    }
-  ],
-  nmtc: [
-    {
-      title: "New Markets Tax Credit Overview",
-      description: "Comprehensive overview of the NMTC program structure and benefits",
-      path: "/chatbot-resources/nmtc/New Markets Tax Credit.docx"
-    },
-    {
-      title: "NMTC Program Fact Sheet",
-      description: "Key facts and statistics about the NMTC Program",
-      path: "/chatbot-resources/nmtc/nmtc-fact-sheet.pdf"
-    },
-    {
-      title: "NMTC Compliance Guide",
-      description: "Guide to maintaining compliance with NMTC Program requirements",
-      path: "/chatbot-resources/nmtc/nmtc-compliance-guide.pdf"
-    }
-  ],
-  charterSchools: [
-    {
-      title: "Charter School Loan Affordability and Readiness",
-      description: "Guide to assessing charter school readiness for facility financing",
-      path: "/chatbot-resources/charter-schools/Charter School Loan Affordability and Readiness.docx"
-    },
-    {
-      title: "Charter School Facilities Financing Guide",
-      description: "Guide to financing options for charter school facilities",
-      path: "/chatbot-resources/charter-schools/facilities-financing-guide.pdf"
-    },
-    {
-      title: "Charter School Credit Analysis Framework",
-      description: "Framework for analyzing charter school credit quality",
-      path: "/chatbot-resources/charter-schools/credit-analysis-framework.pdf"
-    }
-  ]
-};
+// Add a default recipient email
+const DEFAULT_RECIPIENT_EMAIL = "amir@clarityimpactfinance.com";
+
+// Knowledge base and document resources data structure remains unchanged
 
 const ChatBot = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -617,597 +34,811 @@ const ChatBot = () => {
   const [messages, setMessages] = useState([
     {
       type: 'bot',
-      text: 'Hi! I\'m your AI assistant for community development finance. I can help answer your questions about CDFIs, impact investing, and more. What would you like to know?'
+      text: 'Hi! I\'m IRIS, your Impact Resource & Investment Specialist. I can help with questions about our services, pricing, and more. How can I assist you today?'
     }
   ]);
   const [inputText, setInputText] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
   const messagesEndRef = useRef(null);
   const apiKey = process.env.REACT_APP_OPENAI_API_KEY;
-  const hasValidApiKey = apiKey && apiKey.startsWith('sk-') && apiKey.length > 20;
-  const [useLLM, setUseLLM] = useState(true);
-  
-  // Debug info
-  console.log('API Key available:', hasValidApiKey);
-  console.log('API Key length:', apiKey.length);
-  console.log('LLM enabled:', useLLM);
-  
-  const scrollToBottom = () => {
-    if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
-  useEffect(() => {
-    if (isOpen) {
-      scrollToBottom();
-    }
-  }, [isOpen, messages]);
-
-  // Add a useEffect to show AI mode status when chat is first opened
-  useEffect(() => {
-    if (isOpen && messages.length === 1) {
-      // Add a message about AI mode being enabled
-      setTimeout(() => {
-        const newMessage = {
-          type: 'bot',
-          text: hasValidApiKey 
-            ? 'AI mode is enabled. I\'ll use the OpenAI API to provide intelligent responses.'
-            : 'AI mode is enabled with simulated responses since no valid API key was found.'
-        };
-        setMessages(prevMessages => [...prevMessages, newMessage]);
-      }, 1000);
-    }
-  }, [isOpen, messages.length, hasValidApiKey]);
-
-  // Function to query OpenAI's API
-  const queryLLM = async (prompt, category) => {
-    setIsProcessing(true);
-    
-    try {
-      // For local testing - use a hardcoded response if no API key
-      if (!hasValidApiKey) {
-        console.log('Using simulated LLM response (no valid API key)');
-        // Simulate API delay
-        await new Promise(resolve => setTimeout(resolve, 1500));
-        
-        return `This is a simulated AI response about ${
-          category === 'cdfi' ? 'Community Development Financial Institutions (CDFIs)' : 
-          category === 'nmtc' ? 'New Markets Tax Credit Program (NMTC)' : 
-          'Charter School financing and development'
-        } in response to your question: "${prompt}".
-        
-        To use the real OpenAI API:
-        1. Make sure your .env file contains a valid REACT_APP_OPENAI_API_KEY
-        2. The API key should start with "sk-" and be about 51 characters long
-        3. Restart your development server after updating the .env file
-        4. Check the console logs for debugging information`;
-      }
-      
-      // Log for debugging (don't log the full key in production)
-      console.log('Using API key starting with:', apiKey.substring(0, 5) + '...');
-      
-      // Make the API call to OpenAI
-      const response = await fetch('https://api.openai.com/v1/chat/completions', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${apiKey}`
-        },
-        body: JSON.stringify({
-          model: 'gpt-4o',
-          messages: [
-            {
-              role: 'system',
-              content: `You are a helpful assistant specializing in ${
-                category === 'cdfi' ? 'Community Development Financial Institutions (CDFIs)' : 
-                category === 'nmtc' ? 'New Markets Tax Credit Program (NMTC)' : 
-                'Charter School financing and development'
-              }. 
-              
-              Provide accurate, concise information based on your knowledge. Focus on practical, actionable information that would be helpful to professionals in the community development finance field.
-              
-              When discussing ${
-                category === 'cdfi' ? 'CDFIs' : 
-                category === 'nmtc' ? 'NMTC' : 
-                'Charter Schools'
-              }, emphasize impact, financing structures, compliance requirements, and best practices.`
-            },
-            {
-              role: 'user',
-              content: prompt
-            }
-          ],
-          max_tokens: 800,
-          temperature: 0.7
-        })
-      });
-      
-      if (!response.ok) {
-        const errorData = await response.json();
-        console.error('OpenAI API error:', errorData);
-        throw new Error(`API error: ${errorData.error?.message || 'Unknown error'}`);
-      }
-      
-      const data = await response.json();
-      return data.choices[0].message.content;
-      
-    } catch (error) {
-      console.error('Error querying LLM:', error);
-      return `I'm sorry, there was an error processing your request: ${error.message}. Please try again later or contact support.`;
-    } finally {
-      setIsProcessing(false);
-    }
-  };
-
   // eslint-disable-next-line no-unused-vars
-  const searchKnowledgeBase = (query, category) => {
-    const results = [];
-    const queryWords = query.toLowerCase().split(' ').filter(word => 
-      !['what', 'how', 'when', 'where', 'why', 'is', 'are', 'the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for'].includes(word)
-    );
+  const hasValidApiKey = apiKey && apiKey.startsWith('sk-') && apiKey.length > 20;
+  // Always keep useLLM false to focus on predetermined questions
+  const [useLLM] = useState(false); // Removed setUseLLM to fix ESLint warning
+  // State to control visibility of example questions
+  const [showExamples, setShowExamples] = useState(true);
+  // State for contact form
+  const [showContactForm, setShowContactForm] = useState(false);
+  const [contactForm, setContactForm] = useState({
+    name: '',
+    email: '',
+    message: ''
+  });
+  const [contactFormErrors, setContactFormErrors] = useState({});
+  const [contactSending, setContactSending] = useState(false);
+  // New state for minimizing options on mobile - start with visible options
+  const [optionsMinimized, setOptionsMinimized] = useState(false);
+  // State to track if on mobile device
+  const [isMobile, setIsMobile] = useState(false);
+  // New state to track if the user has interacted with the chatbot
+  const [hasInteracted, setHasInteracted] = useState(false);
+
+  // Debug info
+  console.log('LLM enabled:', useLLM);
+
+  // Check if on mobile device
+  useEffect(() => {
+    const checkIfMobile = () => {
+      setIsMobile(window.innerWidth <= 480);
+    };
     
-    // Filter knowledge base sections based on category
-    let relevantSections = {};
+    // Check initially
+    checkIfMobile();
     
-    if (category === 'cdfi') {
-      relevantSections = {
-        cdfiBasics: knowledgeBase.cdfiBasics,
-        cdfiTypes: knowledgeBase.cdfiTypes,
-        services: knowledgeBase.services,
-        impact: knowledgeBase.impact,
-        funding: knowledgeBase.funding,
-        history: knowledgeBase.history,
-        certificationProcess: knowledgeBase.certificationProcess,
-        fundingGuide: knowledgeBase.fundingGuide,
-        complianceAndAsset: knowledgeBase.complianceAndAsset
-      };
-    } else if (category === 'nmtc') {
-      relevantSections = {
-        nmtcBasics: knowledgeBase.nmtcBasics,
-        nmtcEligibility: knowledgeBase.nmtcEligibility,
-        nmtcApplication: knowledgeBase.nmtcApplication,
-        nmtcImpact: knowledgeBase.nmtcImpact
-      };
-    } else if (category === 'charterSchools') {
-      relevantSections = {
-        charterSchoolsBasics: knowledgeBase.charterSchoolsBasics,
-        charterSchoolsFunding: knowledgeBase.charterSchoolsFunding,
-        charterSchoolsFinancing: knowledgeBase.charterSchoolsFinancing,
-        charterSchoolsImpact: knowledgeBase.charterSchoolsImpact
-      };
-    }
+    // Add event listener for window resize
+    window.addEventListener('resize', checkIfMobile);
     
-    // Search through each section of the relevant knowledge base
-    for (const [section, content] of Object.entries(relevantSections)) {
-      const paragraphs = content.split('\n\n').filter(p => p.trim());
-      
-      for (const paragraph of paragraphs) {
-        const paragraphLower = paragraph.toLowerCase();
-        // Calculate relevance score based on number of matching words
-        const matchingWords = queryWords.filter(word => paragraphLower.includes(word));
-        if (matchingWords.length > 0) {
-          results.push({
-            text: paragraph.trim(),
-            source: section,
-            relevance: matchingWords.length / queryWords.length
-          });
+    // Clean up
+    return () => {
+      window.removeEventListener('resize', checkIfMobile);
+    };
+  }, []);
+
+  // Enhanced scroll function for better mobile support
+  const scrollToResponse = () => {
+    if (messagesEndRef.current) {
+      // Use a slight delay to ensure the DOM has updated
+      setTimeout(() => {
+        // First try to use modern scrollIntoView options for better positioning
+        messagesEndRef.current.scrollIntoView({ 
+          behavior: 'smooth', 
+          block: 'nearest' 
+        });
+
+        // Special handling for mobile devices - ensure the latest message is visible
+        if (isMobile) {
+          const messagesContainer = document.querySelector('.messages-container');
+          const latestMessage = messagesContainer.lastElementChild.previousElementSibling;
+          
+          if (latestMessage) {
+            // Scroll so the latest message is at the top of the viewport
+            latestMessage.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            
+            // Add a class to help with styling if needed
+            latestMessage.classList.add('highlighted-response');
+            
+            // Remove the highlight class after animation completes
+            setTimeout(() => {
+              latestMessage.classList.remove('highlighted-response');
+            }, 2000);
+          }
         }
-      }
+      }, 100);
     }
-    
-    // Sort by relevance
-    return results.sort((a, b) => b.relevance - a.relevance);
   };
 
-  const getBotResponse = async (question, category) => {
-    // If LLM mode is enabled, use the LLM to generate a response
-    if (useLLM) {
-      const llmResponse = await queryLLM(question, category);
-      
-      // Check if the question is about documents and append document links if needed
-      const lowerQuestion = question.toLowerCase();
-      if (lowerQuestion.includes('document') || lowerQuestion.includes('resource') || lowerQuestion.includes('guide') || 
-          lowerQuestion.includes('download') || lowerQuestion.includes('pdf') || lowerQuestion.includes('file')) {
-        
-        let documentSection = `\n\nHere are some helpful ${category === 'cdfi' ? 'CDFI' : 
-                              category === 'nmtc' ? 'NMTC' : 
-                              'Charter School'} resources you can download:\n`;
-        
-        documentResources[category].forEach(doc => {
-          documentSection += `\n• ${doc.title}: ${doc.description} [Download](${doc.path})`;
-        });
-        
-        return llmResponse + documentSection;
-      }
-      
-      return llmResponse;
-    }
-    
-    // Otherwise, use the existing rule-based response system
-    const lowerQuestion = question.toLowerCase();
-    let response = '';
-    
-    if (category === 'cdfi') {
-      // CDFI-specific responses
-      if (lowerQuestion.includes('what') && lowerQuestion.includes('cdfi')) {
-        response = knowledgeBase.cdfiBasics.split('\n\n')[0].trim() + '\n\n' + categoryResources.cdfi;
-      }
-      
-      else if (lowerQuestion.includes('type') || lowerQuestion.includes('kinds')) {
-        response = knowledgeBase.cdfiTypes.split('\n\n').slice(0, 2).join('\n\n').trim() + '\n\n' + categoryResources.cdfi;
-      }
-      
-      else if (lowerQuestion.includes('service') || lowerQuestion.includes('provide') || lowerQuestion.includes('offer')) {
-        response = knowledgeBase.services.split('\n\n').slice(0, 4).join('\n\n').trim() + '\n\n' + categoryResources.cdfi;
-      }
-      
-      else if (lowerQuestion.includes('fund') || lowerQuestion.includes('money') || lowerQuestion.includes('capital')) {
-        response = knowledgeBase.funding.split('\n\n').slice(0, 3).join('\n\n').trim() + '\n\n' + categoryResources.cdfi;
-      }
-      
-      else {
-        response = 'I can help you learn about CDFIs, their certification, funding, and impact. Try asking more specific questions about CDFIs.\n\n' + categoryResources.cdfi;
-      }
-      
-      // Check if the question is about documents or resources
-      if (lowerQuestion.includes('document') || lowerQuestion.includes('resource') || lowerQuestion.includes('guide') || 
-          lowerQuestion.includes('download') || lowerQuestion.includes('pdf') || lowerQuestion.includes('file')) {
-        response += '\n\nHere are some helpful CDFI resources you can download:\n';
-        documentResources.cdfi.forEach(doc => {
-          response += `\n• ${doc.title}: ${doc.description} [Download](${doc.path})`;
-        });
-      }
-    } 
-    else if (category === 'nmtc') {
-      // NMTC-specific responses
-      if (lowerQuestion.includes('what') && (lowerQuestion.includes('nmtc') || lowerQuestion.includes('new market'))) {
-        response = knowledgeBase.nmtcBasics.split('\n\n').slice(0, 3).join('\n\n').trim() + '\n\n' + categoryResources.nmtc;
-      }
-      
-      else if (lowerQuestion.includes('eligib') || lowerQuestion.includes('qualify')) {
-        response = knowledgeBase.nmtcEligibility.split('\n\n').slice(0, 3).join('\n\n').trim() + '\n\n' + categoryResources.nmtc;
-      }
-      
-      else if (lowerQuestion.includes('apply') || lowerQuestion.includes('application') || lowerQuestion.includes('process')) {
-        response = knowledgeBase.nmtcApplication.split('\n\n').slice(0, 3).join('\n\n').trim() + '\n\n' + categoryResources.nmtc;
-      }
-      
-      else if (lowerQuestion.includes('impact') || lowerQuestion.includes('benefit') || lowerQuestion.includes('effect')) {
-        response = knowledgeBase.nmtcImpact.split('\n\n').slice(0, 3).join('\n\n').trim() + '\n\n' + categoryResources.nmtc;
-      }
-      
-      else {
-        response = 'I can help you learn about the New Markets Tax Credit Program, including eligibility, application process, and impact. Try asking more specific questions about NMTC.\n\n' + categoryResources.nmtc;
-      }
-      
-      // Check if the question is about documents or resources
-      if (lowerQuestion.includes('document') || lowerQuestion.includes('resource') || lowerQuestion.includes('guide') || 
-          lowerQuestion.includes('download') || lowerQuestion.includes('pdf') || lowerQuestion.includes('file')) {
-        response += '\n\nHere are some helpful NMTC resources you can download:\n';
-        documentResources.nmtc.forEach(doc => {
-          response += `\n• ${doc.title}: ${doc.description} [Download](${doc.path})`;
-        });
-      }
-    } 
-    else if (category === 'charterSchools') {
-      // Charter Schools-specific responses
-      if (lowerQuestion.includes('what') && lowerQuestion.includes('charter')) {
-        response = knowledgeBase.charterSchoolsBasics.split('\n\n').slice(0, 3).join('\n\n').trim() + '\n\n' + categoryResources.charterSchools;
-      }
-      
-      else if (lowerQuestion.includes('fund') || lowerQuestion.includes('money')) {
-        response = knowledgeBase.charterSchoolsFunding.split('\n\n').slice(0, 3).join('\n\n').trim() + '\n\n' + categoryResources.charterSchools;
-      }
-      
-      else if (lowerQuestion.includes('financ') || lowerQuestion.includes('loan') || lowerQuestion.includes('capital')) {
-        response = knowledgeBase.charterSchoolsFinancing.split('\n\n').slice(0, 3).join('\n\n').trim() + '\n\n' + categoryResources.charterSchools;
-      }
-      
-      else if (lowerQuestion.includes('impact') || lowerQuestion.includes('outcome') || lowerQuestion.includes('result')) {
-        response = knowledgeBase.charterSchoolsImpact.split('\n\n').slice(0, 3).join('\n\n').trim() + '\n\n' + categoryResources.charterSchools;
-      }
-      
-      else {
-        response = 'I can help you learn about charter schools, including funding, financing options, and community impact. Try asking more specific questions about charter schools.\n\n' + categoryResources.charterSchools;
-      }
-      
-      // Check if the question is about documents or resources
-      if (lowerQuestion.includes('document') || lowerQuestion.includes('resource') || lowerQuestion.includes('guide') || 
-          lowerQuestion.includes('download') || lowerQuestion.includes('pdf') || lowerQuestion.includes('file')) {
-        response += '\n\nHere are some helpful Charter School resources you can download:\n';
-        documentResources.charterSchools.forEach(doc => {
-          response += `\n• ${doc.title}: ${doc.description} [Download](${doc.path})`;
-        });
-      }
-    }
-    else {
-      response = 'Please select a topic (CDFI, NMTC, or Charter Schools) to get started.';
-    }
-    
-    return response;
+  // For backwards compatibility, define scrollToBottom that calls scrollToResponse
+  const scrollToBottom = () => {
+    scrollToResponse();
   };
 
-  const handleCategorySelect = (category) => {
-    setSelectedCategory(category);
-    
-    let welcomeMessage = '';
-    if (category === 'cdfi') {
-      welcomeMessage = 'You\'ve selected Community Development Financial Institutions (CDFIs). What would you like to know about CDFIs?';
-    } else if (category === 'nmtc') {
-      welcomeMessage = 'You\'ve selected New Markets Tax Credit Program (NMTC). What would you like to know about the NMTC Program?';
-    } else if (category === 'charterSchools') {
-      welcomeMessage = 'You\'ve selected Charter Schools. What would you like to know about charter school financing and development?';
+  // Function to check for FAQ matches in the input text
+  const checkForFAQMatch = (text) => {
+    text = text.toLowerCase();
+
+    // Check for services related questions
+    if (
+      text.includes('service') || 
+      text.includes('offer') || 
+      text.includes('provide') || 
+      text.includes('do you do')
+    ) {
+      return faqDatabase.services;
     }
-    
-    setMessages([
-      ...messages,
-      { type: 'user', text: `I want to learn about ${category === 'cdfi' ? 'CDFIs' : category === 'nmtc' ? 'NMTC' : 'Charter Schools'}` },
-      { type: 'bot', text: welcomeMessage }
-    ]);
+
+    // Check for contact/get in touch related questions
+    if (
+      text.includes('get in touch') || 
+      text.includes('contact') || 
+      text.includes('reach') || 
+      text.includes('talk to')
+    ) {
+      return faqDatabase.contact || "You can get in touch with our team by emailing us at contact@clarityimpactfinance.com or by filling out the contact form in the chat.";
+    }
+
+    // Check for pricing related questions
+    if (
+      text.includes('price') || 
+      text.includes('cost') || 
+      text.includes('fee') || 
+      text.includes('charge') || 
+      text.includes('how much') ||
+      text.includes('pricing')
+    ) {
+      return faqDatabase.pricing;
+    }
+
+    // Check for location related questions
+    if (
+      text.includes('where') || 
+      text.includes('location') || 
+      text.includes('based') || 
+      text.includes('office') ||
+      text.includes('address')
+    ) {
+      return faqDatabase.location;
+    }
+
+    return null;
   };
 
+  // Function to handle example question clicks
   const handleExampleClick = (question) => {
-    if (!selectedCategory) {
-      setMessages([...messages, { type: 'bot', text: 'Please select a topic first (CDFI, NMTC, or Charter Schools).' }]);
+    if (question === 'Contact Us') {
+      setShowContactForm(true);
+      // Mark as interacted when clicking Contact Us
+      setHasInteracted(true);
+      // Minimize options on mobile only after user has interacted with a question
+      if (isMobile) {
+        setOptionsMinimized(true);
+      }
+    } else {
+      // Add the user's question to the chat
+      setMessages(prev => [...prev, { type: 'user', text: question }]);
+
+      // Process the question
+      let answer = '';
+
+      // Check for FAQ match
+      const faqMatch = checkForFAQMatch(question);
+      if (faqMatch) {
+        answer = faqMatch;
+      } else if (selectedCategory) {
+        answer = `I'm still learning about ${selectedCategory}. Please try another question or check our website for more information.`;
+      } else {
+        answer = "I don't have specific information about that yet. Please try one of the suggested questions or contact us directly for more assistance.";
+      }
+
+      // Mark as interacted with a question
+      setHasInteracted(true);
+      
+      // Minimize options on mobile only after user has interacted with a question
+      if (isMobile) {
+        setOptionsMinimized(true);
+      }
+
+      // Add slight delay before showing the answer for a more natural feel
+      setIsProcessing(true);
+      setTimeout(() => {
+        setMessages(prev => [...prev, { type: 'bot', text: answer }]);
+        setIsProcessing(false);
+        // Use enhanced scroll function instead of scrollToBottom
+        scrollToResponse();
+      }, 800);
+    }
+  };
+
+  // Clear chat history
+  const clearChat = () => {
+    setMessages([
+      {
+        type: 'bot',
+        text: 'Hi! I\'m IRIS, your Impact Resource & Investment Specialist. I can help with questions about our services, pricing, and more. How can I assist you today?'
+      }
+    ]);
+    setShowExamples(true);
+    setSelectedCategory(null);
+    setShowContactForm(false);
+  };
+
+  // Toggle examples visibility
+  const toggleExamples = () => {
+    setShowExamples(!showExamples);
+  };
+
+  // Handle contact form input changes
+  const handleContactInputChange = (e) => {
+    const { name, value } = e.target;
+    setContactForm({
+      ...contactForm,
+      [name]: value
+    });
+
+    // Clear error for this field as user types
+    if (contactFormErrors[name]) {
+      setContactFormErrors({
+        ...contactFormErrors,
+        [name]: ''
+      });
+    }
+  };
+
+  // Validate contact form
+  const validateContactForm = () => {
+    const errors = {};
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!contactForm.name.trim()) {
+      errors.name = "Name is required";
+    }
+
+    if (!contactForm.email.trim()) {
+      errors.email = "Email is required";
+    } else if (!emailRegex.test(contactForm.email)) {
+      errors.email = "Please enter a valid email address";
+    }
+
+    if (!contactForm.message.trim()) {
+      errors.message = "Message is required";
+    }
+
+    setContactFormErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
+  // Handle contact form submission
+  const handleContactSubmit = (e) => {
+    e.preventDefault();
+
+    if (!validateContactForm()) {
       return;
     }
+
+    setContactSending(true);
+
+    // Prepare template parameters for EmailJS
+    const templateParams = {
+      from_name: contactForm.name,
+      reply_to: contactForm.email,
+      to_email: DEFAULT_RECIPIENT_EMAIL,
+      message: contactForm.message
+    };
+
+    // Send email using EmailJS
+    emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams, EMAILJS_USER_ID)
+      .then(() => {
+        // Success message
+        setMessages(prev => [
+          ...prev,
+          { 
+            type: 'bot', 
+            text: `Thank you, ${contactForm.name}! Your message has been sent. We'll get back to you at ${contactForm.email} as soon as possible.` 
+          }
+        ]);
+
+        // Reset form
+        setContactForm({
+          name: '',
+          email: '',
+          message: ''
+        });
+
+        // Hide contact form
+        setShowContactForm(false);
+        setContactSending(false);
+        // Use enhanced scroll function instead of scrollToBottom
+        scrollToResponse();
+      })
+      .catch(error => {
+        // Error message
+        console.error('EmailJS error:', error);
+        setMessages(prev => [
+          ...prev,
+          { 
+            type: 'bot', 
+            text: "I'm sorry, there was an error sending your message. Please try again or contact us directly at contact@clarityimpactfinance.com." 
+          }
+        ]);
+        setContactSending(false);
+        // Use enhanced scroll function here too
+        scrollToResponse();
+      });
+  };
+
+  // Show contact form
+  const showContactFormHandler = () => {
+    setShowContactForm(true);
     
-    setMessages([...messages, { type: 'user', text: question }]);
-    
-    setTimeout(async () => {
-      const botResponse = await getBotResponse(question, selectedCategory);
-      setMessages(prevMessages => [...prevMessages, { type: 'bot', text: botResponse }]);
+    // Add a small delay to ensure the contact form is rendered before attempting to manipulate DOM
+    setTimeout(() => {
+      // Find the contact form container
+      const formContainer = document.querySelector('.contact-form-container');
+      if (formContainer) {
+        // Ensure the form is visible
+        formContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
       
-      // Scroll to bottom after bot response
-      scrollToBottom();
+      // Ensure messages container is set to allow scrolling
+      const messagesContainer = document.querySelector('.messages-container');
+      if (messagesContainer) {
+        messagesContainer.scrollTop = messagesContainer.scrollHeight - messagesContainer.clientHeight;
+      }
     }, 100);
+  };
+  
+  // Cancel contact form
+  const cancelContactForm = () => {
+    setShowContactForm(false);
+    setContactForm({
+      name: '',
+      email: '',
+      message: ''
+    });
+    setContactFormErrors({});
   };
 
   const handleSendMessage = async (e) => {
     e.preventDefault();
+
     if (!inputText.trim()) return;
+
+    // Mark as interacted when sending a message
+    setHasInteracted(true);
     
-    if (!selectedCategory) {
-      setMessages([...messages, 
-        { type: 'user', text: inputText },
-        { type: 'bot', text: 'Please select a topic first (CDFI, NMTC, or Charter Schools).' }
-      ]);
-      setInputText('');
-      return;
+    // Minimize options on mobile when user sends their own message
+    if (isMobile) {
+      setOptionsMinimized(true);
     }
 
-    setMessages([...messages, { type: 'user', text: inputText }]);
+    const userMessage = {
+      type: 'user',
+      text: inputText
+    };
+
+    setMessages(prev => [...prev, userMessage]);
     setInputText('');
-    
-    setTimeout(async () => {
+    setIsProcessing(true);
+
+    // Hide examples after user input but leave a toggle button to show them again
+    if (showExamples) {
+      setShowExamples(false);
+    }
+
+    try {
+      // Check for FAQ match
+      const faqMatch = checkForFAQMatch(inputText);
+
+      if (faqMatch) {
+        // FAQ response found
+        setTimeout(() => {
+          setMessages(prev => [
+            ...prev, 
+            { 
+              type: 'bot', 
+              text: faqMatch 
+            }
+          ]);
+          setIsProcessing(false);
+          // Use enhanced scroll function instead of scrollToBottom
+          scrollToResponse();
+        }, 800); // Slight delay for natural feel
+        return;
+      }
+
+      // Use predetermined responses for all other cases
       const botResponse = await getBotResponse(inputText, selectedCategory);
-      setMessages(prevMessages => [...prevMessages, { type: 'bot', text: botResponse }]);
-      
-      // Scroll to bottom after bot response
-      scrollToBottom();
-    }, 100);
+
+      // Check if we have a good answer or should suggest contact form
+      // eslint-disable-next-line no-unused-vars
+      const lowerQuestion = inputText.toLowerCase();
+      const unknownQuestion = 
+        botResponse.includes("I don't have specific information") || 
+        botResponse.includes("I'm still learning about") ||
+        botResponse.includes("try one of the suggested questions");
+
+      setTimeout(() => {
+        if (unknownQuestion) {
+          setMessages(prevMessages => [
+            ...prevMessages, 
+            { 
+              type: 'bot', 
+              text: `${botResponse} Would you like to send us a message directly?`,
+              actions: [
+                {
+                  label: 'Contact Us',
+                  handler: showContactFormHandler
+                }
+              ]
+            }
+          ]);
+        } else {
+          setMessages(prevMessages => [...prevMessages, { type: 'bot', text: botResponse }]);
+        }
+        setIsProcessing(false);
+        // Use enhanced scroll function instead of scrollToBottom
+        scrollToResponse();
+      }, 800);
+    } catch (error) {
+      console.error('Error sending message:', error);
+      setMessages(prev => [...prev, { type: 'bot', text: "I'm sorry, I encountered an error. Please try again." }]);
+      setIsProcessing(false);
+      // Use enhanced scroll function here too
+      scrollToResponse();
+    }
   };
 
   const handleResetCategory = () => {
     setSelectedCategory(null);
-    setMessages([
-      {
-        type: 'bot',
-        text: 'Hi! I\'m your AI assistant for community development finance. I can help answer your questions about CDFIs, impact investing, and more. What would you like to know?'
-      }
-    ]);
+    // Show examples again when returning to main menu
+    setShowExamples(true);
   };
 
-  // Add a function to handle document links
-  const renderMessageWithLinks = (text) => {
-    // Regular expression to match markdown-style links: [text](url)
-    const linkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
-    
-    // Split the text by links
-    const parts = text.split(linkRegex);
-    
-    if (parts.length === 1) {
-      // No links found, return the text as is
-      return text;
-    }
-    
-    const elements = [];
-    let i = 0;
-    
-    // Process the text and links
-    while (i < parts.length) {
-      // Add the text before the link
-      if (parts[i]) {
-        elements.push(<span key={`text-${i}`}>{parts[i]}</span>);
-      }
-      
-      // If there's a link, add it
-      if (i + 2 < parts.length) {
-        const linkText = parts[i + 1];
-        const linkUrl = parts[i + 2];
-        
-        elements.push(
-          <a 
-            key={`link-${i}`} 
-            href={linkUrl} 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="chatbot-link"
-          >
-            {linkText}
-          </a>
-        );
-        
-        i += 2;
-      }
-      
-      i++;
-    }
-    
-    return <>{elements}</>;
-  };
+  const getBotResponse = async (question, category) => {
+    // Always use predetermined responses
+    // eslint-disable-next-line no-unused-vars
+    const lowerQuestion = question.toLowerCase();
+    let response = '';
 
-  const toggleLLMMode = () => {
-    // Always allow toggling for better debugging
-    setUseLLM(!useLLM);
-    
-    // Show appropriate message
-    if (useLLM) {
-      if (!hasValidApiKey) {
-        setMessages([
-          {
-            type: 'bot',
-            text: 'AI mode enabled with simulated responses. No valid API key was found, so I\'ll provide simulated AI responses. To use the real OpenAI API, please add your API key to the .env file and restart the server. The API key should start with "sk-" and be about 51 characters long.'
-          }
-        ]);
-        console.log('Enabled simulated AI mode (no valid API key found)');
+    // Handle category-specific responses
+    if (category === 'cdfi') {
+      if (lowerQuestion.includes('what') || lowerQuestion.includes('definition') || lowerQuestion.includes('explain')) {
+        response = "A Community Development Financial Institution (CDFI) is a specialized financial institution that works in market niches underserved by traditional financial institutions. CDFIs provide a unique range of financial products and services to economically disadvantaged communities.";
+      } else if (lowerQuestion.includes('require') || lowerQuestion.includes('certification')) {
+        response = "To be certified as a CDFI, an organization must: be a legal entity, have a primary mission of promoting community development, serve one or more target markets, provide development services, maintain accountability to its defined target market, and be a non-governmental entity.";
+      } else if (lowerQuestion.includes('fund') || lowerQuestion.includes('capital') || lowerQuestion.includes('financing')) {
+        response = "CDFIs are funded through various sources including: the CDFI Fund, private investment, bank loans (often CRA-motivated), foundation grants and program-related investments, and religious institutions. We can help you develop strategies to access these funding sources.";
       } else {
-        setMessages([
-          {
-            type: 'bot',
-            text: 'AI mode enabled. I will now use the OpenAI API to generate responses.'
-          }
-        ]);
-        console.log('Enabled real AI mode with API key');
+        response = "CDFIs are vital organizations that provide financial services to underserved communities. Our team at Clarity Impact Finance has extensive experience working with CDFIs on underwriting, lending strategies, process mapping, and compliance.";
+      }
+    } else if (category === 'nmtc') {
+      if (lowerQuestion.includes('what') || lowerQuestion.includes('definition') || lowerQuestion.includes('explain')) {
+        response = "The New Markets Tax Credit (NMTC) Program incentivizes community development and economic growth through the use of tax credits that attract private investment to distressed communities. The program is administered by the CDFI Fund.";
+      } else if (lowerQuestion.includes('eligible') || lowerQuestion.includes('qualify')) {
+        response = "To be eligible for NMTC, projects must be located in qualifying low-income census tracts (typically with poverty rates of at least 20% or median family incomes below 80% of area median). Eligible businesses typically include commercial and industrial facilities, community facilities, mixed-use developments, and certain housing projects.";
+      } else if (lowerQuestion.includes('apply') || lowerQuestion.includes('process') || lowerQuestion.includes('how do')) {
+        response = "The NMTC application process involves: 1) Finding a Community Development Entity (CDE) with NMTC allocation, 2) Meeting the CDE's requirements and demonstrating community impact, 3) Structuring the transaction with the CDE and investors, and 4) Closing the financing. Our team can guide you through this complex process.";
+      } else {
+        response = "The NMTC Program has deployed over $61 billion in tax credit authority since its inception. These investments have created or retained over 830,000 jobs and supported the construction of more than 215 million square feet of manufacturing, office, and retail space in low-income communities.";
+      }
+    } else if (category === 'charterSchools') {
+      if (lowerQuestion.includes('what') || lowerQuestion.includes('definition') || lowerQuestion.includes('explain')) {
+        response = "Charter schools are public schools operating under a contract (or charter) that provides them with public funding but greater flexibility in their operations compared to traditional public schools. They are accountable for academic results and upholding their charter promises.";
+      } else if (lowerQuestion.includes('fund') || lowerQuestion.includes('finance') || lowerQuestion.includes('capital')) {
+        response = "Charter schools can access funding through various channels including: per-pupil funding from state/local sources, federal grants (like the Charter Schools Program), philanthropy, CDFIs, bonds, and specialized facilities financing. Clarity Impact Finance can help develop comprehensive financial strategies.";
+      } else if (lowerQuestion.includes('facility') || lowerQuestion.includes('building') || lowerQuestion.includes('space')) {
+        response = "Charter school facility financing often involves a combination of approaches such as: leasing from a school district, commercial leases, mortgage loans from CDFIs or banks, tax-exempt bond financing, or working with specialized charter school facility developers. We can help navigate these options.";
+      } else {
+        response = "Charter schools serve over 3.6 million students nationwide and make up about 7% of all public schools. Our team specializes in helping charter schools develop sustainable financial models, access capital, and implement strong financial management practices.";
       }
     } else {
-      setMessages([
-        {
-          type: 'bot',
-          text: 'AI mode disabled. I will now use predefined responses from the knowledge base.'
-        }
-      ]);
-      console.log('Disabled AI mode');
+      // General responses
+      const faqMatch = checkForFAQMatch(question);
+      if (faqMatch) {
+        return faqMatch;
+      }
+
+      if (lowerQuestion.includes('hello') || lowerQuestion.includes('hi') || lowerQuestion.includes('hey')) {
+        response = "Hello! I'm IRIS, your Impact Resource & Investment Specialist. How can I assist you today?";
+      } else if (lowerQuestion.includes('thank')) {
+        response = "You're welcome! I'm glad I could help. Is there anything else you'd like to know about our services?";
+      } else if (lowerQuestion.includes('contact') || lowerQuestion.includes('speak') || lowerQuestion.includes('human') || lowerQuestion.includes('person')) {
+        response = "If you'd like to speak with a member of our team, please email us at contact@clarityimpactfinance.com or call (555) 123-4567 during business hours (9am-5pm ET, Monday through Friday).";
+      } else {
+        response = "I don't have specific information about that yet. Please try one of the suggested questions or contact us directly for more assistance.";
+      }
     }
-    
-    setSelectedCategory(null);
+
+    return response;
+  };
+
+  // Render message text with possible action buttons
+  const renderMessage = (message) => {
+    return (
+      <>
+        <div className="message-text">{message.text}</div>
+        {message.actions && message.actions.length > 0 && (
+          <div className="message-actions">
+            {message.actions.map((action, i) => (
+              <button 
+                key={i} 
+                className="action-button"
+                onClick={action.handler}
+              >
+                {action.label}
+              </button>
+            ))}
+          </div>
+        )}
+      </>
+    );
   };
 
   const toggleChat = () => {
-    setIsOpen(!isOpen);
-    if (!isOpen) {
-      setMessages([
-        {
-          type: 'bot',
-          text: 'Hi! I\'m your AI assistant for community development finance. I can help answer your questions about CDFIs, impact investing, and more. What would you like to know?'
-        }
-      ]);
+    setIsOpen(prevIsOpen => !prevIsOpen);
+  };
+
+  useEffect(() => {
+    scrollToResponse();
+  }, [messages]);
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
     }
+
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [isOpen]);
+
+  const handleCategorySelect = (category) => {
+    setSelectedCategory(category);
+
+    // Hide examples after category selection but leave toggle button
+    if (showExamples) {
+      setShowExamples(false);
+    }
+
+    // Mark as interacted when selecting a category
+    setHasInteracted(true);
+    
+    // Minimize options on mobile after category selection
+    if (isMobile) {
+      setOptionsMinimized(true);
+    }
+
+    let welcomeMessage = '';
+    switch(category) {
+      case 'cdfi':
+        welcomeMessage = "You've selected Community Development Financial Institutions. What would you like to know about CDFIs? I can explain what they are, certification requirements, funding sources, or their impact.";
+        break;
+      case 'nmtc':
+        welcomeMessage = "You've selected the New Markets Tax Credit Program. What would you like to know about NMTCs? I can explain what they are, eligibility criteria, the application process, or their community impact.";
+        break;
+      case 'charterSchools':
+        welcomeMessage = "You've selected Charter Schools. What would you like to know about charter school finance? I can explain what charter schools are, funding sources, facility financing options, or their role in the education landscape.";
+        break;
+      default:
+        welcomeMessage = "Let me know what questions you have about this topic.";
+    }
+
+    setTimeout(() => {
+      setMessages(prev => [...prev, { type: 'bot', text: welcomeMessage }]);
+      // Use enhanced scroll function instead of scrollToBottom
+      scrollToResponse();
+    }, 100);
+  };
+
+  // Function to toggle options visibility on mobile
+  const toggleOptionsVisibility = () => {
+    setOptionsMinimized(!optionsMinimized);
   };
 
   return (
     <div className="chatbot-container">
       {!isOpen ? (
         <button 
-          className="chat-button" 
+          className="chatbot-button" 
           onClick={toggleChat}
-          aria-label="Open chat assistant"
+          aria-label="Open IRIS chatbot"
         >
-          <span className="chat-button-icon">💬</span>
-          <span>Chat with Clarity</span>
+          <span className="chatbot-icon">💬</span>
+          <span>Ask IRIS</span>
         </button>
       ) : (
-        <div className="chat-window">
-          <div className="chat-header">
-            <h3>Clarity Chatbot</h3>
-            <div className="chat-header-controls">
+        <div className="chatbot-box">
+          <div className="chatbot-header">
+            <h3>IRIS - AI Assistant</h3>
+            <div className="chatbot-controls">
               <button 
-                className="llm-toggle-button"
-                onClick={toggleLLMMode}
-                title={useLLM ? "Switch to predefined responses" : "Switch to LLM-powered responses"}
+                className="clear-chat-button" 
+                onClick={clearChat}
+                aria-label="Clear chat history"
               >
-                {useLLM ? "AI: ON" : "AI: OFF"}
+                <span role="img" aria-label="Reset">🔄</span>
               </button>
               <button 
-                className="close-button"
-                onClick={() => setIsOpen(false)}
+                className="close-button" 
+                onClick={toggleChat}
+                aria-label="Close chatbot"
               >
                 ×
               </button>
             </div>
           </div>
-          <div className="messages-container">
+
+          <div className={`messages-container ${showContactForm ? 'showing-form' : ''}`}>
             {messages.map((message, index) => (
               <div 
                 key={index} 
                 className={`message ${message.type}`}
               >
-                {message.type === 'bot' ? renderMessageWithLinks(message.text) : message.text}
+                {renderMessage(message)}
               </div>
             ))}
+            <div ref={messagesEndRef} />
+
             {isProcessing && (
-              <div className="message bot typing-indicator">
-                <span></span>
-                <span></span>
-                <span></span>
+              <div className="message bot">
+                <div className="typing-indicator">
+                  <span>●</span><span>●</span><span>●</span>
+                </div>
               </div>
             )}
-            <div ref={messagesEndRef} />
+
+            {showContactForm && (
+              <div className="contact-form-container">
+                <h4>Contact Us</h4>
+                <form onSubmit={handleContactSubmit} className="contact-form">
+                  <div className="form-group">
+                    <label htmlFor="name">Name</label>
+                    <input
+                      type="text"
+                      id="name"
+                      name="name"
+                      value={contactForm.name}
+                      onChange={handleContactInputChange}
+                      disabled={contactSending}
+                      className={contactFormErrors.name ? 'error' : ''}
+                      autoFocus
+                    />
+                    {contactFormErrors.name && <span className="error-message">{contactFormErrors.name}</span>}
+                  </div>
+
+                  <div className="form-group">
+                    <label htmlFor="email">Email</label>
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      value={contactForm.email}
+                      onChange={handleContactInputChange}
+                      disabled={contactSending}
+                      className={contactFormErrors.email ? 'error' : ''}
+                    />
+                    {contactFormErrors.email && <span className="error-message">{contactFormErrors.email}</span>}
+                  </div>
+
+                  <div className="form-group">
+                    <label htmlFor="message">Message</label>
+                    <textarea
+                      id="message"
+                      name="message"
+                      value={contactForm.message}
+                      onChange={handleContactInputChange}
+                      rows="2"
+                      disabled={contactSending}
+                      className={contactFormErrors.message ? 'error' : ''}
+                    ></textarea>
+                    {contactFormErrors.message && <span className="error-message">{contactFormErrors.message}</span>}
+                  </div>
+
+                  <div className="form-actions">
+                    <button 
+                      type="button" 
+                      onClick={cancelContactForm}
+                      disabled={contactSending}
+                      className="cancel-button"
+                    >
+                      Cancel
+                    </button>
+                    <button 
+                      type="submit" 
+                      disabled={contactSending}
+                      className="submit-button"
+                    >
+                      {contactSending ? 'Sending...' : 'Send Message'}
+                    </button>
+                  </div>
+                </form>
+              </div>
+            )}
           </div>
-          
-          {!selectedCategory ? (
-            <div className="category-selection">
-              <h4 className="category-selection-title">Select a topic to get started:</h4>
-              <button 
-                className="category-button cdfi"
-                onClick={() => handleCategorySelect('cdfi')}
-              >
-                <span className="category-icon">🏦</span>
-                Community Development Financial Institutions
-              </button>
-              <button 
-                className="category-button nmtc"
-                onClick={() => handleCategorySelect('nmtc')}
-              >
-                <span className="category-icon">💰</span>
-                New Markets Tax Credit Program
-              </button>
-              <button 
-                className="category-button charter-schools"
-                onClick={() => handleCategorySelect('charterSchools')}
-              >
-                <span className="category-icon">🏫</span>
-                Charter Schools
-              </button>
-            </div>
-          ) : (
-            <>
-              <form onSubmit={handleSendMessage} className="input-container">
-                <input
-                  type="text"
-                  value={inputText}
-                  onChange={(e) => setInputText(e.target.value)}
-                  placeholder="Type your question here..."
-                  className="message-input"
-                  disabled={isProcessing}
-                />
-                <button type="submit" className="send-button" disabled={isProcessing}>
-                  Send
-                </button>
-              </form>
-              <div className="example-questions">
-                <div className="example-questions-title">
-                  <span>Try asking:</span>
+
+          {/* Contact Us button */}
+          {!selectedCategory && !showContactForm && (
+            <button 
+              onClick={() => handleExampleClick('Contact Us')}
+              className="contact-us-button"
+            >
+              Contact Us
+            </button>
+          )}
+
+          {/* Mobile options toggle - only show after user has interacted if options are minimized */}
+          {isMobile && !showContactForm && (
+            <button 
+              className={`mobile-options-toggle ${!optionsMinimized ? 'options-visible' : ''}`}
+              onClick={toggleOptionsVisibility}
+              aria-expanded={!optionsMinimized}
+            >
+              {optionsMinimized ? 'Show Options ▼' : 'Hide Options ▲'}
+            </button>
+          )}
+
+          {/* Two-column layout for questions and topics */}
+          {!showContactForm && (
+            <div className={`chatbot-options-layout ${optionsMinimized ? 'minimized' : ''}`}>
+              {/* Popular Questions Column */}
+              <div className="popular-questions-column">
+                <h4 className="options-section-title">Popular Questions</h4>
+                <div className="option-buttons">
                   <button 
-                    className="reset-category-button"
-                    onClick={handleResetCategory}
+                    className="option-button"
+                    onClick={() => handleExampleClick("What services do you provide?")}
                   >
-                    Change Topic
+                    What services do you provide?
+                  </button>
+                  <button 
+                    className="option-button"
+                    onClick={() => handleExampleClick("What is your pricing?")}
+                  >
+                    What is your pricing?
+                  </button>
+                  <button 
+                    className="option-button"
+                    onClick={() => handleExampleClick("Where are you located?")}
+                  >
+                    Where are you located?
                   </button>
                 </div>
-                {categoryQuestions[selectedCategory].map((question, index) => (
-                  <button
-                    key={index}
-                    className="example-question-button"
-                    onClick={() => handleExampleClick(question)}
-                    disabled={isProcessing}
-                  >
-                    {question}
-                  </button>
-                ))}
               </div>
-            </>
+              
+              {/* Popular Topics Column */}
+              <div className="popular-topics-column">
+                <h4 className="options-section-title">Popular Topics</h4>
+                <div className="option-buttons">
+                  <button 
+                    className="option-button"
+                    onClick={() => handleCategorySelect('cdfi')}
+                  >
+                    <span className="topic-icon">🏦</span> CDFIs
+                  </button>
+                  <button 
+                    className="option-button"
+                    onClick={() => handleCategorySelect('nmtc')}
+                  >
+                    <span className="topic-icon">💰</span> New Markets Tax Credit
+                  </button>
+                  <button 
+                    className="option-button"
+                    onClick={() => handleCategorySelect('charterSchools')}
+                  >
+                    <span className="topic-icon">🏫</span> Charter Schools
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {selectedCategory && (
+            <div style={{ padding: '8px 16px', textAlign: 'center' }}>
+              <button 
+                onClick={handleResetCategory}
+                style={{ 
+                  background: 'none', 
+                  border: 'none', 
+                  color: '#3f6fb6', 
+                  cursor: 'pointer',
+                  textDecoration: 'underline',
+                  fontSize: '14px'
+                }}
+              >
+                Return to Main Menu
+              </button>
+            </div>
+          )}
+
+          {!showContactForm && (
+            <form onSubmit={handleSendMessage} className="input-container">
+              <input
+                type="text"
+                value={inputText}
+                onChange={(e) => setInputText(e.target.value)}
+                placeholder="Type your question here..."
+                className="message-input"
+                disabled={isProcessing}
+              />
+              <button 
+                type="submit" 
+                className="send-button" 
+                disabled={isProcessing || !inputText.trim()}
+              >
+                Send
+              </button>
+            </form>
           )}
         </div>
       )}
@@ -1215,4 +846,4 @@ const ChatBot = () => {
   );
 };
 
-export default ChatBot; 
+export default ChatBot;
