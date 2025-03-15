@@ -25,17 +25,6 @@ What drives Amir most is witnessing the tangible differences that strategic capi
       <div className="about-content-wrapper">
         <div className="logo-emblem-container">
           <img src={logoEmblem} alt="Clarity Impact Finance Logo Emblem" className="logo-emblem" />
-          <div style={{ 
-            backgroundColor: 'red', 
-            color: 'white', 
-            padding: '10px', 
-            borderRadius: '5px',
-            margin: '10px 0',
-            fontWeight: 'bold',
-            textAlign: 'center'
-          }}>
-            DEPLOYMENT TEST - {new Date().toLocaleString()}
-          </div>
         </div>
         
         {/* Leadership Section */}
