@@ -165,6 +165,8 @@
   padding: 10px;
   border-top: 1px solid #e0e0e0;
   background-color: #f9f9f9;
+  /* Add position relative to prevent layout shift */
+  position: relative;
 }
 
 .message-input {
@@ -172,9 +174,11 @@
   padding: 10px 15px;
   border: 1px solid #ddd;
   border-radius: 20px;
-  font-size: 14px;
+  font-size: 16px; /* Use 16px as minimum to prevent zoom on iOS */
   outline: none;
   transition: border-color 0.3s;
+  /* Prevent iOS zoom on input focus */
+  touch-action: manipulation;
 }
 
 .message-input:focus {
@@ -345,8 +349,10 @@
   padding: 6px 10px; /* Reduced from 8px 12px */
   border: 1px solid #ddd;
   border-radius: 6px;
-  font-size: 13px; /* Reduced from 14px */
+  font-size: 16px; /* Use 16px as the minimum to prevent iOS zoom */
   transition: border-color 0.3s;
+  /* Prevent iOS zoom on input focus */
+  touch-action: manipulation;
 }
 
 .form-group textarea {
@@ -481,6 +487,27 @@
     flex-direction: column;
   }
   
+  /* Prevent automatic zoom on input focus for mobile */
+  input[type="text"],
+  input[type="email"],
+  textarea {
+    font-size: 16px; /* Minimum font size to prevent zoom on iOS */
+    max-height: none; /* Remove max height constraint that might cause layout issues */
+    touch-action: manipulation; /* Disable browser handling for touch actions */
+  }
+  
+  /* Fix for maintaining the chatbot layout when keyboard opens */
+  .chatbot-box.keyboard-open {
+    position: absolute;
+    height: 100%; 
+    overflow: hidden;
+  }
+  
+  /* Keep the chat container stable */
+  .chatbot-container {
+    touch-action: manipulation;
+  }
+  
   .messages-container {
     flex-grow: 0; /* Changed from 1 to prevent taking too much space */
     padding-bottom: 10px;
@@ -564,9 +591,21 @@
     margin-bottom: 15px; /* More space between columns */
   }
   
-  /* Make input container smaller to allow more space for options */
+  /* Make input container more stable on mobile */
   .input-container {
     padding: 8px;
+    position: relative;
+    z-index: 10;
+    background-color: #f9f9f9;
+    border-top: 1px solid #e0e0e0;
+  }
+  
+  /* Keep message input stable when focused */
+  .message-input {
+    font-size: 16px; /* Safe size that won't trigger zoom */
+    padding: 10px 15px;
+    transform: translateZ(0); /* Force hardware acceleration */
+    -webkit-appearance: none; /* Remove iOS styling */
   }
   
   /* Contact us button - more compact on mobile */
@@ -583,11 +622,5 @@
     padding: 8px 12px;
     max-width: 90%;
     line-height: 1.3;
-  }
-  
-  /* More compact input area */
-  .message-input {
-    padding: 8px 12px;
-    font-size: 14px;
   }
 }

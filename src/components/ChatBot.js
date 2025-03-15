@@ -62,6 +62,8 @@ const ChatBot = () => {
   const [isMobile, setIsMobile] = useState(false);
   // New state to track if the user has interacted with the chatbot
   const [hasInteracted, setHasInteracted] = useState(false);
+  // New state to track keyboard visibility on mobile
+  const [keyboardVisible, setKeyboardVisible] = useState(false);
   
   // Debug info
   console.log('LLM enabled:', useLLM);
@@ -83,6 +85,69 @@ const ChatBot = () => {
       window.removeEventListener('resize', checkIfMobile);
     };
   }, []);
+
+  // Add event listeners to handle input focus and prevent zoom
+  useEffect(() => {
+    if (!isMobile) return;
+    
+    // References to input elements
+    const messageInput = document.querySelector('.message-input');
+    const formInputs = document.querySelectorAll('.form-group input, .form-group textarea');
+    const chatboxElement = document.querySelector('.chatbot-box');
+    
+    const handleInputFocus = () => {
+      // Add class to chatbox to maintain layout
+      if (chatboxElement) {
+        chatboxElement.classList.add('keyboard-open');
+        setKeyboardVisible(true);
+      }
+      
+      // Set viewport meta tag to prevent zoom
+      const viewportMeta = document.querySelector('meta[name="viewport"]');
+      if (viewportMeta) {
+        viewportMeta.setAttribute('content', 'width=device-width, initial-scale=1, maximum-scale=1');
+      }
+    };
+    
+    const handleInputBlur = () => {
+      // Remove class when input loses focus
+      if (chatboxElement) {
+        chatboxElement.classList.remove('keyboard-open');
+        setTimeout(() => setKeyboardVisible(false), 300); // Slight delay to ensure smooth transition
+      }
+      
+      // Reset viewport meta tag
+      const viewportMeta = document.querySelector('meta[name="viewport"]');
+      if (viewportMeta) {
+        viewportMeta.setAttribute('content', 'width=device-width, initial-scale=1');
+      }
+    };
+    
+    // Add focus/blur listeners to message input
+    if (messageInput) {
+      messageInput.addEventListener('focus', handleInputFocus);
+      messageInput.addEventListener('blur', handleInputBlur);
+    }
+    
+    // Add focus/blur listeners to form inputs
+    formInputs.forEach(input => {
+      input.addEventListener('focus', handleInputFocus);
+      input.addEventListener('blur', handleInputBlur);
+    });
+    
+    return () => {
+      // Clean up event listeners on unmount
+      if (messageInput) {
+        messageInput.removeEventListener('focus', handleInputFocus);
+        messageInput.removeEventListener('blur', handleInputBlur);
+      }
+      
+      formInputs.forEach(input => {
+        input.removeEventListener('focus', handleInputFocus);
+        input.removeEventListener('blur', handleInputBlur);
+      });
+    };
+  }, [isMobile, isOpen]); // Re-add listeners when chatbot opens/closes or mobile status changes
 
   // Enhanced scroll function for better mobile support
   const scrollToResponse = () => {
