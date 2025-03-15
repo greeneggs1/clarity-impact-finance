@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './ChatBot.css';
-import emailjs from 'emailjs-com';
+import emailjs from '@emailjs/browser';
 
 // Predefined FAQ database
 const faqDatabase = {
@@ -18,10 +18,10 @@ const faqQuestions = [
   "Where are you located?"
 ];
 
-// EmailJS service details
-const EMAILJS_SERVICE_ID = "service_id"; // Replace with your EmailJS service ID
-const EMAILJS_TEMPLATE_ID = "template_id"; // Replace with your EmailJS template ID
-const EMAILJS_USER_ID = "user_id"; // Replace with your EmailJS user ID
+// EmailJS configuration - using the same values as the Contact component
+const EMAILJS_SERVICE_ID = 'service_8yvh652'; 
+const EMAILJS_TEMPLATE_ID = 'template_asituhs';
+const EMAILJS_PUBLIC_KEY = '3f4qpHZXPHhPyyL7Y';
 
 // Add a default recipient email
 const DEFAULT_RECIPIENT_EMAIL = "amir@clarityimpactfinance.com";
@@ -405,14 +405,22 @@ const ChatBot = () => {
 
     // Prepare template parameters for EmailJS
     const templateParams = {
-      from_name: contactForm.name,
-      reply_to: contactForm.email,
       to_email: DEFAULT_RECIPIENT_EMAIL,
-      message: contactForm.message
+      from_name: contactForm.name,
+      from_email: contactForm.email,
+      message: contactForm.message,
+      reply_to: contactForm.email
     };
 
-    // Send email using EmailJS
-    emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams, EMAILJS_USER_ID)
+    // Initialize EmailJS with your public key
+    emailjs.init(EMAILJS_PUBLIC_KEY);
+
+    // Send email using EmailJS with updated configuration
+    emailjs.send(
+      EMAILJS_SERVICE_ID,
+      EMAILJS_TEMPLATE_ID,
+      templateParams
+    )
       .then(() => {
         // Success message
         setMessages(prev => [
