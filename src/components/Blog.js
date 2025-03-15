@@ -72,6 +72,24 @@ function Blog() {
           ))}
         </div>
         
+        <div className="linkedin-articles">
+          <h3>More Articles</h3>
+          <p>
+            For additional industry insights and thought leadership articles, visit our LinkedIn Articles section.
+          </p>
+          <a 
+            href="https://www.linkedin.com/in/amirali86" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="linkedin-btn"
+          >
+            Read on LinkedIn 
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style={{ marginLeft: '6px' }}>
+              <path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/>
+            </svg>
+          </a>
+        </div>
+        
         <div className="services-cta">
           <h3>Ready to Create Innovative Solutions?</h3>
           <p>
