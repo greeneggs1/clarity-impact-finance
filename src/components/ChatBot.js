@@ -564,12 +564,18 @@ const ChatBot = () => {
     if (!isOpen && isMobile) {
       setOptionsMinimized(false);
       
-      // Reset to initial state when opening chat to ensure options are visible
-      if (messages.length === 1) {
-        // Only if we have just the greeting message
-        setSelectedCategory(null);
-        setShowContactForm(false);
-      }
+      // After opening, use setTimeout to adjust layout
+      setTimeout(() => {
+        // Ensure options are visible initially
+        const optionsLayout = document.querySelector('.chatbot-options-layout');
+        const messagesContainer = document.querySelector('.messages-container');
+        
+        if (optionsLayout && messagesContainer) {
+          // Adjust heights for better initial view on mobile
+          messagesContainer.style.maxHeight = '40%';
+          optionsLayout.style.display = 'flex';
+        }
+      }, 100);
     }
     setIsOpen(prevIsOpen => !prevIsOpen);
   };
