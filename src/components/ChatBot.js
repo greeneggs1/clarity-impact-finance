@@ -56,16 +56,16 @@ const ChatBot = () => {
   });
   const [contactFormErrors, setContactFormErrors] = useState({});
   const [contactSending, setContactSending] = useState(false);
-  // New state for minimizing options on mobile - start with visible options
+  // Initialize optionsMinimized as false to make options visible by default
   const [optionsMinimized, setOptionsMinimized] = useState(false);
   // State to track if on mobile device
   const [isMobile, setIsMobile] = useState(false);
   // New state to track if the user has interacted with the chatbot
   const [hasInteracted, setHasInteracted] = useState(false);
-
+  
   // Debug info
   console.log('LLM enabled:', useLLM);
-
+  
   // Check if on mobile device
   useEffect(() => {
     const checkIfMobile = () => {
@@ -178,7 +178,7 @@ const ChatBot = () => {
       setShowContactForm(true);
       // Mark as interacted when clicking Contact Us
       setHasInteracted(true);
-      // Minimize options on mobile only after user has interacted with a question
+      // Minimize options on mobile after interaction
       if (isMobile) {
         setOptionsMinimized(true);
       }
@@ -202,7 +202,7 @@ const ChatBot = () => {
       // Mark as interacted with a question
       setHasInteracted(true);
       
-      // Minimize options on mobile only after user has interacted with a question
+      // Minimize options on mobile after user has interacted with a question
       if (isMobile) {
         setOptionsMinimized(true);
       }
@@ -229,6 +229,10 @@ const ChatBot = () => {
     setShowExamples(true);
     setSelectedCategory(null);
     setShowContactForm(false);
+    // Reset options to visible on mobile
+    if (isMobile) {
+      setOptionsMinimized(false);
+    }
   };
 
   // Toggle examples visibility
@@ -412,8 +416,8 @@ const ChatBot = () => {
           // Use enhanced scroll function instead of scrollToBottom
           scrollToResponse();
         }, 800); // Slight delay for natural feel
-        return;
-      }
+      return;
+    }
 
       // Use predetermined responses for all other cases
       const botResponse = await getBotResponse(inputText, selectedCategory);
@@ -430,8 +434,8 @@ const ChatBot = () => {
         if (unknownQuestion) {
           setMessages(prevMessages => [
             ...prevMessages, 
-            { 
-              type: 'bot', 
+      {
+        type: 'bot',
               text: `${botResponse} Would you like to send us a message directly?`,
               actions: [
                 {
@@ -544,6 +548,10 @@ const ChatBot = () => {
   };
 
   const toggleChat = () => {
+    // When opening the chat, make sure options are visible
+    if (!isOpen && isMobile) {
+      setOptionsMinimized(false);
+    }
     setIsOpen(prevIsOpen => !prevIsOpen);
   };
 
@@ -630,7 +638,7 @@ const ChatBot = () => {
                 <span role="img" aria-label="Reset">🔄</span>
               </button>
               <button 
-                className="close-button" 
+                className="close-button"
                 onClick={toggleChat}
                 aria-label="Close chatbot"
               >
@@ -675,8 +683,8 @@ const ChatBot = () => {
                       autoFocus
                     />
                     {contactFormErrors.name && <span className="error-message">{contactFormErrors.name}</span>}
-                  </div>
-
+          </div>
+          
                   <div className="form-group">
                     <label htmlFor="email">Email</label>
                     <input
@@ -706,7 +714,7 @@ const ChatBot = () => {
                   </div>
 
                   <div className="form-actions">
-                    <button 
+              <button 
                       type="button" 
                       onClick={cancelContactForm}
                       disabled={contactSending}
@@ -737,7 +745,7 @@ const ChatBot = () => {
             </button>
           )}
 
-          {/* Mobile options toggle - only show after user has interacted if options are minimized */}
+          {/* Mobile options toggle - always show on mobile */}
           {isMobile && !showContactForm && (
             <button 
               className={`mobile-options-toggle ${!optionsMinimized ? 'options-visible' : ''}`}
@@ -782,23 +790,23 @@ const ChatBot = () => {
                 <div className="option-buttons">
                   <button 
                     className="option-button"
-                    onClick={() => handleCategorySelect('cdfi')}
-                  >
+                onClick={() => handleCategorySelect('cdfi')}
+              >
                     <span className="topic-icon">🏦</span> CDFIs
-                  </button>
-                  <button 
+              </button>
+              <button 
                     className="option-button"
-                    onClick={() => handleCategorySelect('nmtc')}
-                  >
+                onClick={() => handleCategorySelect('nmtc')}
+              >
                     <span className="topic-icon">💰</span> New Markets Tax Credit
-                  </button>
-                  <button 
+              </button>
+              <button 
                     className="option-button"
-                    onClick={() => handleCategorySelect('charterSchools')}
-                  >
+                onClick={() => handleCategorySelect('charterSchools')}
+              >
                     <span className="topic-icon">🏫</span> Charter Schools
-                  </button>
-                </div>
+              </button>
+            </div>
               </div>
             </div>
           )}
@@ -822,22 +830,22 @@ const ChatBot = () => {
           )}
 
           {!showContactForm && (
-            <form onSubmit={handleSendMessage} className="input-container">
-              <input
-                type="text"
-                value={inputText}
-                onChange={(e) => setInputText(e.target.value)}
-                placeholder="Type your question here..."
-                className="message-input"
-                disabled={isProcessing}
-              />
-              <button 
+              <form onSubmit={handleSendMessage} className="input-container">
+                <input
+                  type="text"
+                  value={inputText}
+                  onChange={(e) => setInputText(e.target.value)}
+                  placeholder="Type your question here..."
+                  className="message-input"
+                  disabled={isProcessing}
+                />
+                  <button 
                 type="submit" 
                 className="send-button" 
                 disabled={isProcessing || !inputText.trim()}
-              >
+                  >
                 Send
-              </button>
+                  </button>
             </form>
           )}
         </div>
@@ -846,4 +854,4 @@ const ChatBot = () => {
   );
 };
 
-export default ChatBot;
+export default ChatBot; 
