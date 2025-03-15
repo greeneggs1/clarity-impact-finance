@@ -37,39 +37,61 @@ function Blog() {
     }
   ];
 
-  // LinkedIn articles data
+  // LinkedIn articles data - Updated with actual articles
   const linkedInArticles = [
     {
       id: 1,
-      title: "The Future of Community Development Financial Institutions",
-      date: "April 15, 2023",
-      category: "Industry Insights",
-      excerpt: "Exploring how CDFIs are evolving to meet the needs of underserved communities and the innovative financing models that are emerging to address social and economic challenges.",
-      imageUrl: "/images/cdfi-future.jpg" // You'll need to add these images to your public folder
+      title: "MLK Day Reflections: Advancing Economic Justice with CDFI Lending",
+      date: "January 21, 2025",
+      category: "Economic Justice",
+      excerpt: "Today, as we celebrate Martin Luther King Jr. Day, I'm reminded of Dr. King's vision for economic justice and how CDFIs can advance his legacy through inclusive lending practices.",
+      articleUrl: "https://www.linkedin.com/pulse/mlk-day-reflections-advancing-economic-justice-cdfi-lending-amir-ali-sdvge/",
+      imageUrl: "/images/mlk-day-reflections.jpg"
     },
     {
       id: 2,
-      title: "Innovative Approaches to Charter School Financing",
-      date: "February 8, 2023",
-      category: "Education Finance",
-      excerpt: "A deep dive into the unique financial landscape that charter schools navigate and how innovative financing solutions are helping educational institutions thrive.",
-      imageUrl: "/images/charter-school-finance.jpg"
+      title: "256,000 New Jobs, 4.1% Unemployment—What Small CDFIs Need to Know",
+      date: "January 12, 2025",
+      category: "Economic Analysis",
+      excerpt: "In December 2024, United States added 256,000 new jobs (vs. 160,000 expected) and pushed unemployment down slightly from 4.2% to 4.1%. With a strong labor market like this, interest rate cuts might be off the table for now.",
+      articleUrl: "https://www.linkedin.com/pulse/256000-new-jobs-41-unemploymentwhat-small-cdfis-need-know-ali-cfa-smaqe/",
+      imageUrl: "/images/jobs-report.jpg"
     },
     {
       id: 3,
-      title: "Maximizing Impact with New Market Tax Credits",
-      date: "November 22, 2022",
-      category: "Tax Credits",
-      excerpt: "How strategic use of NMTC allocations can transform communities while providing strong returns for investors and long-term community benefits.",
-      imageUrl: "/images/nmtc-impact.jpg"
+      title: "Advancing Community Development in 2025",
+      date: "January 7, 2025",
+      category: "Community Development",
+      excerpt: "2025 is here, and like many of you, I find myself reflecting on where we are and where we're headed in community development. What challenges and opportunities lie ahead for CDFIs and impact investors?",
+      articleUrl: "https://www.linkedin.com/in/amirali86/recent-activity/articles/",
+      imageUrl: "/images/community-development-2025.jpg"
     },
     {
       id: 4,
-      title: "The Role of Impact Finance in Community Healthcare",
-      date: "September 5, 2022",
-      category: "Healthcare",
-      excerpt: "Examining how innovative financing mechanisms are supporting healthcare initiatives in underserved communities and improving health outcomes.",
-      imageUrl: "/images/healthcare-finance.jpg"
+      title: "The Critical Role of NMTC in Promoting Climate Justice through Green Building and Technology",
+      date: "May 15, 2024",
+      category: "Climate Justice",
+      excerpt: "The New Markets Tax Credit (NMTC) federal program, designed to stimulate economic development in historically excluded communities, plays a vital role in advancing climate justice initiatives.",
+      articleUrl: "https://www.linkedin.com/in/amirali86/recent-activity/articles/",
+      imageUrl: "/images/nmtc-climate.jpg"
+    },
+    {
+      id: 5,
+      title: "Pairing the New Markets Tax Credit with Early Care and Education Centers",
+      date: "January 17, 2024",
+      category: "Education Finance",
+      excerpt: "LIIF believes that all children should be put on the road to success, no matter their ZIP code. We see this as a crucial application of the New Markets Tax Credit to promote equity in early childhood education.",
+      articleUrl: "https://www.linkedin.com/in/amirali86/recent-activity/articles/",
+      imageUrl: "/images/nmtc-education.jpg"
+    },
+    {
+      id: 6,
+      title: "New Markets Tax Credit: A Wealth-Building Tool Driving Economic Development for Under-resourced Communities",
+      date: "May 16, 2023",
+      category: "Economic Development",
+      excerpt: "The pursuit of wealth creation and the fight for economic equality go hand in hand in our nation's under-resourced communities. The New Markets Tax Credit serves as a powerful tool in this important work.",
+      articleUrl: "https://www.linkedin.com/in/amirali86/recent-activity/articles/",
+      imageUrl: "/images/nmtc-wealth-building.jpg"
     }
   ];
 
@@ -120,7 +142,7 @@ function Blog() {
                   <h4 className="article-title">{article.title}</h4>
                   <p className="article-excerpt">{article.excerpt}</p>
                   <a 
-                    href={linkedInProfileUrl} 
+                    href={article.articleUrl}
                     target="_blank" 
                     rel="noopener noreferrer" 
                     className="read-article"
