@@ -21,7 +21,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "REACT_APP_VERCEL=true REACT_APP_BUILD_TIME=$(date +%s) react-scripts build",
-    "vercel-build": "CI=false rm -rf node_modules/.cache && REACT_APP_VERCEL=true REACT_APP_BUILD_TIME=$(date +%s) react-scripts build",
+    "vercel-build": "CI=false npm ci && npm install --save-dev yocto-queue && rm -rf node_modules/.cache && REACT_APP_VERCEL=true REACT_APP_BUILD_TIME=$(date +%s) react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -47,6 +47,7 @@
     "@craco/craco": "^7.1.0",
     "file-loader": "^6.2.0",
     "png-to-ico": "^2.1.8",
-    "svg2png": "^4.1.1"
+    "svg2png": "^4.1.1",
+    "yocto-queue": "^1.0.0"
   }
 }
