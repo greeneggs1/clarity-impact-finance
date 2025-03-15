@@ -68,9 +68,9 @@
   ],
   "env": {
     "REACT_APP_VERCEL": "true",
-    "DEPLOYMENT_TIMESTAMP": "2024-05-25-18-30",
+    "DEPLOYMENT_TIMESTAMP": "2024-05-26-12-00",
     "CI": "false",
-    "PROJECT_NAME": "clarity-impact-finance2"
+    "PROJECT_NAME": "clarity-impact-finance-fresh"
   },
   "github": {
     "enabled": true,
