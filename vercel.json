@@ -13,7 +13,10 @@
   "routes": [
     {
       "src": "/static/(.*)",
-      "dest": "/static/$1"
+      "dest": "/static/$1",
+      "headers": {
+        "cache-control": "public, max-age=0, must-revalidate"
+      }
     },
     {
       "src": "/videos/(.*)",
@@ -57,12 +60,15 @@
     },
     {
       "src": "/(.*)",
-      "dest": "/index.html"
+      "dest": "/index.html",
+      "headers": {
+        "cache-control": "public, max-age=0, must-revalidate"
+      }
     }
   ],
   "env": {
     "REACT_APP_VERCEL": "true",
-    "DEPLOYMENT_TIMESTAMP": "2024-03-09-00-00",
+    "DEPLOYMENT_TIMESTAMP": "2024-05-25-18-30",
     "CI": "false",
     "PROJECT_NAME": "clarity-impact-finance2"
   },
