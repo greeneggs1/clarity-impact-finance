@@ -278,6 +278,16 @@ const ChatBot = () => {
   // Function to handle example question clicks
   const handleExampleClick = (question) => {
     if (question === 'Contact Us') {
+      // If showing a form in an already busy conversation, trim messages if needed
+      if (messages.length > 3) {
+        // Keep first message (welcome) and last two exchanges
+        const keepMessages = [
+          messages[0],
+          ...messages.slice(-2),
+        ];
+        setMessages(keepMessages);
+      }
+      
       setShowContactForm(true);
       // Mark as interacted when clicking Contact Us
       setHasInteracted(true);
@@ -446,21 +456,49 @@ const ChatBot = () => {
   const showContactFormHandler = () => {
     setShowContactForm(true);
     
-    // Add a small delay to ensure the contact form is rendered before attempting to manipulate DOM
+    // Minimize options on mobile when showing the contact form
+    if (isMobile) {
+      setOptionsMinimized(true);
+    }
+    
+    // Use a longer delay to ensure the contact form is fully rendered
+    // before attempting to manipulate DOM
     setTimeout(() => {
       // Find the contact form container
       const formContainer = document.querySelector('.contact-form-container');
-      if (formContainer) {
-        // Ensure the form is visible
-        formContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-      }
-      
-      // Ensure messages container is set to allow scrolling
       const messagesContainer = document.querySelector('.messages-container');
-      if (messagesContainer) {
-        messagesContainer.scrollTop = messagesContainer.scrollHeight - messagesContainer.clientHeight;
+      
+      if (formContainer && messagesContainer) {
+        // First ensure the messages container shows the bottom content
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        
+        // Then explicitly scroll to the form with center alignment
+        formContainer.scrollIntoView({ 
+          behavior: 'smooth', 
+          block: 'center'  // Changed from 'nearest' to 'center' for better visibility
+        });
+        
+        // For mobile, apply special handling
+        if (isMobile) {
+          // Add a class to highlight the form
+          formContainer.classList.add('highlighted-form');
+          
+          // Remove highlight after animation completes
+          setTimeout(() => {
+            formContainer.classList.remove('highlighted-form');
+          }, 2000);
+          
+          // Make sure the form has enough space by adjusting container heights
+          messagesContainer.style.maxHeight = '60vh';
+          
+          // Ensure chatbox stays in the right position
+          const chatboxElement = document.querySelector('.chatbot-box');
+          if (chatboxElement) {
+            chatboxElement.classList.add('showing-form');
+          }
+        }
       }
-    }, 100);
+    }, 300); // Increased from 100ms to 300ms for better reliability
   };
   
   // Cancel contact form
@@ -472,6 +510,18 @@ const ChatBot = () => {
       message: ''
     });
     setContactFormErrors({});
+    
+    // Reset any style adjustments made for the form
+    const messagesContainer = document.querySelector('.messages-container');
+    if (messagesContainer) {
+      messagesContainer.style.maxHeight = '';
+    }
+    
+    // Remove the showing-form class from chatbox
+    const chatboxElement = document.querySelector('.chatbot-box');
+    if (chatboxElement) {
+      chatboxElement.classList.remove('showing-form');
+    }
   };
 
   const handleSendMessage = async (e) => {
@@ -519,8 +569,8 @@ const ChatBot = () => {
           // Use enhanced scroll function instead of scrollToBottom
           scrollToResponse();
         }, 800); // Slight delay for natural feel
-      return;
-    }
+        return;
+      }
 
       // Use predetermined responses for all other cases
       const botResponse = await getBotResponse(inputText, selectedCategory);
@@ -535,10 +585,23 @@ const ChatBot = () => {
 
       setTimeout(() => {
         if (unknownQuestion) {
+          // If we're going to show a contact form option and have a long conversation, 
+          // consider trimming older messages to make room
+          let updatedMessages = [...messages, userMessage];
+          
+          if (updatedMessages.length > 4) {
+            // Keep the intro message, current user message, and just enough history for context
+            updatedMessages = [
+              updatedMessages[0], // Keep welcome message
+              ...updatedMessages.slice(-3) // Keep last 3 messages (user message + recent context)
+            ];
+            setMessages(updatedMessages);
+          }
+
           setMessages(prevMessages => [
-            ...prevMessages, 
-      {
-        type: 'bot',
+            ...updatedMessages, 
+            {
+              type: 'bot',
               text: `${botResponse} Would you like to send us a message directly?`,
               actions: [
                 {
