@@ -1193,6 +1193,23 @@
   margin-top: auto;
 }
 
+/* Coming Soon container styles */
+.coming-soon-container {
+  padding: 3rem;
+  text-align: center;
+  background: rgba(27, 70, 32, 0.05);
+  border-radius: 12px;
+  margin-top: 1rem;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.03);
+}
+
+.coming-soon-message {
+  font-size: 1.8rem;
+  color: #1B4620;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
 /* Company Values Section */
 .company-values-section {
   margin-bottom: 4rem;

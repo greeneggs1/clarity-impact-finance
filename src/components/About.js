@@ -5,7 +5,6 @@ import logoEmblem from '../assets/logo-emblem.svg';
 
 const About = () => {
   const [showFullBio, setShowFullBio] = useState(false);
-  const [expandedAdvisor, setExpandedAdvisor] = useState(null);
 
   const fullBio = `Amir organizes his work around a fundamental belief: that equitable access to capital can transform underserved communities and address critical social determinants of health. Throughout his career spanning more than a decade, Amir has consistently delivered transformative results by leveraging his expertise in impact investing, community development, and tax credit finance.
 
@@ -20,32 +19,6 @@ Amir holds a B.Com in Finance and Accounting from McGill University and is a CFA
 What drives Amir most is witnessing the tangible differences that strategic capital deployment makes in people's lives—whether through affordable housing developments, community health centers, quality educational facilities, or accessible childcare options. He brings this passion, extensive financial expertise, and commitment to impact to every client engagement at Clarity Impact Finance.`;
 
   const bioPreview = fullBio.substring(0, 300) + '...';
-
-  // Advisory board member data
-  const advisoryBoard = [
-    {
-      id: 1,
-      name: "Dr. Sarah Johnson",
-      title: "Senior Advisor, Community Healthcare",
-      image: "/placeholder-female.jpg",
-      bio: `Dr. Sarah Johnson brings over 15 years of experience in healthcare policy and community health center development. As the former Director of Health Services at National Community Development Corporation, she oversaw the financing and development of 20+ federally qualified health centers serving low-income communities.
-
-Sarah's expertise in healthcare facility planning, operational sustainability, and impact measurement provides Clarity Impact Finance clients with critical insights for healthcare-focused community development initiatives. She holds an MD from Johns Hopkins University and an MPH from Harvard University.
-
-Sarah currently serves on the boards of three community health organizations and has published extensive research on addressing social determinants of health through strategic capital investments.`
-    },
-    {
-      id: 2,
-      name: "Michael Rodriguez",
-      title: "Senior Advisor, Education Finance",
-      image: "/placeholder-male.jpg",
-      bio: `Michael Rodriguez has dedicated his 20-year career to expanding educational opportunities in underserved communities. As the former CFO of Charter School Growth Fund, he managed a $500M investment portfolio supporting high-performing charter schools nationwide.
-
-Michael's expertise spans charter school facility financing, education-focused New Markets Tax Credit transactions, and innovative capital stacks for community education initiatives. He provides Clarity Impact Finance clients with strategic guidance on educational facility development, financial modeling, and impact assessment.
-
-He holds an MBA from the University of Chicago Booth School of Business and serves as a board treasurer for two national education nonprofits.`
-    }
-  ];
 
   return (
     <section id="about" className="about">
@@ -105,48 +78,11 @@ He holds an MBA from the University of Chicago Booth School of Business and serv
           </div>
         </div>
 
-        {/* Advisory Board Section */}
+        {/* Advisory Board Section - Changed to Coming Soon */}
         <div className="advisory-board-section">
           <h3 className="section-subheading">Advisory Board</h3>
-          <div className="advisors-container">
-            {advisoryBoard.map((advisor) => (
-              <div className="advisor-card" key={advisor.id}>
-                <div className="advisor-image-container">
-                  <img 
-                    src={advisor.image} 
-                    alt={`${advisor.name} - ${advisor.title}`} 
-                    className="advisor-image"
-                  />
-                </div>
-                <div className="advisor-content">
-                  <h4>{advisor.name}</h4>
-                  <p className="advisor-title">{advisor.title}</p>
-                  <div className="advisor-bio">
-                    <p>
-                      {expandedAdvisor === advisor.id 
-                        ? advisor.bio 
-                        : advisor.bio.substring(0, 150) + '...'}
-                    </p>
-                    <button 
-                      className="read-more-btn" 
-                      onClick={() => setExpandedAdvisor(
-                        expandedAdvisor === advisor.id ? null : advisor.id
-                      )}
-                    >
-                      {expandedAdvisor === advisor.id ? "Show Less" : "Read More"}
-                    </button>
-                  </div>
-                  <div className="advisor-social">
-                    <a href="#" className="social-link linkedin">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
-                      </svg>
-                      LinkedIn
-                    </a>
-                  </div>
-                </div>
-              </div>
-            ))}
+          <div className="coming-soon-container">
+            <p className="coming-soon-message">Coming Soon</p>
           </div>
         </div>
 
