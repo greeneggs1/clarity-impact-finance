@@ -90,7 +90,7 @@ const Hero = () => {
       
       <div className="hero-content">
         <h1>Transforming Communities Through Finance</h1>
-        <h2>We provide strategic consulting and innovative solutions for mission-driven lenders to maximize their impact, streamline operations, and create sustainable change in underserved communities.</h2>
+        <h2>We provide strategic consulting and innovative solutions for mission-driven lenders</h2>
         <div className="hero-buttons">
           <button 
             className="primary-btn"
