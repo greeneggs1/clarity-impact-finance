@@ -100,27 +100,37 @@ const ChatBot = () => {
       if (chatboxElement) {
         chatboxElement.classList.add('keyboard-open');
         setKeyboardVisible(true);
+        
+        // Ensure options are minimized when keyboard opens to save space
+        setOptionsMinimized(true);
+        
+        // Small delay before scrolling to ensure the UI has updated
+        setTimeout(() => {
+          // Scroll to keep input in view
+          const activeElement = document.activeElement;
+          if (activeElement) {
+            activeElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+        }, 50);
       }
       
       // Set viewport meta tag to prevent zoom
       const viewportMeta = document.querySelector('meta[name="viewport"]');
       if (viewportMeta) {
-        viewportMeta.setAttribute('content', 'width=device-width, initial-scale=1, maximum-scale=1');
+        viewportMeta.setAttribute('content', 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0');
       }
     };
     
     const handleInputBlur = () => {
-      // Remove class when input loses focus
-      if (chatboxElement) {
-        chatboxElement.classList.remove('keyboard-open');
-        setTimeout(() => setKeyboardVisible(false), 300); // Slight delay to ensure smooth transition
-      }
-      
-      // Reset viewport meta tag
-      const viewportMeta = document.querySelector('meta[name="viewport"]');
-      if (viewportMeta) {
-        viewportMeta.setAttribute('content', 'width=device-width, initial-scale=1');
-      }
+      // Instead of immediately removing the class, use a small delay
+      // to prevent flickering and ensure smooth transition
+      setTimeout(() => {
+        // Remove class when input loses focus
+        if (chatboxElement) {
+          chatboxElement.classList.remove('keyboard-open');
+          setKeyboardVisible(false);
+        }
+      }, 100);
     };
     
     // Add focus/blur listeners to message input
@@ -135,8 +145,24 @@ const ChatBot = () => {
       input.addEventListener('blur', handleInputBlur);
     });
     
+    // Fix for iOS - need to handle resize events when keyboard appears/disappears
+    const handleResize = () => {
+      // Check if an input is focused
+      const isInputFocused = document.activeElement.tagName === 'INPUT' || 
+                           document.activeElement.tagName === 'TEXTAREA';
+      
+      if (isInputFocused && chatboxElement) {
+        chatboxElement.classList.add('keyboard-open');
+        setKeyboardVisible(true);
+      }
+    };
+    
+    window.addEventListener('resize', handleResize);
+    
     return () => {
       // Clean up event listeners on unmount
+      window.removeEventListener('resize', handleResize);
+      
       if (messageInput) {
         messageInput.removeEventListener('focus', handleInputFocus);
         messageInput.removeEventListener('blur', handleInputBlur);
@@ -147,7 +173,7 @@ const ChatBot = () => {
         input.removeEventListener('blur', handleInputBlur);
       });
     };
-  }, [isMobile, isOpen]); // Re-add listeners when chatbot opens/closes or mobile status changes
+  }, [isMobile, isOpen, setOptionsMinimized]); // Add setOptionsMinimized as a dependency
 
   // Enhanced scroll function for better mobile support
   const scrollToResponse = () => {
@@ -783,6 +809,14 @@ const ChatBot = () => {
                       disabled={contactSending}
                       className={contactFormErrors.name ? 'error' : ''}
                       autoFocus
+                      onFocus={() => {
+                        if (isMobile) {
+                          const chatboxElement = document.querySelector('.chatbot-box');
+                          if (chatboxElement) {
+                            chatboxElement.classList.add('keyboard-open');
+                          }
+                        }
+                      }}
                     />
                     {contactFormErrors.name && <span className="error-message">{contactFormErrors.name}</span>}
           </div>
@@ -797,6 +831,14 @@ const ChatBot = () => {
                       onChange={handleContactInputChange}
                       disabled={contactSending}
                       className={contactFormErrors.email ? 'error' : ''}
+                      onFocus={() => {
+                        if (isMobile) {
+                          const chatboxElement = document.querySelector('.chatbot-box');
+                          if (chatboxElement) {
+                            chatboxElement.classList.add('keyboard-open');
+                          }
+                        }
+                      }}
                     />
                     {contactFormErrors.email && <span className="error-message">{contactFormErrors.email}</span>}
                   </div>
@@ -811,6 +853,14 @@ const ChatBot = () => {
                       rows="2"
                       disabled={contactSending}
                       className={contactFormErrors.message ? 'error' : ''}
+                      onFocus={() => {
+                        if (isMobile) {
+                          const chatboxElement = document.querySelector('.chatbot-box');
+                          if (chatboxElement) {
+                            chatboxElement.classList.add('keyboard-open');
+                          }
+                        }
+                      }}
                     ></textarea>
                     {contactFormErrors.message && <span className="error-message">{contactFormErrors.message}</span>}
                   </div>
@@ -940,6 +990,15 @@ const ChatBot = () => {
                   placeholder="Type your question here..."
                   className="message-input"
                   disabled={isProcessing}
+                  onFocus={() => {
+                    if (isMobile) {
+                      const chatboxElement = document.querySelector('.chatbot-box');
+                      if (chatboxElement) {
+                        chatboxElement.classList.add('keyboard-open');
+                      }
+                      setOptionsMinimized(true);
+                    }
+                  }}
                 />
                   <button 
                 type="submit" 

@@ -485,6 +485,7 @@
     bottom: 0;
     display: flex;
     flex-direction: column;
+    z-index: 10000; /* Ensure it's above everything else */
   }
   
   /* Prevent automatic zoom on input focus for mobile */
@@ -498,14 +499,40 @@
   
   /* Fix for maintaining the chatbot layout when keyboard opens */
   .chatbot-box.keyboard-open {
-    position: absolute;
+    position: fixed; /* Changed from absolute to fixed */
     height: 100%; 
+    width: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10000;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    background-color: white; /* Ensure background is visible */
   }
   
   /* Keep the chat container stable */
   .chatbot-container {
     touch-action: manipulation;
+  }
+  
+  /* Ensure the chat interface stays visible when keyboard appears */
+  .chatbot-box.keyboard-open .chatbot-header,
+  .chatbot-box.keyboard-open .input-container {
+    position: relative;
+    z-index: 10001; /* Higher than the box itself */
+  }
+  
+  .chatbot-box.keyboard-open .messages-container {
+    flex: 0 1 auto; /* Let it shrink if needed */
+    min-height: 80px; /* Ensure at least some messages are visible */
+  }
+  
+  .chatbot-box.keyboard-open .chatbot-options-layout:not(.minimized) {
+    flex: 0 1 auto; /* Let it shrink when keyboard is open */
+    max-height: 30vh; /* Limit height when keyboard is open */
   }
   
   .messages-container {
@@ -598,6 +625,8 @@
     z-index: 10;
     background-color: #f9f9f9;
     border-top: 1px solid #e0e0e0;
+    /* Ensure it doesn't disappear when keyboard opens */
+    flex-shrink: 0;
   }
   
   /* Keep message input stable when focused */
