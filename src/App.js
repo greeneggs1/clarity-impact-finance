@@ -6,35 +6,52 @@ import Hero from './components/Hero';
 import About from './components/About';
 import Services from './components/Services';
 import ImpactStory from './components/ImpactStory';
+import Blog from './components/Blog';
 import Resources from './components/Resources';
-import ResourcesPage from './components/ResourcesPage';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import ChatBot from './components/ChatBot';
+import Login from './components/Login';
+import ClientResources from './components/ClientResources';
+import AdminPanel from './components/AdminPanel';
+import { AuthProvider } from './components/AuthContext';
+import PrivateRoute from './components/PrivateRoute';
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/resources" element={<ResourcesPage />} />
-        <Route path="/" element={
-          <div className="App">
-            <a href="#main-content" className="skip-to-content">Skip to main content</a>
-            <Navbar />
-            <main id="main-content">
-              <Hero />
-              <About />
-              <Services />
-              <ImpactStory />
-              <Resources />
-              <Contact />
-            </main>
-            <Footer />
-            <ChatBot />
-          </div>
-        } />
-      </Routes>
-    </Router>
+    <AuthProvider>
+      <Router>
+        <div className="App">
+          <a href="#main-content" className="skip-to-content">Skip to main content</a>
+          
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route path="/admin" element={<AdminPanel />} />
+            <Route path="/client-resources" element={
+              <PrivateRoute>
+                <ClientResources />
+              </PrivateRoute>
+            } />
+            <Route path="/" element={
+              <>
+                <Navbar />
+                <main id="main-content">
+                  <Hero />
+                  <About />
+                  <Services />
+                  <ImpactStory />
+                  <Blog />
+                  <Resources />
+                  <Contact />
+                </main>
+                <Footer />
+                <ChatBot />
+              </>
+            } />
+          </Routes>
+        </div>
+      </Router>
+    </AuthProvider>
   );
 }
 
