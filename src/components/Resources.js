@@ -489,66 +489,6 @@ const Resources = () => {
               <p>Connect to specialized resources from leading organizations in community development finance.</p>
             </div>
             
-            {/* Theory of Change Framework */}
-            <div className="theory-of-change-section">
-              <h2>Our Theory of Change</h2>
-              <p>Our approach to resource sharing, learning, and training is guided by a comprehensive framework that drives meaningful impact for CDFIs and communities.</p>
-              
-              <div className="theory-of-change-container">
-                <img 
-                  src="/images/theory-of-change-diagram.png" 
-                  alt="Theory of Change Framework Diagram" 
-                  className={`theory-of-change-image ${isMobile ? 'mobile-zoomable' : ''}`}
-                  onClick={toggleImageZoom}
-                />
-                
-                {/* Zoomed image overlay for mobile */}
-                {imageZoomed && isMobile && (
-                  <div className="zoomed-image-overlay">
-                    <button 
-                      className="close-zoom-button" 
-                      onClick={toggleImageZoom}
-                      aria-label="Close zoomed image"
-                    >
-                      ×
-                    </button>
-                    <img 
-                      src="/images/theory-of-change-diagram.png" 
-                      alt="Theory of Change Framework Diagram" 
-                      className="zoomed-image"
-                    />
-                  </div>
-                )}
-                
-                <div className="theory-elements">
-                  <div className="theory-element">
-                    <h3>Inputs</h3>
-                    <p>The foundational resources we leverage, including our Knowledge Repository, Expert Network, Learning Platform, and Community Engagement.</p>
-                  </div>
-                  
-                  <div className="theory-element">
-                    <h3>Activities</h3>
-                    <p>Key actions we undertake, such as Resource Curation, Collaborative Learning, Skill-Building Workshops, and Peer Exchange.</p>
-                  </div>
-                  
-                  <div className="theory-element">
-                    <h3>Outputs</h3>
-                    <p>Tangible deliverables including Practical Toolkits, Case Studies, Training Modules, and a Community of Practice.</p>
-                  </div>
-                  
-                  <div className="theory-element">
-                    <h3>Outcomes</h3>
-                    <p>Medium-term benefits like Enhanced CDFI Capacity, Improved Lending Practices, Stronger Compliance, and Operational Efficiency.</p>
-                  </div>
-                  
-                  <div className="theory-element">
-                    <h3>Impact</h3>
-                    <p>Long-term changes including Increased Community Investment, Greater CDFI Sustainability, Expanded Access to Capital, and Stronger Communities.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
             {/* Prominent Learning Pathways */}
             <div className="featured-learning-paths">
               <h2>Learning Pathways</h2>
