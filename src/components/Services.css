@@ -1,11 +1,30 @@
 .services {
   padding: 0 2rem 6rem;
-  background: #ffffff;
+  position: relative;
+  background-attachment: fixed; /* This creates the parallax effect */
+  background-image: url('../assets/images/services-bg.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  overflow: hidden; /* To prevent image from affecting layout */
+}
+
+.services::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.30);
+  z-index: 1;
 }
 
 .services-container {
   max-width: 1200px;
   margin: 0 auto;
+  position: relative;
+  z-index: 2;
 }
 
 .services h2 {
@@ -264,4 +283,4 @@
   .services-grid {
     grid-template-columns: 1fr;
   }
-} 
+}
