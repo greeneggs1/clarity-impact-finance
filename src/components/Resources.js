@@ -119,15 +119,15 @@ const Resources = () => {
     {
       id: 1,
       title: "Small Business Loan Underwriting Checklist",
-      description: "Comprehensive checklist for underwriting small business loans, including financial analysis, management assessment, and industry evaluation.",
-      organization: "Opportunity Finance Network",
-      type: "Checklist",
+      description: "Comprehensive checklist for underwriting small business loans, including financial analysis, management assessment, and industry evaluation with an interactive dashboard and example data.",
+      organization: "Clarity Impact Finance",
+      type: "Tool",
       category: "Small Business",
-      tags: ["underwriting", "small business", "credit analysis"],
-      url: "https://ofn.org/",
-      fileType: "PDF",
-      fileSize: "1.2 MB",
-      lastUpdated: "2023-06-15",
+      tags: ["underwriting", "small business", "credit analysis", "dashboard", "interactive"],
+      url: "/downloads/Small_Business_Loan_Underwriting_Checklist.xlsx",
+      fileType: "XLSX",
+      fileSize: "14 KB",
+      lastUpdated: "2025-03-16",
       featured: true
     },
     {
@@ -486,7 +486,7 @@ const Resources = () => {
           <>
             <div className="resources-header">
               <h1>Resource Hub</h1>
-              <p>Connect to specialized resources from leading organizations in community development finance.</p>
+              <p>Connect to specialized resources and tools in community development finance.</p>
             </div>
             
             {/* Prominent Learning Pathways */}
@@ -699,20 +699,13 @@ const Resources = () => {
                     <p>Try adjusting your search criteria or <button onClick={resetFilters}>reset all filters</button></p>
                   </div>
                 )}
-                
-                <div className="resources-disclaimer">
-                  <p>
-                    These resources are provided by third-party organizations. Clarity Impact Finance does not host or maintain these resources directly. 
-                    Links will take you to external websites where you can access the full content.
-                  </p>
-                </div>
               </div>
             </div>
           </>
         ) : (
           // Learning Path View
           <div className="learning-path-container">
-            <div className="learning-path-sidebar">
+            <div className="learning-path-header">
               <button className="back-button" onClick={handleBackToResources}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <line x1="19" y1="12" x2="5" y2="12"></line>
@@ -724,29 +717,30 @@ const Resources = () => {
               <div className="learning-path-info">
                 <h2>{activeLearningPath?.title}</h2>
                 <p>{activeLearningPath?.description}</p>
+                <div className="module-explanation">
+                  <p><strong>{activeLearningPath?.title}</strong> is a comprehensive learning module. Each topic below provides specific tools and resources to help you master different aspects of the lending process.</p>
+                </div>
               </div>
               
-              <div className="learning-path-steps-list">
-                <h3>Learning Steps</h3>
+              <div className="learning-path-steps-horizontal">
                 {activeLearningPath?.steps.map((step, index) => (
                   <div 
                     key={step.id} 
-                    className={`learning-path-step ${activePathStep?.id === step.id ? 'active' : ''}`}
+                    className={`learning-path-step-horizontal ${activePathStep?.id === step.id ? 'active' : ''}`}
                     onClick={() => handleStepSelect(step.id)}
                   >
                     <div className="step-number">{index + 1}</div>
-                    <div className="step-content">
-                      <h4>{step.title}</h4>
-                      <p>{step.description}</p>
-                    </div>
+                    <div className="step-name">{step.title}</div>
                   </div>
                 ))}
               </div>
             </div>
             
             <div className="learning-path-content">
-              <h2>{activePathStep?.title} Resources</h2>
-              <p>Curated resources to help you master this topic</p>
+              <div className="active-step-info">
+                <h2>{activePathStep?.title}</h2>
+                <p>{activePathStep?.description}</p>
+              </div>
               
               <div className="learning-path-resources">
                 {getStepResources().map((resource) => (
