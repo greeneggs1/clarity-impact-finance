@@ -1105,6 +1105,19 @@
   border-radius: 2px;
 }
 
+.team-heading {
+  margin-top: 1rem;
+  margin-bottom: 3rem;
+  font-size: 2.2rem;
+  color: #1B4620;
+}
+
+.team-heading::after {
+  width: 70px;
+  height: 3.5px;
+  background: linear-gradient(90deg, #E67E45, #f3a47f);
+}
+
 .advisors-container {
   display: grid;
   grid-template-columns: repeat(2, 1fr);

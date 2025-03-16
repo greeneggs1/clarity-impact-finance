@@ -27,12 +27,15 @@ What drives Amir most is witnessing the tangible differences that strategic capi
           <img src={logoEmblem} alt="Clarity Impact Finance Logo Emblem" className="logo-emblem" />
         </div>
         
-        {/* Leadership Section */}
-        <h2>Our Team</h2>
+        {/* Vision Section - Changed from Leadership Section */}
+        <h2>Our Vision</h2>
         
         <div className="vision-statement">
           <p>A thriving CDFI ecosystem where all organizations, regardless of size, have the capacity to deliver equitable lending and TA solutions that meet the needs of underserved communities.</p>
         </div>
+
+        {/* Team Section Heading */}
+        <h3 className="section-subheading team-heading">Our Team</h3>
 
         {/* Founder Bio Card */}
         <div className="team-section">
