@@ -88,40 +88,6 @@ What drives Amir most is witnessing the tangible differences that strategic capi
             <p className="coming-soon-message">Coming Soon</p>
           </div>
         </div>
-
-        {/* Company Values or Additional Information Section */}
-        <div className="company-values-section">
-          <h3 className="section-subheading">Our Approach</h3>
-          <div className="values-grid">
-            <div className="value-card">
-              <div className="value-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1.834 9.686l-4.166.575 3.032 2.914-.74 4.139 3.708-1.982 3.708 1.983-.74-4.139 3.032-2.915-4.166-.575-1.834-3.784-1.834 3.784z"/>
-                </svg>
-              </div>
-              <h4>Excellence</h4>
-              <p>We hold ourselves to the highest standards of financial rigor and community impact, delivering innovative solutions that create lasting positive change.</p>
-            </div>
-            <div className="value-card">
-              <div className="value-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M17.997 18h-11.995l-.002-.623c0-1.259.1-1.986 1.588-2.33 1.684-.389 3.344-.736 2.545-2.209-2.366-4.363-.674-6.838 1.866-6.838 2.491 0 4.226 2.383 1.866 6.839-.775 1.464.826 1.812 2.545 2.209 1.49.344 1.589 1.072 1.589 2.333l-.002.619zm4.811-2.214c-1.29-.298-2.49-.559-1.909-1.657 1.769-3.342.469-5.129-1.4-5.129-1.265 0-2.248.817-2.248 2.324 0 3.903 2.268 1.77 2.246 6.676h4.501l.002-.463c0-.946-.074-1.493-1.192-1.751zm-22.806 2.214h4.501c-.021-4.906 2.246-2.772 2.246-6.676 0-1.507-.983-2.324-2.248-2.248-1.869 0-3.169 1.787-1.399 5.129.581 1.099-.619 1.359-1.909 1.657-1.119.258-1.193.805-1.193 1.751l.002.463z"/>
-                </svg>
-              </div>
-              <h4>Partnership</h4>
-              <p>We believe in collaborative relationships that leverage the unique strengths of each organization to achieve shared goals for community development.</p>
-            </div>
-            <div className="value-card">
-              <div className="value-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1.959 17l-4.5-4.319 1.395-1.435 3.08 2.937 7.021-7.183 1.422 1.409-8.418 8.591z"/>
-                </svg>
-              </div>
-              <h4>Integrity</h4>
-              <p>We uphold the highest ethical standards in all our work, maintaining transparency, honesty, and accountability in every client relationship.</p>
-            </div>
-          </div>
-        </div>
       </div>
     </section>
   );
