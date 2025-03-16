@@ -1,10 +1,37 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import './Services.css';
 import { scrollToSection } from '../utils/scroll';
 
 const Services = () => {
+  const servicesRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        // When services section enters viewport
+        if (entry.isIntersecting) {
+          servicesRef.current.classList.add('in-view');
+        } else {
+          servicesRef.current.classList.remove('in-view');
+        }
+      },
+      { threshold: 0.1 } // Trigger when at least 10% visible
+    );
+
+    if (servicesRef.current) {
+      observer.observe(servicesRef.current);
+    }
+
+    // Clean up the observer on unmount
+    return () => {
+      if (servicesRef.current) {
+        observer.unobserve(servicesRef.current);
+      }
+    };
+  }, []);
+
   return (
-    <section id="services" className="services">
+    <section id="services" className="services" ref={servicesRef}>
       <div className="services-container">
         <h2>Our Services</h2>
         <p className="services-intro">

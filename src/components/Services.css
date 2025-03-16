@@ -7,6 +7,12 @@
   background-repeat: no-repeat;
   background-size: cover;
   overflow: hidden; /* To prevent image from affecting layout */
+  -webkit-transform: translateZ(0); /* Mobile optimization */
+  transform: translateZ(0);
+  -webkit-perspective: 1000;
+  perspective: 1000;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
 }
 
 .services::before {
@@ -43,6 +49,7 @@
   bottom: -1rem;
   left: 50%;
   transform: translateX(-50%);
+  -webkit-transform: translateX(-50%);
   width: 60px;
   height: 3px;
   background: #E67E45;
@@ -79,6 +86,7 @@
 
 .service-card:hover {
   transform: translateY(-5px);
+  -webkit-transform: translateY(-5px);
   box-shadow: 0 8px 25px rgba(230, 126, 69, 0.15);
   border-color: #E67E45;
 }
@@ -153,6 +161,7 @@
 
 .service-benefits:hover {
   transform: translateY(-2px);
+  -webkit-transform: translateY(-2px);
   box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1),
               0 8px 20px rgba(27, 70, 32, 0.2);
 }
@@ -225,6 +234,7 @@
 .learn-more-btn:hover {
   background: #d16a33;
   transform: translateY(-2px);
+  -webkit-transform: translateY(-2px);
   box-shadow: 0 6px 12px rgba(230, 126, 69, 0.3);
 }
 
@@ -244,6 +254,7 @@
 .contact-btn:hover {
   background: #d16a33;
   transform: translateY(-2px);
+  -webkit-transform: translateY(-2px);
   box-shadow: 0 6px 12px rgba(230, 126, 69, 0.3);
 }
 
@@ -256,6 +267,32 @@
 @media (max-width: 768px) {
   .services {
     padding: 4rem 1.5rem;
+    background-attachment: scroll; /* Fallback for devices that don't support fixed */
+    background-position: center center;
+    position: relative;
+  }
+
+  .services::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('../assets/images/services-bg.jpg');
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    z-index: 0;
+    pointer-events: none;
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    will-change: transform; /* Performance optimization */
+    display: none; /* Hide by default */
+  }
+
+  .services.in-view::after {
+    display: block;
   }
 
   .services h2 {
