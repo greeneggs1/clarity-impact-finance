@@ -119,15 +119,15 @@ const Resources = () => {
     {
       id: 1,
       title: "Small Business Loan Underwriting Checklist",
-      description: "Comprehensive checklist for underwriting small business loans, including financial analysis, management assessment, and industry evaluation with an interactive dashboard and example data.",
-      organization: "Clarity Impact Finance",
-      type: "Tool",
+      description: "Comprehensive checklist for underwriting small business loans, including financial analysis, management assessment, and industry evaluation.",
+      organization: "Opportunity Finance Network",
+      type: "Checklist",
       category: "Small Business",
-      tags: ["underwriting", "small business", "credit analysis", "dashboard", "interactive"],
-      url: "/downloads/Small_Business_Loan_Underwriting_Checklist.xlsx",
-      fileType: "XLSX",
-      fileSize: "14 KB",
-      lastUpdated: "2025-03-16",
+      tags: ["underwriting", "small business", "credit analysis"],
+      url: "https://ofn.org/",
+      fileType: "PDF",
+      fileSize: "1.2 MB",
+      lastUpdated: "2023-06-15",
       featured: true
     },
     {
@@ -354,6 +354,20 @@ const Resources = () => {
       lastUpdated: "2023-04-15",
       featured: false
     },
+    {
+      id: 103,
+      title: "AI Implementation Phased Checklist for CDFIs",
+      description: "A comprehensive, phased approach to AI implementation for CDFIs, organized into five distinct phases with task tracking, success criteria, and implementation examples.",
+      organization: "Clarity Impact Finance",
+      type: "Checklist",
+      category: "Portfolio Management",
+      tags: ["artificial intelligence", "implementation", "data infrastructure", "quick wins"],
+      url: "/resources/CDFI_AI_Phased_Implementation_Checklist_20250323_201507.xlsx",
+      fileType: "XLSX",
+      fileSize: "1.2 MB",
+      lastUpdated: "2025-03-23",
+      featured: true
+    },
     // Original resources from the existing component
     {
       id: 101,
@@ -486,7 +500,7 @@ const Resources = () => {
           <>
             <div className="resources-header">
               <h1>Resource Hub</h1>
-              <p>Connect to specialized resources and tools in community development finance.</p>
+              <p>Connect to specialized resources from leading organizations in community development finance.</p>
             </div>
             
             {/* Prominent Learning Pathways */}
@@ -717,9 +731,6 @@ const Resources = () => {
               <div className="learning-path-info">
                 <h2>{activeLearningPath?.title}</h2>
                 <p>{activeLearningPath?.description}</p>
-                <div className="module-explanation">
-                  <p><strong>{activeLearningPath?.title}</strong> is a comprehensive learning module. Each topic below provides specific tools and resources to help you master different aspects of the lending process.</p>
-                </div>
               </div>
               
               <div className="learning-path-steps-horizontal">
