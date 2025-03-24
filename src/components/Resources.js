@@ -666,19 +666,25 @@ const Resources = () => {
                             </div>
                           </div>
                           <a 
-                            href={resource.id === 4 ? "/downloads/CDFI_Loan_Fund_Credit_Memo_Template.docx" : "#resource-coming-soon"}
-                            className={`resource-link-button ${resource.id === 4 ? "download" : "coming-soon"}`}
+                            href={resource.id === 4 ? "/downloads/CDFI_Loan_Fund_Credit_Memo_Template.docx" : 
+                                 resource.id === 103 ? resource.url : 
+                                 "#resource-coming-soon"}
+                            className={`resource-link-button ${(resource.id === 4 || resource.id === 103) ? "download" : "coming-soon"}`}
                             onClick={(e) => {
-                              if (resource.id !== 4) {
+                              if (resource.id !== 4 && resource.id !== 103) {
                                 e.preventDefault();
                               }
                             }}
-                            download={resource.id === 4 ? "CDFI_Loan_Fund_Credit_Memo_Template.docx" : undefined}
-                            aria-label={resource.id === 4 ? "Download Credit Memo Template" : "Resource coming soon"}
+                            download={resource.id === 4 ? "CDFI_Loan_Fund_Credit_Memo_Template.docx" : 
+                                     resource.id === 103 ? "CDFI_AI_Phased_Implementation_Checklist.xlsx" : 
+                                     undefined}
+                            aria-label={resource.id === 4 ? "Download Credit Memo Template" : 
+                                       resource.id === 103 ? "Download AI Implementation Checklist" : 
+                                       "Resource coming soon"}
                             role="button"
                           >
-                            {resource.id === 4 ? "Download Template" : "Coming Soon"}
-                            {resource.id === 4 ? (
+                            {(resource.id === 4 || resource.id === 103) ? "Download Template" : "Coming Soon"}
+                            {(resource.id === 4 || resource.id === 103) ? (
                               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                                 <polyline points="7 10 12 15 17 10"></polyline>
